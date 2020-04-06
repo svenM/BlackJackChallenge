@@ -348,3 +348,10 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+.vs
+bin
+obj
+*.user
+Packages
+~$*.xl*
+/Backend/Danone.ProductieAfvullen.Backend/.config/dotnet-tools.json
