@@ -14,7 +14,20 @@ namespace BlackJackApi.Domain
 
         public BlackjackHand DealerHand { get { return _roundInProgress?.DealerHand; } }
 
-        public bool DealerHas21 => _roundInProgress.DealerHas21;
+        public bool DealerHas21
+        {
+            get
+            {
+                if (_roundInProgress != null)
+                {
+                    return _roundInProgress.DealerHas21;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
         public IEnumerable<BlackjackGamePlayer> Players { get { return _players.ToList(); } }
 
         public int MaxPlayers { get; private set; }

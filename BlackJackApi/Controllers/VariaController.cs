@@ -11,7 +11,7 @@ namespace BlackJackApi.Controllers
     [Route("api/[controller]")]
     public class VariaController : Controller
     {
-        // GET: api/<controller>
+       /* // GET: api/<controller>
         [HttpGet]
         public IEnumerable<string> GetHint(int playerTotal, int dealerCard, bool soft)
         {
@@ -41,6 +41,6 @@ namespace BlackJackApi.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-        }
+        }*/
     }
 }

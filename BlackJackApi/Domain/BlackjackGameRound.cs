@@ -17,7 +17,7 @@ namespace BlackJackApi.Domain
         public IEnumerable<BlackjackHandSettlement> Settlements { get { return _settlements; } }
 
         public bool IsInitialized { get; private set; }
-        public bool DealerHas21 { get; private set; }
+        public bool DealerHas21 { get; private set; } = false;
 
         public BlackjackGameRound(IEnumerable<BlackjackGameRoundPlayer> roundplayers)
         {

@@ -23,6 +23,7 @@ namespace Blackjack.Mvc.Controllers
             }
         }
         
+        [
         public ActionResult Index()
         {
             var gamelist = BlackjackContext

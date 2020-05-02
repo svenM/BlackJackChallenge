@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29920.165
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlackJackApi", "BlackJackApi.csproj", "{D8B52CD1-7281-426B-9024-6C04C11BA109}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlackJackApi", "BlackJackApi\BlackJackApi.csproj", "{D8B52CD1-7281-426B-9024-6C04C11BA109}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackJackApiLogicTests", "..\BlackJackApiLogicTests\BlackJackApiLogicTests.csproj", "{6491ACF1-0093-49AD-ACE7-1C7B23296841}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackJackApiLogicTests", "BlackJackApiLogicTests\BlackJackApiLogicTests.csproj", "{6491ACF1-0093-49AD-ACE7-1C7B23296841}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackJackApiConsoleTest", "..\BlackJackApiConsoleTest\BlackJackApiConsoleTest.csproj", "{2D08173F-123A-4D56-9DD3-3414F5D1054B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackJackApiConsoleTest", "BlackJackApiConsoleTest\BlackJackApiConsoleTest.csproj", "{2D08173F-123A-4D56-9DD3-3414F5D1054B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
