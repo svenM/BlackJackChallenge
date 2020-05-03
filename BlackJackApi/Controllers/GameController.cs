@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BlackJackApi.DAL;
+using BlackJackApi.Domain;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
 
@@ -6,20 +8,15 @@ namespace Blackjack.Mvc.Controllers
 {
     public class GameController : Controller
     {
-        /*private LiveBlackjackGame Game;
+        private LiveBlackjackGame Game;
 
-        private LiveBlackjackContext _blackjackContext;
-        private LiveBlackjackContext BlackjackContext
+        private readonly IBlackJackDAL _blackJackDAL;
+
+        public GameController(IBlackJackDAL blackJackDAL)
         {
-            get
-            {
-                if (_blackjackContext == null)
-                    _blackjackContext = new LiveBlackjackContext();
-
-                return _blackjackContext;
-            }
+            this._blackJackDAL = blackJackDAL;
         }
-
+        /*
         private BlackjackGamePlayer _player;
         private BlackjackGamePlayer Player
         {
@@ -30,172 +27,162 @@ namespace Blackjack.Mvc.Controllers
 
                 return _player;
             }
-        }
+        }*/
 
-        public ActionResult Index(string id)
-        {            
-            Game = BlackjackContext.GetGame(id);
-
-            if (Game == null)
-                return RedirectToAction("index", "lobby");
-
-            return View("index", new BlackjackGameViewModel(Game, Player?.Id));
-        }
-
-        public ActionResult Refresh(string gameId)
+        [HttpPut]
+        [Route("{gameId}/join/")]
+        public ActionResult<PlayerAccount> Join(string gameId, string playerName, int seatNo)
         {
-            Game = BlackjackContext.GetGame(gameId);
+            try
+            {
+
+                Game = _blackJackDAL.GetGame(gameId);
+
+                double balance = 1000;
+
+                var account = new PlayerAccount(
+                    id: Guid.NewGuid().ToString().Replace("-", ""),
+                    startingBalance: balance);
+
+                Game.AddPlayer(account, playerName, seatNo);
+                _blackJackDAL.SaveGame(Game);
+                return Ok(account);
+            }
+            catch (Exception exception)
+            {
+                return Content(exception.Message);
+            }
+        }
+        [HttpPost]
+        [Route("{gameId}/player/{playerId}/bet/{amount}")]
+        public ActionResult PlayerBetRequest(string gameId, string playerId, int amount)
+        {
+            try
+            {
+                Game = _blackJackDAL.GetGame(gameId);
+                var player = Game.Players.FirstOrDefault(p => p.Id == playerId);
+                if(player == null)
+                {
+                    return BadRequest("Bad player");
+                }
+                Game.PlayerWagerRequest(player, amount);
+                _blackJackDAL.SaveGame(Game);
+                return Ok();
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(exception.Message);
+            }
+        }
+        [HttpPost]
+        [Route("{gameId}/player/{playerId}/stand")]
+        public ActionResult ForceStand(string gameId, string playerId)
+        {
+            try
+            {
+                Game = _blackJackDAL.GetGame(gameId);
+                var player = Game.Players.FirstOrDefault(p => p.Id == playerId);
+                if (player == null)
+                {
+                    return BadRequest("Bad player");
+                }
+                Game.ForceCurrentActionToStand();
+                _blackJackDAL.SaveGame(Game);
+                return Ok();
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(exception.Message);
+            }
+        }
+        [HttpGet]
+        [Route("{gameId}/details")]
+        public ActionResult<LiveBlackjackGame> Refresh(string gameId)
+        {
+            Game = _blackJackDAL.GetGame(gameId);
 
             if (Game == null)
-                return new EmptyResult();
+                return NotFound();
 
-            return PartialView("_Game", new BlackjackGameViewModel(Game, Player?.Id));
+            return Ok(Game);
         }
 
+        [HttpGet]
+        [Route("{gameId}/deal")]
         public ActionResult Deal(string gameId)
         {
             try
             {
-                Game = BlackjackContext.GetGame(gameId);
+                Game = _blackJackDAL.GetGame(gameId);
                 Game.StartRound();
-                Save();
-                return Content("Ok");
+                _blackJackDAL.SaveGame(Game);
+                return Ok();
             }
             catch (Exception exception)
             {
-                return Content(exception.Message);
+                return BadRequest(exception.Message);
             }
         }
 
+        [HttpPost]
+        [Route("{gameId}/end")]
         public ActionResult EndRound(string gameId)
         {
             try
             {
-                Game = BlackjackContext.GetGame(gameId);
+                Game = _blackJackDAL.GetGame(gameId);
                 Game.EndRound();
-                Save();
-                return Content("Ok");
+                _blackJackDAL.SaveGame(Game);
+                return Ok();
             }
             catch (Exception exception)
             {
-                return Content(exception.Message);
+                return BadRequest(exception.Message);
             }
         }
-
-        public ActionResult RemoveGamePlayer(string gameId)
+        [HttpDelete]
+        [Route("{gameId}/remove/{playerId}")]
+        public ActionResult RemoveGamePlayer(string gameId, string playerId)
         {
             try
             {
-                Game = BlackjackContext.GetGame(gameId);
-                Game.RemovePlayer(Player);
-                Save();
-                return Content("Ok");
+                Game = _blackJackDAL.GetGame(gameId);
+                var player = Game.Players.FirstOrDefault(p => p.Id == playerId);
+                if (player == null)
+                {
+                    return BadRequest("Bad player");
+                }
+                Game.RemovePlayer(player);
+                _blackJackDAL.SaveGame(Game);
+                return Ok();
             }
             catch (Exception exception)
             {
-                return Content(exception.Message);
+                return BadRequest(exception.Message);
             }
         }
-
-        public ActionResult ForceStand(string gameId)
+        [HttpDelete]
+        [Route("{gameId}/request/{playerId}/{request}")]
+        public ActionResult PlayerActionRequest(string gameId, string playerId, string request)
         {
             try
             {
-                Game = BlackjackContext.GetGame(gameId);
-                Game.ForceCurrentActionToStand();
-                Save();
-                return Content("Ok");
+                Game = _blackJackDAL.GetGame(gameId);
+                var player = Game.Players.FirstOrDefault(p => p.Id == playerId);
+                if (player == null)
+                {
+                    return BadRequest("Bad player");
+                }
+                Game.PlayerActionRequest(player, request);
+                _blackJackDAL.SaveGame(Game);
+                return Ok();
             }
             catch (Exception exception)
             {
-                return Content(exception.Message);
-            }
-        }        
-
-        public ActionResult PlayerBetRequest(string gameId, string betAmount)
-        {
-            try
-            {
-                double bet = 0;
-                if (!double.TryParse(betAmount, out bet))
-                    throw new Exception("Invalid bet");
-
-                Game = BlackjackContext.GetGame(gameId);
-                Game.PlayerWagerRequest(Player, bet);
-                Session["WagerAmount"] = bet;
-                Save();
-                return Content("Ok");
-            }
-            catch (Exception exception)
-            {
-                return Content(exception.Message);
+                return BadRequest(exception.Message);
             }
         }
-
-        public ActionResult PlayerJoinRequest(string gameId, string playerName, string _seatNo)
-        {
-            try
-            {
-                int seatNo = 0;
-                if (!int.TryParse(_seatNo, out seatNo))
-                    throw new Exception("Invaid seat number");
-
-                Game = BlackjackContext.GetGame(gameId);
-
-                double balance = 1000;
-                if (HttpContext.Session["Balance"] == null || (double)HttpContext.Session["Balance"] <= 0)
-                    HttpContext.Session["Balance"] = balance;
-                else
-                    balance = (double)HttpContext.Session["Balance"];
-
-                var account = new PlayerAccount(
-                    id: HttpContext.Session.SessionID,
-                    startingBalance: balance);
-
-                Game.AddPlayer(account, playerName, seatNo);
-
-                Save();
-                return PartialView("_PlayerChatInput", seatNo);
-            }
-            catch (Exception exception)
-            {
-                return Content(exception.Message);
-            }
-        }
-
-        public ActionResult PlayerActionRequest(string gameId, string request)
-        {
-            try
-            {
-                Game = BlackjackContext.GetGame(gameId);
-                Game.PlayerActionRequest(Player, request);
-                Save();
-                return Content("Ok");
-            }
-            catch (Exception exception)
-            {
-                return Content(exception.Message);
-            }
-        }
-
-        private void Save()
-        {
-            if (Game == null)
-                throw new InvalidOperationException("Cannot load game");
-
-            BlackjackContext.SaveGame(Game);
-
-            if (Player != null)
-            {
-                HttpContext.Session["Balance"] = Player.Account.Balance;
-            }
-
-            GlobalHost.ConnectionManager
-                .GetHubContext<BlackjackGameRoomHub>()?
-                .Clients?
-                .Group(Game.Id.ToString())?
-                .refresh();
-        }*/
+               
     }
 }
 

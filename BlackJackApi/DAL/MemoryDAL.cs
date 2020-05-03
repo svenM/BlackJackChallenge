@@ -50,5 +50,10 @@ namespace BlackJackApi.DAL
         {
             _memory.SetGames(games);
         }
+
+        public void SaveGame(LiveBlackjackGame game)
+        {
+            //todo
+        }
     }
 }

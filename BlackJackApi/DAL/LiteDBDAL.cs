@@ -32,6 +32,10 @@ namespace BlackJackApi.DAL
             games.Insert(game);
         }
         
+        public void SaveGame(LiveBlackjackGame game)
+        {
+            games.Update(game);
+        }
         public LiveBlackjackGame GetGame(string id)
         {
             var query = games.Query().Where(g => g.Id == id).FirstOrDefault();
