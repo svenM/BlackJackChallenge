@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BlackJackApi.DAL;
+using BlackJackApi.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -28,10 +29,9 @@ namespace BlackJackApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMemoryCache();
-            services.AddSignalR();
             services.AddControllers();
             services.AddSignalR();
+            services.AddLiteDb(@"bj.db");
             CreateDependencies(services);
             services.AddSwaggerGen(c =>
             {
@@ -42,7 +42,6 @@ namespace BlackJackApi
                 options.AddPolicy("AllowAll",
                 builder =>
                 {
-                    //   builder.WithOrigins("*");
                     builder.AllowAnyOrigin();
                     builder.AllowAnyHeader();
                     builder.AllowAnyMethod();
@@ -54,7 +53,7 @@ namespace BlackJackApi
 
         private void CreateDependencies(IServiceCollection services)
         {
-            services.AddTransient<IBlackJackDAL, MemoryDAL>();
+            services.AddTransient<IBlackJackDAL, LiteDBDAL>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -76,11 +75,9 @@ namespace BlackJackApi
             });
 
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
             app.UseAuthorization();
-
+            app.UseStaticFiles();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
