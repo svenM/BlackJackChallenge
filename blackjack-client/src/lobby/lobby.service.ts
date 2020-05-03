@@ -8,5 +8,4 @@ export class LobbyService {
   public createGame(request: CreateGameRequest): Observable<AxiosResponse<string>> {
     return Axios.post(`https://localhost:5001/api/lobby/newgame/${request.gameName}/${request.minBet}/${request.maxBet}`);
   }
-
 }

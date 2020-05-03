@@ -1,20 +1,25 @@
 import React from 'react';
 import { Button, TextField, ButtonGroup, Grid } from '@material-ui/core';
-import { Router } from 'react-router-dom';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { BlackjackGame } from './blackjack-game';
-
-interface GameProps {}
+import { GameService } from './game.service';
+import { AxiosResponse } from 'axios';
 
 interface GameState {
   game: BlackjackGame;
 }
 
-export default class Game extends React.Component<GameProps, GameState> {
+class Game extends React.Component<RouteComponentProps, GameState> {
 
-  constructor (props: GameProps) {
-    super(props);
+  service: GameService = new GameService();
 
-    // state ophalen
+  componentDidMount() {
+    const { match: { params } } = this.props;
+    this.service.getGame((params as any).gameId).subscribe((response: AxiosResponse<BlackjackGame>) => {
+      const game = response.data;
+      this.setState({game});
+      console.log(this.state.game);
+    });
   }
 
   public render() {
@@ -54,3 +59,5 @@ export default class Game extends React.Component<GameProps, GameState> {
       </React.Fragment>
   }
 }
+
+export default withRouter(Game)

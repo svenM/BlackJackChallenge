@@ -40,15 +40,14 @@ export default class Lobby extends React.Component<LobbyProps, LobbyState> {
   };
   createGame() {
     this.service.createGame(this.state.createGameRequest)
-      .subscribe((response: AxiosResponse<any>) => {
+      .subscribe((response: AxiosResponse<string>) => {
         let gameId = response.data;
         this.setState({gameId})
+        this.enterGame();
       });
-
-    this.enterGame();
   }
   enterGame() {
-    // backend call needed
+    window.location.href=`/game/${this.state.gameId}`;
   };
   showJoinGameModal() {
     this.setState({joinGameOpen: true});
