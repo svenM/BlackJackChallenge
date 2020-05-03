@@ -1,5 +1,8 @@
-export interface Card {
-  rank: string,
-  suit: string,
-  suitCode: string
+import { CardRank } from "./cardrank";
+import { CardSuit } from "./cardsuit";
+
+export interface CardProps {
+  rank: CardRank;
+  suit: CardSuit;
+  numericValue: number;
 }

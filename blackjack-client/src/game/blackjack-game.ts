@@ -1,23 +1,16 @@
-import { Dealer } from "./dealer";
-import { Player } from "./player";
+import { BlackjackGamePlayer } from "./blackjack-game-player";
+import { BlackjackHandSettlement } from "./blackjack-hand-settlement";
+import { BlackjackHand } from "./blackjack-hand";
 
 export interface BlackjackGame {
-  gameId: string,
-  gameName: string,
-  minWager: number,
-  maxWager: number,
-  turnLengthInSeconds: number,
-  WagerPeriodInSeconds: number,
-  currentPlayerName: string,
-  currentPlayerBalance: number,
-  hitButtonIsVisible: boolean,
-  standButtonIsVisible: boolean,
-  doubleDownButtonIsVisible: boolean,
-  wagerInputIsVisible: boolean,
-  wagerPeriodTimerIsVisible: boolean,
-  endOfRoundTimerIsVisible: boolean,
-  secondsAwaitingPlayerAction: number,
-  secondsAwaitingWagers: number,
-  dealer: Dealer,
-  players: Player[]
+  name: string;
+  dealerHand: BlackjackHand;
+  dealerHas21: boolean;
+  players: BlackjackGamePlayer[];
+  maxPlayers: number;
+  minWager: number;
+  maxWager: number;
+  isRoundInProgress: boolean;
+  percentRemainingInDealerShoe: number;
+  roundInProgressSettlements: BlackjackHandSettlement[];
 }

@@ -47,7 +47,9 @@ export default class Lobby extends React.Component<LobbyProps, LobbyState> {
       });
   }
   enterGame() {
-    window.location.href=`/game/${this.state.gameId}`;
+    if (this.state.gameId){
+      window.location.href=`/game/${this.state.gameId}`;
+    }
   };
   showJoinGameModal() {
     this.setState({joinGameOpen: true});

@@ -5,13 +5,13 @@ import {
   Route
 } from 'react-router-dom';
 import './App.css';
-import Lobby from './lobby/lobby';
-import Game from './game/game';
+import Lobby from './lobby/lobby.component';
+import Game from './game/game.component';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { Container } from '@material-ui/core';
 
 function App() {
-  
+
   return (
     <React.Fragment>
       <CssBaseline />
