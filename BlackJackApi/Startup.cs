@@ -49,8 +49,6 @@ namespace BlackJackApi
             });
         }
 
-
-
         private void CreateDependencies(IServiceCollection services)
         {
             services.AddTransient<IBlackJackDAL, LiteDBDAL>();

@@ -9,5 +9,6 @@ namespace BlackJackApi.DAL
         List<LiveBlackjackGame> GetGames();
         LiveBlackjackGame GetGame(string id);
         void RemoveGame(string id);
+        void SaveGame(LiveBlackjackGame game);
     }
 }
