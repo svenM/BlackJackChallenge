@@ -42,7 +42,7 @@ namespace BlackJackApi
                 options.AddPolicy("AllowAll",
                 builder =>
                 {
-                    //   builder.WithOrigins("*");
+                    builder.WithOrigins("*");
                     builder.AllowAnyOrigin();
                     builder.AllowAnyHeader();
                     builder.AllowAnyMethod();
@@ -74,6 +74,8 @@ namespace BlackJackApi
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
+
+            app.UseCors("AllowAll");
 
             app.UseHttpsRedirection();
 
