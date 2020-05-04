@@ -41,6 +41,10 @@ namespace BlackJackApi.DAL
             var query = games.Query().Where(g => g.Id == id).FirstOrDefault();
             if (query != null) 
             {
+                foreach (var players in query.Players)
+                {
+                    players.Game = query;
+                }
                 return query;
             }
             else

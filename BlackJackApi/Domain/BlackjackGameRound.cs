@@ -7,28 +7,30 @@ namespace BlackJackApi.Domain
 {
     public class BlackjackGameRound
     {
-        private List<BlackjackGameRoundPlayer> _roundPlayers;
-        public IEnumerable<BlackjackGameRoundPlayer> RoundPlayers { get { return _roundPlayers.ToList(); } }
+        public BlackjackGameRound()
+        {
 
-        private List<Card> _dealerCards;
+        }
+        public List<BlackjackGameRoundPlayer> RoundPlayers { get; set; }
+
+        public List<Card> DealerCards { get; set; }
         public BlackjackHand DealerHand { get; private set; }
 
-        private List<BlackjackHandSettlement> _settlements;
-        public IEnumerable<BlackjackHandSettlement> Settlements { get { return _settlements; } }
+        public List<BlackjackHandSettlement> Settlements { get; set;  }
 
-        public bool IsInitialized { get; private set; }
-        public bool DealerHas21 { get; private set; } = false;
+        public bool IsInitialized { get; set; }
+        public bool DealerHas21 { get; set; } = false;
 
         public BlackjackGameRound(IEnumerable<BlackjackGameRoundPlayer> roundplayers)
         {
             if (roundplayers == null || !roundplayers.Any())
                 throw new InvalidOperationException("At least one player required to create a new round");
 
-            _dealerCards = new List<Card>();
-            _settlements = new List<BlackjackHandSettlement>();
+            DealerCards = new List<Card>();
+            Settlements = new List<BlackjackHandSettlement>();
 
-            _roundPlayers = roundplayers.OrderBy(a => a.Player.Position).ToList();
-            _roundPlayers.ForEach(player =>
+            RoundPlayers = roundplayers.OrderBy(a => a.Player.Position).ToList();
+            RoundPlayers.ForEach(player =>
             {
                 player.HasAction = false;
             });
@@ -41,24 +43,24 @@ namespace BlackJackApi.Domain
             if (IsInitialized)
                 return;
 
-            if (_roundPlayers.Any(a => a.HasAction))
+            if (RoundPlayers.Any(a => a.HasAction))
                 throw new InvalidOperationException();
 
-            if (_roundPlayers.Any())
-                _roundPlayers.First().HasAction = true;
+            if (RoundPlayers.Any())
+                RoundPlayers.First().HasAction = true;
 
             IsInitialized = true;
         }
 
         public bool MoveToNextAction()
         {
-            var currentPlayerWithAction = _roundPlayers.SingleOrDefault(a => a.HasAction);
+            var currentPlayerWithAction = RoundPlayers.SingleOrDefault(a => a.HasAction);
             if (currentPlayerWithAction == null)
                 return false;
 
             currentPlayerWithAction.HasAction = false;
 
-            var nextPlayerWithAction = _roundPlayers
+            var nextPlayerWithAction = RoundPlayers
                 .Where(a => a.Player.Position > currentPlayerWithAction.Player.Position)
                 .OrderBy(a => a.Player.Position)
                 .FirstOrDefault();
@@ -74,10 +76,10 @@ namespace BlackJackApi.Domain
         {
             if (card != null)
             {
-                _dealerCards.Add(card);
-                if (_dealerCards.Count() >= 2)
+                DealerCards.Add(card);
+                if (DealerCards.Count() >= 2)
                 {
-                    DealerHand = new BlackjackHand(_dealerCards);
+                    DealerHand = new BlackjackHand(DealerCards);
 
                     if (DealerHand.IsBlackjack || DealerHand.Score == 21)
                     {
@@ -89,13 +91,13 @@ namespace BlackJackApi.Domain
 
         public BlackjackGameRoundPlayer GetRoundPlayer(BlackjackGamePlayer player)
         {
-            return _roundPlayers.SingleOrDefault(a => a.Player.Id == player.Id);
+            return RoundPlayers.SingleOrDefault(a => a.Player.Id == player.Id);
         }
 
         public void SettleRoundPlayer(BlackjackGameRoundPlayer roundplayer, BlackjackHandSettlement settlement)
         {
-            _settlements.Add(settlement);
-            _roundPlayers.Remove(roundplayer);
+            Settlements.Add(settlement);
+            RoundPlayers.Remove(roundplayer);
         }
     }
 }

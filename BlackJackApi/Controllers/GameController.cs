@@ -37,7 +37,7 @@ namespace Blackjack.Mvc.Controllers
             {
 
                 Game = _blackJackDAL.GetGame(gameId);
-
+                if (Game == null) return NotFound("Game not found");
                 double balance = 1000;
 
                 var account = new PlayerAccount(
@@ -50,7 +50,7 @@ namespace Blackjack.Mvc.Controllers
             }
             catch (Exception exception)
             {
-                return Content(exception.Message);
+                return BadRequest(exception.Message);
             }
         }
         [HttpPost]
@@ -161,7 +161,7 @@ namespace Blackjack.Mvc.Controllers
                 return BadRequest(exception.Message);
             }
         }
-        [HttpDelete]
+        [HttpPost]
         [Route("{gameId}/request/{playerId}/{request}")]
         public ActionResult PlayerActionRequest(string gameId, string playerId, string request)
         {

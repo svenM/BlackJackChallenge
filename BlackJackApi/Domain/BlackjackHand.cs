@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LiteDB;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,11 +9,21 @@ namespace BlackJackApi.Domain
 {
     public class BlackjackHand
     {
-        public IEnumerable<Card> Cards { get; private set; }
+        public BlackjackHand()
+        {
+
+        }
+        public IEnumerable<Card> Cards { get; set; }
+
+        [BsonIgnore]
         public (int Low, int High) ScoreHighLow { get; private set; }
+        [BsonIgnore]
         public int Score { get; private set; }
+        [BsonIgnore]
         public bool IsBlackjack { get; private set; }
+        [BsonIgnore]
         public bool IsBusted { get; private set; }
+        [BsonIgnore]
         public bool IsSoft { get; private set; }
 
         public BlackjackHand(IEnumerable<Card> cards)
