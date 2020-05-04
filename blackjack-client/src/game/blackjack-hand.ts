@@ -2,8 +2,8 @@ import { Card } from "./card";
 
 export interface BlackjackHand {
   cards: Card[],
-  scoreHighLow: {low: number; high: number};
-  score: string
+  scoreHighLow: {item1: number; item2: number};
+  score: number
   isBlackjack: boolean,
   isBusted: boolean,
   isSoft: boolean,

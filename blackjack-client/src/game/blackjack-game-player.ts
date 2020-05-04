@@ -8,6 +8,6 @@ export interface BlackjackGamePlayer {
   alias: string;
   isLive: boolean,
   hasAction: boolean,
-  wager: string,
+  wager: number,
   hand: BlackjackHand,
 }

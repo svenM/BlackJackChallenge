@@ -3,8 +3,8 @@ import { HandProps } from "./hand.component";
 export interface PlayerProps {
   id: string;
   name: string;
-  balance: string;
-  wager: string;
+  balance: number;
+  wager: number;
   isLive: boolean;
   hasAction: boolean;
   hand: HandProps;
