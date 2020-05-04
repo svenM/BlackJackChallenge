@@ -8,7 +8,11 @@ namespace BlackJackApi.Domain
 {
     public class BlackjackGameRoundPlayer
     {
-        private List<Card> _cards;
+        public BlackjackGameRoundPlayer()
+        {
+
+        }
+        public List<Card> Cards { get; set; }
 
         public BlackjackGamePlayer Player { get; private set; }
         public BlackjackHand Hand { get; private set; }
@@ -23,7 +27,7 @@ namespace BlackJackApi.Domain
             if (wager <= 0)
                 throw new InvalidOperationException("Wager cannot be negative");
 
-            _cards = new List<Card>();
+            Cards = new List<Card>();
             Player = player;
             Wager = wager;
         }
@@ -32,9 +36,9 @@ namespace BlackJackApi.Domain
         {
             if (card != null)
             {
-                _cards.Add(card);
-                if (_cards.Count() >= 2)
-                    Hand = new BlackjackHand(_cards);
+                Cards.Add(card);
+                if (Cards.Count() >= 2)
+                    Hand = new BlackjackHand(Cards);
             }
         }
     }

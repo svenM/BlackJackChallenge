@@ -7,8 +7,12 @@ namespace BlackJackApi.Domain
 
     public class Card
     {
-        public CardRank Rank { get; private set; }
-        public CardSuit Suit { get; private set; }
+        public Card()
+        {
+
+        }
+        public CardRank Rank { get; set; }
+        public CardSuit Suit { get; set; }
         public int NumericValue
         {
             get

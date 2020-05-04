@@ -1,4 +1,5 @@
 ﻿using BlackJackApi.Domain;
+using LiteDB;
 using System;
 using System.Collections.Generic;
 
@@ -6,21 +7,26 @@ namespace BlackJackApi.Domain
 {
     public class BlackjackGamePlayer
     {
+        public BlackjackGamePlayer()
+        {
+
+        }
         public string Id { get; private set; }
 
-        private BlackjackGame _game;
+        [BsonIgnore]
+        public BlackjackGame Game { get; set; }
 
         public int Position { get; private set; }
-        public IPlayerAccount Account { get; private set; }
+        public PlayerAccount Account { get; private set; }
 
         public string Alias { get; private set; }
 
-        public bool IsLive { get { return _game.GetPlayerIsLive(this); } }
-        public bool HasAction { get { return _game.GetPlayerHasAction(this); } }
-        public double Wager { get { return _game.GetPlayerWager(this); } }
-        public BlackjackHand Hand { get { return _game.GetPlayerHand(this); } }
+        public bool IsLive { get { return Game?.GetPlayerIsLive(this) ?? false; } }
+        public bool HasAction { get { return Game?.GetPlayerHasAction(this) ?? false; } }
+        public double Wager { get { return Game?.GetPlayerWager(this) ?? 0; } }
+        public BlackjackHand Hand { get { return Game?.GetPlayerHand(this) ; } }
 
-        public BlackjackGamePlayer(IPlayerAccount account, BlackjackGame game, string alias, int position)
+        public BlackjackGamePlayer(PlayerAccount account, BlackjackGame game, string alias, int position)
         {
             if (account == null)
                 throw new ArgumentNullException("account", "Account is null");
@@ -28,7 +34,7 @@ namespace BlackJackApi.Domain
             if (game == null)
                 throw new ArgumentNullException("game", "Game is null");
 
-            _game = game;
+            Game = game;
             Alias = string.IsNullOrEmpty(alias) ? "ANON" : alias;
             Account = account;
             Position = position;
@@ -37,22 +43,22 @@ namespace BlackJackApi.Domain
 
         public void SetWager(double amount)
         {
-            _game.PlaceWager(this, amount);
+            Game.PlaceWager(this, amount);
         }
 
         public void Hit()
         {
-            _game.RequestToHit(this);
+            Game.RequestToHit(this);
         }
 
         public void Stand()
         {
-            _game.RequestToStand(this);
+            Game.RequestToStand(this);
         }
 
         public void DoubleDown(double? forLess = null)
         {
-            _game.RequestToDoubleDown(this, forLess ?? Wager);
+            Game.RequestToDoubleDown(this, forLess ?? Wager);
         }
     }
 }

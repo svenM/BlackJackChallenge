@@ -6,11 +6,9 @@ namespace BlackJackApi.Domain
 {
     public class BlackjackGame
     {
-        private BlackjackGameDealer _dealer;
-        private List<BlackjackGamePlayer> _players;
         private List<BlackjackGameRoundPlayer> _roundPlayersQueuedForNextRound;
 
-        private BlackjackGameRound _roundInProgress { get { return _dealer.RoundInProgress; } }
+        private BlackjackGameRound _roundInProgress { get { return Dealer.RoundInProgress; } }
 
         public BlackjackHand DealerHand { get { return _roundInProgress?.DealerHand; } }
 
@@ -28,7 +26,8 @@ namespace BlackJackApi.Domain
                 }
             }
         }
-        public IEnumerable<BlackjackGamePlayer> Players { get { return _players.ToList(); } }
+        public List<BlackjackGamePlayer> Players { get; set; }
+        public BlackjackGameDealer Dealer { get; set; }
 
         public int MaxPlayers { get; private set; }
 
@@ -36,7 +35,7 @@ namespace BlackJackApi.Domain
         public double MaxWager { get; private set; }
 
         public bool IsRoundInProgress { get { return _roundInProgress != null; } }
-        public int PercentRemainingInDealerShoe { get { return _dealer.PercentRemainingInShoe; } }
+        public int PercentRemainingInDealerShoe { get { return Dealer.PercentRemainingInShoe; } }
 
         public IEnumerable<BlackjackHandSettlement> RoundInProgressSettlements
         {
@@ -58,8 +57,8 @@ namespace BlackJackApi.Domain
             if (maxPlayers < 1)
                 throw new InvalidOperationException("Game must accommodate at least 1 player");
 
-            _dealer = new BlackjackGameDealer();
-            _players = new List<BlackjackGamePlayer>(MaxPlayers);
+            Dealer = new BlackjackGameDealer();
+            Players = new List<BlackjackGamePlayer>(MaxPlayers);
             _roundPlayersQueuedForNextRound = new List<BlackjackGameRoundPlayer>(MaxPlayers);
             MaxPlayers = maxPlayers;
             MinWager = minWager;
@@ -69,15 +68,15 @@ namespace BlackJackApi.Domain
         public bool IsPositionOpen(int position)
         {
             return position > 0 && position <= MaxPlayers &&
-                !_players.Any(a => a.Position == position);
+                !Players.Any(a => a.Position == position);
         }
 
-        public void AddPlayer(IPlayerAccount account, string alias, int position)
+        public void AddPlayer(PlayerAccount account, string alias, int position)
         {
             if (account == null)
                 throw new ArgumentNullException("account", "Account is null");
 
-            if (_players.Count() >= MaxPlayers)
+            if (Players.Count() >= MaxPlayers)
                 throw new InvalidOperationException("Game is full");
 
             if (!IsPositionOpen(position))
@@ -86,10 +85,10 @@ namespace BlackJackApi.Domain
             if (account.Balance < MinWager)
                 throw new InvalidOperationException("Insufficient player funds");
 
-            _players.Add(new BlackjackGamePlayer(account, this, alias, position));
+            Players.Add(new BlackjackGamePlayer(account, this, alias, position));
         }
 
-        public void AddPlayer(IPlayerAccount account, string alias)
+        public void AddPlayer(PlayerAccount account, string alias)
         {
             int position = 1;
             while (position <= MaxPlayers && !IsPositionOpen(position))
@@ -100,12 +99,12 @@ namespace BlackJackApi.Domain
 
         public void RemovePlayer(BlackjackGamePlayer player)
         {
-            if (_players.Contains(player))
+            if (Players.Contains(player))
             {
                 if (player.IsLive)
                     throw new InvalidOperationException("Player is in live round");
 
-                _players.Remove(player);
+                Players.Remove(player);
                 _roundPlayersQueuedForNextRound
                     .Remove(_roundPlayersQueuedForNextRound
                         .FirstOrDefault(a => a.Player.Id == player.Id));
@@ -114,7 +113,7 @@ namespace BlackJackApi.Domain
 
         public void RefreshDealerShoe()
         {
-            _dealer.RefreshShoe();
+            Dealer.RefreshShoe();
         }
 
         public void RefreshShoeIfNeeded()
@@ -133,22 +132,22 @@ namespace BlackJackApi.Domain
             var roundInProgress = new BlackjackGameRound(_roundPlayersQueuedForNextRound);
             _roundPlayersQueuedForNextRound.Clear();
 
-            _dealer.Deal(roundInProgress);
+            Dealer.Deal(roundInProgress);
         }
 
         public BlackjackHandSettlement SettlePlayerHand(BlackjackGamePlayer player)
         {
-            return _dealer.SettleHand(player);
+            return Dealer.SettleHand(player);
         }
 
         public virtual void EndRound()
         {
-            _dealer.CloseRound();
+            Dealer.CloseRound();
         }
 
         internal void PlaceWager(BlackjackGamePlayer player, double amount)
         {
-            if (!_players.Contains(player))
+            if (!Players.Contains(player))
                 throw new InvalidOperationException("'player' is null or invalid");
 
             if (player.IsLive)
@@ -169,12 +168,12 @@ namespace BlackJackApi.Domain
 
         internal void RequestToHit(BlackjackGamePlayer player)
         {
-            _dealer.HandleRequestToHit(player);
+            Dealer.HandleRequestToHit(player);
         }
 
         internal void RequestToStand(BlackjackGamePlayer player)
         {
-            _dealer.HandleRequestToStand(player);
+            Dealer.HandleRequestToStand(player);
         }
 
         internal void RequestToDoubleDown(BlackjackGamePlayer player, double amount)
@@ -182,7 +181,7 @@ namespace BlackJackApi.Domain
             if (amount > player?.Account?.Balance)
                 throw new InvalidOperationException("Insufficient funds");
 
-            _dealer.HandleRequestToDoubleDown(player, amount);
+            Dealer.HandleRequestToDoubleDown(player, amount);
         }
 
         internal bool GetPlayerIsLive(BlackjackGamePlayer player)

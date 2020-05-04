@@ -4,11 +4,15 @@ namespace BlackJackApi.Domain
 {
     public class BlackjackHandSettlement
     {
-        public int PlayerPosition { get; private set; }
-        public BlackjackHand PlayerHand { get; private set; }
-        public BlackjackHand DealerHand { get; private set; }
-        public WagerOutcome WagerOutcome { get; private set; }
-        public double WagerAmount { get; private set; }
+        public BlackjackHandSettlement()
+        {
+
+        }
+        public int PlayerPosition { get; set; }
+        public BlackjackHand PlayerHand { get; set; }
+        public BlackjackHand DealerHand { get; set; }
+        public WagerOutcome WagerOutcome { get; set; }
+        public double WagerAmount { get; set; }
 
         public BlackjackHandSettlement(BlackjackGameRoundPlayer player, BlackjackHand dealerHand)
         {
