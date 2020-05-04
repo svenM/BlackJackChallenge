@@ -23,11 +23,11 @@ namespace BlackJackApiConsoleTest
 
             var player = gameClient.GameIdJoinPut(gameId, "John Snow", 1);
 
-            var result = gameClient.GameIdDetailsGet(gameId);
-
 
             gameClient.GameIdPlayerPlayerIdBetAmountPost(gameId, player.Id, 10);
-            result = gameClient.GameIdDetailsGet(gameId);
+
+            gameClient.GameIdPlayerPlayerIdStandPost(gameId, player.Id);
+            var result = gameClient.GameIdDetailsGet(gameId);
             return;
 
 
