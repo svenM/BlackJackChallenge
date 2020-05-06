@@ -54,7 +54,7 @@ namespace IO.Swagger.Model
         /// Gets or Sets Name
         /// </summary>
         [DataMember(Name="name", EmitDefaultValue=false)]
-        public Object Name { get; private set; }
+        public String Name { get; private set; }
 
         /// <summary>
         /// Gets or Sets Title

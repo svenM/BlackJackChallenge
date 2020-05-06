@@ -551,7 +551,7 @@ namespace IO.Swagger.Api
 
             // make the HTTP request
             IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
-                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                Method.PUT, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;
@@ -921,7 +921,7 @@ namespace IO.Swagger.Api
             if (gameId == null)
                 throw new ApiException(400, "Missing required parameter 'gameId' when calling GameApi->GameIdJoinPut");
 
-            var localVarPath = "/{gameId}/join";
+            var localVarPath = "/{gameId}/join/{playerName}/{seatNo}";
             var localVarPathParams = new Dictionary<String, String>();
             var localVarQueryParams = new List<KeyValuePair<String, String>>();
             var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
@@ -945,8 +945,8 @@ namespace IO.Swagger.Api
                 localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
 
             if (gameId != null) localVarPathParams.Add("gameId", this.Configuration.ApiClient.ParameterToString(gameId)); // path parameter
-            if (playerName != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "playerName", playerName)); // query parameter
-            if (seatNo != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("", "seatNo", seatNo)); // query parameter
+            if (playerName != null) localVarPathParams.Add("playerName", this.Configuration.ApiClient.ParameterToString(playerName)); // path parameter
+            if (seatNo != null) localVarPathParams.Add("seatNo", this.Configuration.ApiClient.ParameterToString(seatNo)); // path parameter
 
             // make the HTTP request
             IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,

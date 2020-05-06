@@ -30,7 +30,7 @@ namespace Blackjack.Mvc.Controllers
         }*/
 
         [HttpPut]
-        [Route("{gameId}/join/")]
+        [Route("{gameId}/join/{playerName}/{seatNo}")]
         public ActionResult<PlayerAccount> Join(string gameId, string playerName, int seatNo)
         {
             try
@@ -107,7 +107,7 @@ namespace Blackjack.Mvc.Controllers
             return Ok(Game);
         }
 
-        [HttpGet]
+        [HttpPut]
         [Route("{gameId}/deal")]
         public ActionResult Deal(string gameId)
         {

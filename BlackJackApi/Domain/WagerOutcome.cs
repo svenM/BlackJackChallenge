@@ -3,8 +3,8 @@ namespace BlackJackApi.Domain
 {
     public enum WagerOutcome
     {
-        Win,
-        Lose,
-        Draw
+        Win = 0,
+        Lose = 1,
+        Draw = 2
     }
 }

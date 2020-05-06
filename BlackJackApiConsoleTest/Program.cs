@@ -1,58 +1,72 @@
-﻿using BlackJackApi;
-using BlackJackApi.Domain;
-using IO.Swagger.Api;
+﻿using IO.Swagger.Api;
 using IO.Swagger.Client;
+using IO.Swagger.Model;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using System;
 using System.Linq;
+using System.Threading;
 
 namespace BlackJackApiConsoleTest
 {
     class Program
     {
+        private static PlayerAccount Player1;
+        private static PlayerAccount Player2;
+        private static LobbyApi lobbyClient;
+        private static GameApi gameClient;
+
         static void Main(string[] args)
         {
             var url = "https://localhost:44398";
-            var lobbyClient = new LobbyApi(url);
+            lobbyClient = new LobbyApi(url);
 
             var games = lobbyClient.ApiLobbyListGet();
 
-            var gameId = lobbyClient.ApiLobbyNewgameNameMinbetMaxbetPost("HelloTomx", 10, 100).Replace("\"","");
+            var gameId = lobbyClient.ApiLobbyNewgameNameMinbetMaxbetPost("HelloTomx", 10, 100).Replace("\"", "");
 
-            var gameClient = new GameApi(url);
-
-            var player = gameClient.GameIdJoinPut(gameId, "John Snow", 1);
-
-
-            gameClient.GameIdPlayerPlayerIdBetAmountPost(gameId, player.Id, 10);
-
-            gameClient.GameIdPlayerPlayerIdStandPost(gameId, player.Id);
-            var result = gameClient.GameIdDetailsGet(gameId);
+            gameClient = new GameApi(url);
+            var position = 1;
+            var position2 = 2;
+            Player1 = gameClient.GameIdJoinPut(gameId, "John Snow", position);
+            Player2 = gameClient.GameIdJoinPut(gameId, "Stephen Fry", position2);
+            PlayRound(gameId);
             return;
-
-
-
         }
 
-        private static void DoubleDown(int wager, BlackjackGamePlayer player)
+        public static void PlayRound(string gameId)
         {
-            if (player.Account.Balance >= wager)
-            {
-                player.DoubleDown(wager);
-            }
-            else
-            {
-                player.DoubleDown(player.Account.Balance);
-            }
+            var bet = 10;
+            // Bet Player 1
+            gameClient.GameIdPlayerPlayerIdBetAmountPost(gameId, Player1.Id, bet);
+
+            // Bet Player 2
+            gameClient.GameIdPlayerPlayerIdBetAmountPost(gameId, Player2.Id, bet);
+
+            gameClient.GameIdDealGet(gameId);
+
+            var result = gameClient.GameIdDetailsGet(gameId);
+
         }
 
-        private static void ShowHand(BlackjackGamePlayer player)
+        private static double? PlayRound(string gameId, GameApi gameClient, int position, PlayerAccount player, int bet)
         {
-          /*  Console.WriteLine($"Score : {player.Hand.ScoreHighLow.Item1} - {player.Hand.ScoreHighLow.Item2}");
-            foreach (var card in player.Hand.Cards)
-            {
-                Console.WriteLine($"card {card.Suit} {card.Rank}");
-            }*/
+            return 0;
+            //gameClient.GameIdPlayerPlayerIdBetAmountPost(gameId, player.Id, bet);
+
+            //gameClient.GameIdPlayerPlayerIdStandPost(gameId, player.Id);
+            //result = gameClient.GameIdDetailsGet(gameId);
+
+            //outcome = result.RoundInProgressSettlements.FirstOrDefault(s => s.PlayerPosition == position);
+            //if (outcome == null)
+            //{
+            //    Console.WriteLine("oops");
+            //}
+            //else
+            //{
+            //    Console.WriteLine("outcome : " + outcome.WagerOutcome);
+            //}
+            //return result.Players.First(p => p.Id == player.Id).Account.Balance;
         }
+
     }
 }

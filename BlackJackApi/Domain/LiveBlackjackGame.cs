@@ -7,7 +7,7 @@ namespace BlackJackApi.Domain
     public class LiveBlackjackGame : BlackjackGame
     {
         public string Id { get; private set; }
-        public object Name { get; private set; }
+        public String Name { get; private set; }
         public string Title { get; set; }
 
         public int TurnLengthInSeconds { get; private set; }
