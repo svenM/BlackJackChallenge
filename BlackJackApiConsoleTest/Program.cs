@@ -14,6 +14,8 @@ namespace BlackJackApiConsoleTest
         private static PlayerAccount Player2;
         private static LobbyApi lobbyClient;
         private static GameApi gameClient;
+        private static int Position1 = 1;
+        private static int Position2 = 2;
 
         static void Main(string[] args)
         {
@@ -25,10 +27,8 @@ namespace BlackJackApiConsoleTest
             var gameId = lobbyClient.ApiLobbyNewgameNameMinbetMaxbetPost("HelloTomx", 10, 100).Replace("\"", "");
 
             gameClient = new GameApi(url);
-            var position = 1;
-            var position2 = 2;
-            Player1 = gameClient.GameIdJoinPut(gameId, "John Snow", position);
-            Player2 = gameClient.GameIdJoinPut(gameId, "Stephen Fry", position2);
+            Player1 = gameClient.GameIdJoinPut(gameId, "John Snow", Position1);
+            Player2 = gameClient.GameIdJoinPut(gameId, "Stephen Fry", Position2);
             PlayRound(gameId);
             return;
         }
@@ -44,7 +44,33 @@ namespace BlackJackApiConsoleTest
 
             gameClient.GameIdDealGet(gameId);
 
+            gameClient.GameIdPlayerPlayerIdStandPost(gameId, Player1.Id);
+            gameClient.GameIdPlayerPlayerIdStandPost(gameId, Player2.Id);
             var result = gameClient.GameIdDetailsGet(gameId);
+
+            var outCome1 = result.RoundInProgressSettlements.First(p => p.PlayerId == Player1.Id);
+            Console.WriteLine(outCome1.WagerOutcome);
+            var outCome2 = result.RoundInProgressSettlements.First(p => p.PlayerId == Player2.Id);
+            Console.WriteLine(outCome2.WagerOutcome);
+
+            gameClient.GameIdEndPost(gameId);
+
+            //round 2
+            gameClient.GameIdPlayerPlayerIdBetAmountPost(gameId, Player1.Id, bet);
+
+            // Bet Player 2
+            gameClient.GameIdPlayerPlayerIdBetAmountPost(gameId, Player2.Id, bet);
+            gameClient.GameIdDealGet(gameId);
+            gameClient.GameIdPlayerPlayerIdStandPost(gameId, Player1.Id);
+            gameClient.GameIdPlayerPlayerIdStandPost(gameId, Player2.Id);
+            result = gameClient.GameIdDetailsGet(gameId);
+
+            outCome1 = result.RoundInProgressSettlements.First(p => p.PlayerId == Player1.Id);
+            Console.WriteLine(outCome1.WagerOutcome);
+            outCome2 = result.RoundInProgressSettlements.First(p => p.PlayerId == Player2.Id);
+            Console.WriteLine(outCome2.WagerOutcome);
+            gameClient.GameIdEndPost(gameId);
+
 
         }
 

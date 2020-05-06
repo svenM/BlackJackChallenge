@@ -124,8 +124,8 @@ namespace Blackjack.Mvc.Controllers
             }
         }
 
-        [HttpPost]
-        [Route("{gameId}/end")]
+        [HttpPut]
+        [Route("{gameId}/endround")]
         public ActionResult EndRound(string gameId)
         {
             try
@@ -140,6 +140,7 @@ namespace Blackjack.Mvc.Controllers
                 return BadRequest(exception.Message);
             }
         }
+
         [HttpDelete]
         [Route("{gameId}/remove/{playerId}")]
         public ActionResult RemoveGamePlayer(string gameId, string playerId)
