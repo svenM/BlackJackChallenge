@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlackJackApi.Domain
+namespace BlackJackApi.Domain.DTO
 {
     public class BlackjackGameRoundPlayer
     {

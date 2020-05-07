@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace BlackJackApi.Domain
+namespace BlackJackApi.Domain.DTO
 {
     public class CardShoe : CardDeck
     {

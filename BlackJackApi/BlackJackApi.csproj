@@ -13,9 +13,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BlackJackApi.Domain\BlackJackApi.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="Strategy\strategy.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Domain\" />
   </ItemGroup>
 
 </Project>

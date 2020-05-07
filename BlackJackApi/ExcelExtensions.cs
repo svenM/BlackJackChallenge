@@ -1,9 +1,6 @@
-﻿using BlackJackApi.Domain;
+﻿using BlackJackApi.Domain.DTO;
 using OfficeOpenXml;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace BlackJackApi
 {

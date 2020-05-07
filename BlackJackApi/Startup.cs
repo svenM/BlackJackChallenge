@@ -1,19 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using BlackJackApi.DAL;
+using BlackJackApi.Hubs;
 using BlackJackApi.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using SignalRChat.Hubs;
 
 namespace BlackJackApi
 {
@@ -81,6 +74,8 @@ namespace BlackJackApi
             {
                 endpoints.MapControllers();
                 endpoints.MapHub<ChatHub>("/chatHub");
+                endpoints.MapHub<LobbyHub>("/lobbyHub");
+                endpoints.MapHub<GameHub>("/gameHub");
             });
         }
     }

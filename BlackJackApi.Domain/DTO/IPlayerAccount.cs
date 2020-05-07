@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BlackJackApi.Domain
+namespace BlackJackApi.Domain.DTO
 {
     public interface IPlayerAccount
     {

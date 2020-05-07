@@ -1,4 +1,4 @@
-﻿using BlackJackApi.Domain;
+﻿using BlackJackApi.Domain.DTO;
 using System.Collections.Generic;
 
 namespace BlackJackApi.DAL

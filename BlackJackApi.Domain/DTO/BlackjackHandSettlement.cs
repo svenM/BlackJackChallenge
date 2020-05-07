@@ -1,7 +1,6 @@
-﻿using OfficeOpenXml.FormulaParsing.Utilities;
-using System;
+﻿using System;
 
-namespace BlackJackApi.Domain
+namespace BlackJackApi.Domain.DTO
 {
     public class BlackjackHandSettlement
     {

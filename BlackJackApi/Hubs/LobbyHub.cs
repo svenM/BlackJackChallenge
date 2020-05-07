@@ -1,10 +1,12 @@
 ﻿using BlackJackApi.DAL;
 using BlackJackApi.Domain;
+using BlackJackApi.Domain.DTO;
+using BlackJackApi.Domain.HubClients;
 using Microsoft.AspNetCore.SignalR;
 
-namespace SignalRChat.Hubs
+namespace BlackJackApi.Hubs
 {
-    public class LobbyHub : Hub
+    public class LobbyHub : Hub<ILobbyHubClient>
     {
         private readonly IBlackJackDAL _blackJackDAL;
 
@@ -14,7 +16,7 @@ namespace SignalRChat.Hubs
         }
         public void GetGameList(string groupName)
         {
-            Clients.Caller.SendAsync("GameListSent", _blackJackDAL.GetGames());
+            Clients.Caller.GameListSent(_blackJackDAL.GetGames());
         }
 
         public void CreateGame(string gameName, int minBet, int maxBet)
@@ -25,19 +27,19 @@ namespace SignalRChat.Hubs
 
             var game = new LiveBlackjackGame(gameName, minBet, maxBet, 30, 10);
             _blackJackDAL.AddGame(game);
-            Clients.Caller.SendAsync("GameCreated", game.Id);
+            Clients.Caller.GameCreated(game.Id);
         }
 
         private void SendError(string msg)
         {
-            Clients.Caller.SendAsync("Error", msg);
+            Clients.Caller.LobbyError(msg);
         }
         public void GameDetailRequest(string gameId)
         {
             var game = _blackJackDAL.GetGame(gameId);
             if (game != null)
             {
-                Clients.Caller.SendAsync("GameDetail", game);
+                Clients.Caller.GameDetail(game);
             }
             else
             {
@@ -48,7 +50,7 @@ namespace SignalRChat.Hubs
         public void DeleteGame(string gameId)
         {
             _blackJackDAL.RemoveGame(gameId);
-            Clients.Caller.SendAsync($"Game {gameId} removed");
+            Clients.Caller.GameDeleted(gameId);
         }
 
     }

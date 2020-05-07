@@ -1,5 +1,6 @@
 ﻿using BlackJackApi;
 using BlackJackApi.Domain;
+using BlackJackApi.Domain.DTO;
 using System;
 using System.Linq;
 

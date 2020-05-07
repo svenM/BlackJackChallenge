@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BlackJackApi.Domain
+namespace BlackJackApi.Domain.DTO
 {
 
     public class Card
