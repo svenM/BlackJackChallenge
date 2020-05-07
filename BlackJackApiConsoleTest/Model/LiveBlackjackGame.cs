@@ -29,6 +29,10 @@ namespace IO.Swagger.Model
     [DataContract]
         public partial class LiveBlackjackGame :  IEquatable<LiveBlackjackGame>, IValidatableObject
     {
+        public LiveBlackjackGame()
+        {
+
+        }
         /// <summary>
         /// Initializes a new instance of the <see cref="LiveBlackjackGame" /> class.
         /// </summary>

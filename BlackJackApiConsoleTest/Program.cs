@@ -19,7 +19,7 @@ namespace BlackJackApiConsoleTest
 
         static void Main(string[] args)
         {
-            var url = "https://localhost:44398";
+            var url = "http://localhost/BlackJackApi/";
             lobbyClient = new LobbyApi(url);
 
             var games = lobbyClient.ApiLobbyListGet();

@@ -14,9 +14,11 @@ namespace BlackJackApi.Hubs
         {
             _blackJackDAL = blackJackDAL;
         }
-        public void GetGameList(string groupName)
+        public void GetGameList()
         {
-            Clients.Caller.GameListSent(_blackJackDAL.GetGames());
+            var games = _blackJackDAL.GetGames();
+            Clients.All.JustSendHello("World");
+            Clients.Caller.GameListSent(games);
         }
 
         public void CreateGame(string gameName, int minBet, int maxBet)
