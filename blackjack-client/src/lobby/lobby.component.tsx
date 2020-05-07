@@ -3,7 +3,6 @@ import { Button, TextField, ButtonGroup, Grid } from '@material-ui/core';
 import Modal from '@material-ui/core/Modal';
 import { CreateGameRequest } from './create-game-request';
 import { LobbyService } from './lobby.service';
-import { AxiosResponse } from 'axios';
 
 interface LobbyProps {}
 interface LobbyState {
@@ -40,8 +39,7 @@ export default class Lobby extends React.Component<LobbyProps, LobbyState> {
   };
   createGame() {
     this.service.createGame(this.state.createGameRequest)
-      .subscribe((response: AxiosResponse<string>) => {
-        let gameId = response.data;
+      .subscribe(gameId => {
         this.setState({gameId})
         this.enterGame();
       });

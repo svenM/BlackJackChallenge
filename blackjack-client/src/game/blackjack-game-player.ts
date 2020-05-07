@@ -9,5 +9,5 @@ export interface BlackjackGamePlayer {
   isLive: boolean,
   hasAction: boolean,
   wager: number,
-  hand: BlackjackHand,
+  hand?: BlackjackHand,
 }

@@ -7,7 +7,7 @@ export interface PlayerProps {
   wager: number;
   isLive: boolean;
   hasAction: boolean;
-  hand: HandProps;
+  hand?: HandProps;
   position: number;
   recentWagerOutcome: string;
   secondsAwaitingAction: number;

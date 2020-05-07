@@ -3,38 +3,41 @@ import { Observable } from "rxjs";
 import { AxiosResponse } from "axios";
 import { BlackjackGame } from './blackjack-game';
 import { PlayerAccount } from './player-account';
+import { map } from 'rxjs/operators';
 
 export class GameService {
 
-  public getGame(gameId: string): Observable<AxiosResponse<BlackjackGame>> {
-    return Axios.get(`https://localhost:5001/${gameId}/details`);
+  public getGame(gameId: string): Observable<BlackjackGame> {
+    return Axios.get(`https://localhost:5001/${gameId}/details`)
+      .pipe(map((response: AxiosResponse<BlackjackGame>) => response.data));
   }
 
-  public addGame(gameId: string, playerName: string, seatNo: number): Observable<AxiosResponse<PlayerAccount>> {
-    return Axios.put(`https://localhost:5001/api/game/${gameId}/join?playerName=${playerName}&seatNo=${seatNo}`);
+  public joinGame(gameId: string, playerName: string, seatNo: number): Observable<PlayerAccount> {
+    return Axios.put(`https://localhost:5001/${gameId}/join?playerName=${playerName}&seatNo=${seatNo}`)
+      .pipe(map((response: AxiosResponse<PlayerAccount>) => response.data));
   }
 
-  public placeBet(gameId: string, playerId: string, amount: number): Observable<AxiosResponse<any>> {
-    return Axios.post(`https://localhost:5001/api/game/${gameId}/player/${playerId}/bet/${amount}`);
+  public placeBet(gameId: string, playerId: string, amount: number): Observable<any> {
+    return Axios.post(`https://localhost:5001/${gameId}/player/${playerId}/bet/${amount}`);
   }
 
-  public forceStand(gameId: string, playerId: string): Observable<AxiosResponse<any>> {
-    return Axios.post(`https://localhost:5001/api/game/${gameId}/player/${playerId}/stand`);
+  public forceStand(gameId: string, playerId: string): Observable<any> {
+    return Axios.post(`https://localhost:5001/${gameId}/player/${playerId}/stand`);
   }
 
-  public deal(gameId: string): Observable<AxiosResponse<BlackjackGame>> {
-    return Axios.get(`https://localhost:5001/api/game/${gameId}/deal`);
+  public deal(gameId: string): Observable<any> {
+    return Axios.get(`https://localhost:5001/${gameId}/deal`);
   }
 
-  public endRound(gameId: string): Observable<AxiosResponse<BlackjackGame>> {
-    return Axios.get(`https://localhost:5001/api/game/${gameId}/end`);
+  public endRound(gameId: string): Observable<any> {
+    return Axios.post(`https://localhost:5001/${gameId}/end`);
   }
 
-  public removePlayer(gameId: string, playerId: string): Observable<AxiosResponse<any>> {
-    return Axios.delete(`https://localhost:5001/api/game/${gameId}/remove/${playerId}`);
+  public leaveGame(gameId: string, playerId: string): Observable<any> {
+    return Axios.delete(`https://localhost:5001/${gameId}/remove/${playerId}`);
   }
 
-  public playerActionRequest(gameId: string, playerId: string, request: 'hit' | 'doubledown' | 'stand'): Observable<AxiosResponse<any>> {
-    return Axios.delete(`https://localhost:5001/api/game/${gameId}/request/${playerId}/${request}`);
+  public playerActionRequest(gameId: string, playerId: string, request: 'hit' | 'doubledown' | 'stand'): Observable<any> {
+    return Axios.post(`https://localhost:5001/${gameId}/request/${playerId}/${request}`);
   }
 }
