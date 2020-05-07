@@ -1,7 +1,7 @@
 ﻿using BlackJackApi.Domain;
 using System.Collections.Generic;
 
-namespace BlackJackApi.DTO
+namespace BlackJackApi.Domain.DTO
 {
     public class Hand
     {

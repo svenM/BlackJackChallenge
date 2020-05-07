@@ -1,8 +1,6 @@
-using BlackJackApi.DTO;
 using System;
-using NUnit;
 using NUnit.Framework;
-using BlackJackApi.Domain;
+using BlackJackApi.Domain.DTO;
 
 namespace BlackJackApiTests
 {

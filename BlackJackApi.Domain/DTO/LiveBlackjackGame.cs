@@ -2,17 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BlackJackApi.Domain
+namespace BlackJackApi.Domain.DTO
 {
     public class LiveBlackjackGame : BlackjackGame
     {
-        public string Id { get; private set; }
-        public string Name { get; private set; }
+        public LiveBlackjackGame():base(1,2)
+        {
+
+        }
+        public string Id { get; set; }
+        public String Name { get; set; }
         public string Title { get; set; }
 
-        public int TurnLengthInSeconds { get; private set; }
+        public int TurnLengthInSeconds { get; set; }
 
-        public int BettingPeriodInSeconds { get; private set; }
+        public int BettingPeriodInSeconds { get; set; }
 
         public DateTime? AwaitingPlayerActionSince { get; set; }
 

@@ -1,5 +1,5 @@
 ﻿
-namespace BlackJackApi.Domain
+namespace BlackJackApi.Domain.DTO
 {
     public class PlayerAccount : IPlayerAccount
     {

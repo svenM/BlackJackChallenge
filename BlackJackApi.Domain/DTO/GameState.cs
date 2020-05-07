@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BlackJackApi.Domain
+namespace BlackJackApi.Domain.DTO
 {
     public enum GameState
     {

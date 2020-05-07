@@ -4,6 +4,7 @@ import { AxiosResponse } from "axios";
 import { BlackjackGame } from './blackjack-game';
 import { PlayerAccount } from './player-account';
 import { map } from 'rxjs/operators';
+import { PlayerAction } from './player-action';
 
 export class GameService {
 
@@ -12,8 +13,13 @@ export class GameService {
       .pipe(map((response: AxiosResponse<BlackjackGame>) => response.data));
   }
 
+  public getHint(gameId: string, playerId: string): Observable<PlayerAction> {
+    return Axios.get(`https://localhost:5001/${gameId}/hint/${playerId}`)
+      .pipe(map((response: AxiosResponse<PlayerAction>) => response.data));
+  }
+
   public joinGame(gameId: string, playerName: string, seatNo: number): Observable<PlayerAccount> {
-    return Axios.put(`https://localhost:5001/${gameId}/join?playerName=${playerName}&seatNo=${seatNo}`)
+    return Axios.put(`https://localhost:5001/${gameId}/join/${playerName}/${seatNo}`)
       .pipe(map((response: AxiosResponse<PlayerAccount>) => response.data));
   }
 
@@ -26,11 +32,11 @@ export class GameService {
   }
 
   public deal(gameId: string): Observable<any> {
-    return Axios.get(`https://localhost:5001/${gameId}/deal`);
+    return Axios.put(`https://localhost:5001/${gameId}/deal`);
   }
 
   public endRound(gameId: string): Observable<any> {
-    return Axios.post(`https://localhost:5001/${gameId}/end`);
+    return Axios.put(`https://localhost:5001/${gameId}/end`);
   }
 
   public leaveGame(gameId: string, playerId: string): Observable<any> {

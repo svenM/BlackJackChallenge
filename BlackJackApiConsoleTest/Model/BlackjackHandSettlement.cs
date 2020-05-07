@@ -52,6 +52,11 @@ namespace IO.Swagger.Model
         /// </summary>
         [DataMember(Name="playerPosition", EmitDefaultValue=false)]
         public int? PlayerPosition { get; private set; }
+        /// <summary>
+        /// Gets or Sets PlayerId
+        /// </summary>
+        [DataMember(Name="playerId", EmitDefaultValue=false)]
+        public string PlayerId { get; private set; }
 
         /// <summary>
         /// Gets or Sets PlayerHand
@@ -81,6 +86,7 @@ namespace IO.Swagger.Model
             var sb = new StringBuilder();
             sb.Append("class BlackjackHandSettlement {\n");
             sb.Append("  PlayerPosition: ").Append(PlayerPosition).Append("\n");
+            sb.Append("  PlayerId: ").Append(PlayerId).Append("\n");
             sb.Append("  PlayerHand: ").Append(PlayerHand).Append("\n");
             sb.Append("  DealerHand: ").Append(DealerHand).Append("\n");
             sb.Append("  WagerOutcome: ").Append(WagerOutcome).Append("\n");
@@ -143,6 +149,11 @@ namespace IO.Swagger.Model
                     this.WagerAmount == input.WagerAmount ||
                     (this.WagerAmount != null &&
                     this.WagerAmount.Equals(input.WagerAmount))
+                )&& 
+                (
+                    this.PlayerId == input.PlayerId ||
+                    (this.PlayerId != null &&
+                    this.PlayerId.Equals(input.PlayerId))
                 );
         }
 
@@ -159,6 +170,8 @@ namespace IO.Swagger.Model
                     hashCode = hashCode * 59 + this.PlayerPosition.GetHashCode();
                 if (this.PlayerHand != null)
                     hashCode = hashCode * 59 + this.PlayerHand.GetHashCode();
+                if (this.PlayerId != null)
+                    hashCode = hashCode * 59 + this.PlayerId.GetHashCode();
                 if (this.DealerHand != null)
                     hashCode = hashCode * 59 + this.DealerHand.GetHashCode();
                 if (this.WagerOutcome != null)

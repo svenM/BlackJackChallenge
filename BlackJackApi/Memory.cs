@@ -1,4 +1,5 @@
 ﻿using BlackJackApi.Domain;
+using BlackJackApi.Domain.DTO;
 using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;

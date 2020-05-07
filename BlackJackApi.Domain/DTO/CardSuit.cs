@@ -1,4 +1,4 @@
-﻿namespace BlackJackApi.Domain
+﻿namespace BlackJackApi.Domain.DTO
 {
     public enum CardSuit
     {

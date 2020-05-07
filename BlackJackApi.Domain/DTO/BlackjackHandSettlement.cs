@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BlackJackApi.Domain
+namespace BlackJackApi.Domain.DTO
 {
     public class BlackjackHandSettlement
     {
@@ -9,6 +9,7 @@ namespace BlackJackApi.Domain
 
         }
         public int PlayerPosition { get; set; }
+        public string PlayerId { get; set; }
         public BlackjackHand PlayerHand { get; set; }
         public BlackjackHand DealerHand { get; set; }
         public WagerOutcome WagerOutcome { get; set; }
@@ -26,6 +27,7 @@ namespace BlackJackApi.Domain
                 throw new ArgumentNullException("dealerHand");
 
             DealerHand = dealerHand;
+            PlayerId = player.Player.Id;
             PlayerHand = player.Hand;            
             PlayerPosition = player.Player.Position;
             WagerAmount = player.Wager;

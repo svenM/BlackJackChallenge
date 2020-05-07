@@ -1,12 +1,10 @@
 ﻿
 using BlackJackApi.DAL;
-using BlackJackApi.Domain;
+using BlackJackApi.Domain.DTO;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
-namespace Blackjack.Mvc.Controllers
+namespace BlackJackApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

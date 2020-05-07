@@ -1,4 +1,5 @@
 ﻿using BlackJackApi.Domain;
+using BlackJackApi.Domain.DTO;
 
 namespace BlackJackApi
 {

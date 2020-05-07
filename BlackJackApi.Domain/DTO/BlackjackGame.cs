@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BlackJackApi.Domain
+namespace BlackJackApi.Domain.DTO
 {
     public class BlackjackGame
     {
-        private List<BlackjackGameRoundPlayer> _roundPlayersQueuedForNextRound;
+        public List<BlackjackGameRoundPlayer> RoundPlayersQueuedForNextRound { get; set;  }
 
         private BlackjackGameRound _roundInProgress { get { return Dealer.RoundInProgress; } }
 
@@ -59,7 +59,7 @@ namespace BlackJackApi.Domain
 
             Dealer = new BlackjackGameDealer();
             Players = new List<BlackjackGamePlayer>(MaxPlayers);
-            _roundPlayersQueuedForNextRound = new List<BlackjackGameRoundPlayer>(MaxPlayers);
+            RoundPlayersQueuedForNextRound = new List<BlackjackGameRoundPlayer>(MaxPlayers);
             MaxPlayers = maxPlayers;
             MinWager = minWager;
             MaxWager = maxWager;
@@ -105,8 +105,8 @@ namespace BlackJackApi.Domain
                     throw new InvalidOperationException("Player is in live round");
 
                 Players.Remove(player);
-                _roundPlayersQueuedForNextRound
-                    .Remove(_roundPlayersQueuedForNextRound
+                RoundPlayersQueuedForNextRound
+                    .Remove(RoundPlayersQueuedForNextRound
                         .FirstOrDefault(a => a.Player.Id == player.Id));
             }
         }
@@ -126,11 +126,11 @@ namespace BlackJackApi.Domain
             if (IsRoundInProgress)
                 throw new InvalidOperationException("Live round in progress");
 
-            if (!_roundPlayersQueuedForNextRound.Any())
+            if (!RoundPlayersQueuedForNextRound.Any())
                 throw new InvalidOperationException("No players have wagered");
 
-            var roundInProgress = new BlackjackGameRound(_roundPlayersQueuedForNextRound);
-            _roundPlayersQueuedForNextRound.Clear();
+            var roundInProgress = new BlackjackGameRound(RoundPlayersQueuedForNextRound);
+            RoundPlayersQueuedForNextRound.Clear();
 
             Dealer.Deal(roundInProgress);
         }
@@ -153,7 +153,7 @@ namespace BlackJackApi.Domain
             if (player.IsLive)
                 throw new InvalidOperationException("Player is in live round");
 
-            if (_roundPlayersQueuedForNextRound.Any(a => a.Player.Id == player.Id))
+            if (RoundPlayersQueuedForNextRound.Any(a => a.Player.Id == player.Id))
                 throw new InvalidOperationException();
 
             if (amount > player.Account.Balance)
@@ -163,7 +163,7 @@ namespace BlackJackApi.Domain
                 throw new InvalidOperationException("Player wager is out of range");
 
             player.Account.Debit(amount);
-            _roundPlayersQueuedForNextRound.Add(new BlackjackGameRoundPlayer(player, amount));
+            RoundPlayersQueuedForNextRound.Add(new BlackjackGameRoundPlayer(player, amount));
         }
 
         internal void RequestToHit(BlackjackGamePlayer player)
@@ -197,7 +197,7 @@ namespace BlackJackApi.Domain
         internal double GetPlayerWager(BlackjackGamePlayer player)
         {
             return _roundInProgress?.GetRoundPlayer(player)?.Wager
-                ?? _roundPlayersQueuedForNextRound.SingleOrDefault(a => a.Player.Id == player.Id)?.Wager
+                ?? RoundPlayersQueuedForNextRound.SingleOrDefault(a => a.Player.Id == player.Id)?.Wager
                 ?? 0;
         }
 

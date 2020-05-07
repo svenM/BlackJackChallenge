@@ -1,4 +1,5 @@
 ﻿using BlackJackApi.Domain;
+using BlackJackApi.Domain.DTO;
 using BlackJackApi.Infrastructure;
 using LiteDB;
 using Microsoft.AspNetCore.Mvc;

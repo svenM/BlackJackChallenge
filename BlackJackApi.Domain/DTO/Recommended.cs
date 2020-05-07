@@ -1,4 +1,4 @@
-﻿namespace BlackJackApi.DTO
+﻿namespace BlackJackApi.Domain.DTO
 {
     public enum Recommended
     {
