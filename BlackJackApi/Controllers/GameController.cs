@@ -69,6 +69,7 @@ namespace BlackJackApi.Controllers
             try
             {
                 var game = _blackJackDAL.GetGame(gameId);
+                if (game == null) return NotFound("Game not found");
                 var player = game.Players.FirstOrDefault(p => p.Id == playerId);
                 if(player == null)
                 {

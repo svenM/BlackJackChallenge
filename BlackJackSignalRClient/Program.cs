@@ -27,7 +27,7 @@ namespace BlackJackSignalRClient
                     // This will set ALL logging to Debug level
                     logging.SetMinimumLevel(LogLevel.Debug);
                 })
-                .Build();
+                .Build(); 
             //Start connection
             connection.StartAsync().ContinueWith(task => {
                 if (task.IsFaulted)
