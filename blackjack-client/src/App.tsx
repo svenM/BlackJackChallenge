@@ -15,7 +15,7 @@ function App() {
   return (
     <React.Fragment>
       <CssBaseline />
-      <Container maxWidth="sm">
+      <Container>
         <Router>
           <Switch>
             <Route path="/game/:gameId">

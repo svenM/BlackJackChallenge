@@ -9,6 +9,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlackJackApiLogicTests", ".
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlackJackApiConsoleTest", "..\BlackJackApiConsoleTest\BlackJackApiConsoleTest.csproj", "{2D08173F-123A-4D56-9DD3-3414F5D1054B}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlackJackApi.Domain", "..\BlackJackApi.Domain\BlackJackApi.Domain.csproj", "{EEAC9ADA-CE9D-4245-BB01-0DAD296F1224}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlackJackApiTests", "..\BlackJackApiTests\BlackJackApiTests.csproj", "{B9F3A4F5-7080-42B8-A828-EBEB550B429A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlackJackSignalRClient", "..\BlackJackSignalRClient\BlackJackSignalRClient.csproj", "{DEBBF5A4-BC1B-494B-BE89-B66E5C996C42}"
+EndProject
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "SignalRClient", "..\SignalRClient\SignalRClient.fsproj", "{234E046B-DE9F-455A-8A9B-CD0DD5E4977C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +35,22 @@ Global
 		{2D08173F-123A-4D56-9DD3-3414F5D1054B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D08173F-123A-4D56-9DD3-3414F5D1054B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D08173F-123A-4D56-9DD3-3414F5D1054B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEAC9ADA-CE9D-4245-BB01-0DAD296F1224}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEAC9ADA-CE9D-4245-BB01-0DAD296F1224}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEAC9ADA-CE9D-4245-BB01-0DAD296F1224}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEAC9ADA-CE9D-4245-BB01-0DAD296F1224}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9F3A4F5-7080-42B8-A828-EBEB550B429A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9F3A4F5-7080-42B8-A828-EBEB550B429A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9F3A4F5-7080-42B8-A828-EBEB550B429A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9F3A4F5-7080-42B8-A828-EBEB550B429A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DEBBF5A4-BC1B-494B-BE89-B66E5C996C42}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEBBF5A4-BC1B-494B-BE89-B66E5C996C42}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEBBF5A4-BC1B-494B-BE89-B66E5C996C42}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEBBF5A4-BC1B-494B-BE89-B66E5C996C42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{234E046B-DE9F-455A-8A9B-CD0DD5E4977C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{234E046B-DE9F-455A-8A9B-CD0DD5E4977C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{234E046B-DE9F-455A-8A9B-CD0DD5E4977C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{234E046B-DE9F-455A-8A9B-CD0DD5E4977C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
