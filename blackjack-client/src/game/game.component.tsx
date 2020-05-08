@@ -4,7 +4,7 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { BlackjackGame } from './blackjack-game';
 import { GameService } from './game.service';
 import { DealerProps, Dealer } from './dealer.component';
-import { PlayerProps } from './player.component';
+import { PlayerProps, Player } from './player.component';
 import * as _ from 'lodash';
 import { BlackjackHand } from './blackjack-hand';
 import { HandProps } from './hand.component';
@@ -257,56 +257,41 @@ class Game extends React.Component<RouteComponentProps, GameState> {
     throw new Error("Method not implemented.");
   }
 
+  onHitClick() {
+    if (this.state.playerId) {
+      this.service.playerActionRequest(this.state.id, this.state.playerId, 'hit')
+        .subscribe();
+        // TODO: refresh game
+    }
+  }
+  onStandClick() {
+    if (this.state.playerId) {
+      this.service.playerActionRequest(this.state.id, this.state.playerId, 'stand')
+        .subscribe();
+        // TODO: refresh game
+    }
+  }
+  onDoubleDownClick() {
+    if (this.state.playerId) {
+      this.service.playerActionRequest(this.state.id, this.state.playerId, 'doubledown')
+        .subscribe();
+        // TODO: refresh game
+    }
+  }
+  onPlacebetClick(betAmount: number) {
+    if (this.state && this.state.playerId) {
+      this.service.placeBet(this.state.id, this.state.playerId, betAmount)
+        .subscribe();
+        // TODO: refresh game
+    }
+  }
+
   public render() {
     if (!this.state) {
       return <React.Fragment>One moment</React.Fragment>;
     }
 
-    let wagerPeriodTimer: any;
-    if (this.state.wagerPeriodTimerIsVisible) {
-      wagerPeriodTimer = <div>The next hand will start in {this.state.wagerPeriodInSeconds - this.state.secondsAwaitingWagers}</div>
-    }
-    let recentOutcome: any;
-    if (this.state.player && this.state.player.recentWagerOutcome) {
-      switch (this.state.player.recentWagerOutcome){
-        case WagerOutcome.Win.toString():
-          recentOutcome = 'You win!';
-          break;
-        case WagerOutcome.Lose.toString():
-          recentOutcome = 'You lose';
-          break;
-        case WagerOutcome.Draw.toString():
-          recentOutcome = 'Draw';
-          break;
-      }
-    }
-    let turnNotification: any = this.state.hitButtonisVisible || this.state.standButtonIsVisible || this.state.doubleDownButtonisVisible ? <h3>It's your turn</h3> : undefined;
-    let hitButton: any = this.state.hitButtonisVisible ? <Button color="primary">Hit</Button> : undefined;
-    let standButton: any = this.state.standButtonIsVisible ? <Button color="primary">Stand</Button> : undefined;
-    let doubleDownButton: any = this.state.doubleDownButtonisVisible ? <Button color="primary">Double Down</Button> : undefined;
-    let wagerInput: any = this.state.wagerInputIsVisible ? <React.Fragment>
-      <h3>Place your bet</h3>
-        <b>$</b><input type="number" min={this.state.minWager} max={this.state.maxWager} name="bet" placeholder="5" />
-        <Button color="primary" variant="contained">Place Bet</Button>
-    </React.Fragment> : undefined;
-    let gameControlButtons: any = <React.Fragment>
-      <Grid item xs={12} className="game__timer">
-        {wagerPeriodTimer}
-      </Grid>
-      <Grid item xs={12} className="game__notifications">
-        {turnNotification}
-      </Grid>
-      <Grid item xs={12} className="game__buttons">
-        <ButtonGroup variant="contained">
-          {hitButton}
-          {standButton}
-          {doubleDownButton}
-        </ButtonGroup>
-      </Grid>
-      <Grid item xs={12} className="game__wager-input">
-        {wagerInput}
-      </Grid>
-    </React.Fragment>;
+    const players = this.state.players.map(p => <Player {...p}></Player>);
 
     return <React.Fragment>
       <Box className="game-container playingCards faceImages">
@@ -323,37 +308,34 @@ class Game extends React.Component<RouteComponentProps, GameState> {
 
           <Grid container>
             <Grid item xs={12} sm={6}>
-              <GameControlButtons></GameControlButtons>
+              <GameControlButtons
+                wagerPeriodTimerIsVisible={this.state.wagerInputIsVisible}
+                wagerPeriodInSeconds={this.state.wagerPeriodInSeconds}
+                secondsAwaitingWagers={this.state.secondsAwaitingWagers}
+                player={this.state.player}
+                hitButtonisVisible={this.state.hitButtonisVisible}
+                standButtonIsVisible={this.state.standButtonIsVisible}
+                doubleDownButtonisVisible={this.state.doubleDownButtonisVisible}
+                wagerInputIsVisible={this.state.wagerInputIsVisible}
+                minWager={this.state.minWager}
+                maxWager={this.state.maxWager}
+                onHitClick={this.onHitClick.bind(this)}
+                onStandClick={this.onStandClick.bind(this)}
+                onDoubleDownClick={this.onDoubleDownClick.bind(this)}
+                onPlacebetClick={this.onPlacebetClick.bind(this)}
+              ></GameControlButtons>
             </Grid>
             <Grid item xs={12} sm={6}>
               <Dealer {...this.state.dealer}></Dealer>
             </Grid>
           </Grid>
 
-          <Grid item xs={12} className="game__control-buttons">
-            {gameControlButtons}
-          </Grid>
+          {this.state.endOfRoundTimerIsVisible ? <div className="progressBar"></div> : ''}
 
-        <Grid item xs={12} className="game__player_info">
-            <Button variant="contained" color="primary">New game</Button>
-        </Grid>
-        <Grid item xs={12} className="game__player_info">
-          {/* Balance: € {this.state.game.players?.balance} */}
-        </Grid>
+          <br />
 
+          {players}
 
-        <Grid item xs={12} className="game__end">
-          <Button color="primary" variant="contained">Continue</Button>
-        </Grid>
-        <Grid item xs={12} className="game__player_hand">
-          Your Hand
-        </Grid>
-        <Grid item xs={12} className="game__dealer_hand">
-          Dealer's Hand
-        </Grid>
-        <Grid item xs={12} className="game__messages">
-
-        </Grid>
         </Grid>
       </Box>
     </React.Fragment>
