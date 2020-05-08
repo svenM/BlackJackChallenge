@@ -10,7 +10,6 @@ namespace BlackJackApi.Domain.HubClients
         Task JustSendHello(string hello);
         Task GameCreated(string gameId);
         Task LobbyError(string message);
-        Task GameDetail(LiveBlackjackGame detail);
         Task GameDeleted(string gameId);
     }
 }

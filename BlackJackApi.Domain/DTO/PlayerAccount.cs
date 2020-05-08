@@ -3,8 +3,12 @@ namespace BlackJackApi.Domain.DTO
 {
     public class PlayerAccount : IPlayerAccount
     {
-        public string Id { get; private set; }
-        public double Balance { get; private set; }
+        public PlayerAccount()
+        {
+
+        }
+        public string Id { get; set; }
+        public double Balance { get; set; }
 
         public PlayerAccount(string id, double startingBalance)
         {

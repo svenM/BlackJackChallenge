@@ -175,6 +175,5 @@ namespace BlackJackApi.Hubs
             return _blackJackDAL.GetGame(gameId);
         }
 
-        public GameHub
     }
 }
