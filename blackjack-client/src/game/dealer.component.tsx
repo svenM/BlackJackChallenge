@@ -29,7 +29,7 @@ export const Dealer: React.FunctionComponent<DealerProps> = ({name, hand, canSho
       <Grid item xs={12} className="tablespot-hand">
         { !hand || hand.cards.length === 0 ? singleFlippedCard : dealerHand}
       </Grid>
-    <Grid item xs={12} className="tablespot-wager">
+      <Grid item xs={12} className="tablespot-wager">
         { canShowHand && hand ? hand.score : '' }
       </Grid>
       <Grid item xs={12} className="tablespot-player">

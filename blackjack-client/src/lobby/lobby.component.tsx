@@ -1,15 +1,17 @@
 import React from 'react';
-import { Button, TextField, ButtonGroup, Grid } from '@material-ui/core';
+import { Button, TextField, ButtonGroup, Grid, Typography } from '@material-ui/core';
 import Modal from '@material-ui/core/Modal';
 import { CreateGameRequest } from './create-game-request';
 import { LobbyService } from './lobby.service';
+import { Game } from './game';
 
 interface LobbyProps {}
 interface LobbyState {
-  createGameRequest: CreateGameRequest,
-  createGameOpen: any,
-  joinGameOpen: any,
-  gameId: string | null
+  createGameRequest: CreateGameRequest;
+  createGameOpen: any;
+  joinGameOpen: any;
+  gameId: string | null;
+  gamesList: Game[];
 }
 
 export default class Lobby extends React.Component<LobbyProps, LobbyState> {
@@ -26,9 +28,14 @@ export default class Lobby extends React.Component<LobbyProps, LobbyState> {
         minBet: 5,
         maxBet: 100
       },
-      gameId: null
+      gameId: null,
+      gamesList: []
     };
     this.service = new LobbyService();
+  }
+
+  componentDidMount() {
+    this.service.getGames().subscribe(games => this.setState({...this.state, gamesList: games}));
   }
 
   showCreateGameModal() {
@@ -71,17 +78,31 @@ export default class Lobby extends React.Component<LobbyProps, LobbyState> {
     this.setState({gameId: event.currentTarget.value});
   }
 
+  getGameLink(id: string) {
+    return () => {
+      this.setState({...this.state, gameId: id});
+      this.enterGame();
+    };
+  }
+
   render() {
+
+  const games = this.state.gamesList.map(g => <Typography key={g.id} variant="h6"><Button onClick={this.getGameLink(g.id)}>{g.name}</Button></Typography>);
+
     return <React.Fragment>
-      <Grid className="lobby" container direction="row" spacing={10}>
+      <Grid className="lobby" container direction="row" spacing={5}>
         <Grid item className="lobby__title" xs={12}>
           <h1 style={{fontFamily: 'monofett', fontSize: 90, fontStyle: 'italic'}}>BLACKJACK</h1>
         </Grid>
-        <Grid item className="lobby__buttons">
-          <ButtonGroup variant="contained">
-            <Button color="primary" onClick={this.showCreateGameModal.bind(this)}>Create new game</Button>
-            <Button color="primary" onClick={this.showJoinGameModal.bind(this)}>Join game</Button>
-            </ButtonGroup>
+        <Grid item xs={12} className="lobby__buttons">
+          {/* <ButtonGroup color="primary" variant="contained"> */}
+            <Button color="primary" variant="contained" onClick={this.showCreateGameModal.bind(this)}>Create new game</Button>
+            {/* <Button color="primary" onClick={this.showJoinGameModal.bind(this)}>Join game</Button> */}
+            {/* </ButtonGroup> */}
+        </Grid>
+        <Grid item xs={12} className="lobby__games_list">
+        <Typography variant="h4" gutterBottom>Games List</Typography>
+          {games}
         </Grid>
       </Grid>
       <Modal open={this.state.createGameOpen}>
