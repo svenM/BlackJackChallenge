@@ -66,6 +66,8 @@ namespace BlackJackApi
                 c.SwaggerEndpoint("/blackjackapi/swagger/v1/swagger.json", "My API V1");
             });
 
+            app.UseCors("AllowAll");
+
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthorization();
