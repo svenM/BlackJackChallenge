@@ -6,6 +6,12 @@ namespace BlackJackApi.Domain.DTO
 {
     public class BlackjackGame
     {
+        public BlackjackGame()
+        {
+            Dealer = new BlackjackGameDealer();
+            Players = new List<BlackjackGamePlayer>();
+            RoundPlayersQueuedForNextRound = new List<BlackjackGameRoundPlayer>(MaxPlayers);
+        }
         public List<BlackjackGameRoundPlayer> RoundPlayersQueuedForNextRound { get; set;  }
 
         private BlackjackGameRound _roundInProgress { get { return Dealer.RoundInProgress; } }
@@ -29,10 +35,10 @@ namespace BlackJackApi.Domain.DTO
         public List<BlackjackGamePlayer> Players { get; set; }
         public BlackjackGameDealer Dealer { get; set; }
 
-        public int MaxPlayers { get; private set; }
+        public int MaxPlayers { get; set; }
 
-        public double MinWager { get; private set; }
-        public double MaxWager { get; private set; }
+        public double MinWager { get; set; }
+        public double MaxWager { get; set; }
 
         public bool IsRoundInProgress { get { return _roundInProgress != null; } }
         public int PercentRemainingInDealerShoe { get { return Dealer.PercentRemainingInShoe; } }

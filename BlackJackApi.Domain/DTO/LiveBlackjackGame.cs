@@ -6,10 +6,11 @@ namespace BlackJackApi.Domain.DTO
 {
     public class LiveBlackjackGame : BlackjackGame
     {
-        public LiveBlackjackGame():base(1,2)
+        public LiveBlackjackGame():base()
         {
-
+            _playerIdsFromMissedRounds = new List<string>();
         }
+
         public string Id { get; set; }
         public String Name { get; set; }
         public string Title { get; set; }
