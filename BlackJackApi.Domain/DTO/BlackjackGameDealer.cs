@@ -112,7 +112,7 @@ namespace BlackJackApi.Domain.DTO
             _shoe = new CardShoe(8);
         }
 
-        public void CloseRound()
+        public void CloseRound(List<BlackjackGamePlayer> players)
         {
             if (RoundInProgress != null)
             {
@@ -120,7 +120,11 @@ namespace BlackJackApi.Domain.DTO
                     throw new InvalidOperationException("Round still in progress");
 
                 RoundInProgress.RoundPlayers.ToList()
-                    .ForEach(player => settleHand(player));
+                    .ForEach(player =>
+                    {
+                        var realPlayer = players.First(p => p.Id == player.Player.Id);
+                        settleHand(player, realPlayer);
+                    });
 
                 RoundInProgress = null;
             }
@@ -154,7 +158,7 @@ namespace BlackJackApi.Domain.DTO
             
         }
 
-        private BlackjackHandSettlement settleHand(BlackjackGameRoundPlayer roundplayer)
+        private BlackjackHandSettlement settleHand(BlackjackGameRoundPlayer roundplayer, BlackjackGamePlayer realPlayer)
         {
             if (RoundInProgress.RoundPlayers.Any(a => a.HasAction))
             {
@@ -167,11 +171,15 @@ namespace BlackJackApi.Domain.DTO
             if (settlement.WagerOutcome == WagerOutcome.Draw)
             {
                 roundplayer.Player.Account.Credit(settlement.WagerAmount);
+                realPlayer.Account.Credit(settlement.WagerAmount);
             }
             else if (settlement.WagerOutcome == WagerOutcome.Win)
             {
                 roundplayer.Player.Account.Credit(settlement.WagerAmount * 2);
+                realPlayer.Account.Credit(settlement.WagerAmount * 2);
             }
+
+            
 
             RoundInProgress.SettleRoundPlayer(roundplayer, settlement);
 
@@ -184,7 +192,7 @@ namespace BlackJackApi.Domain.DTO
             if (roundplayer == null)
                 throw new ArgumentException("'player' is null or invalid");
 
-            return settleHand(roundplayer);
+            return settleHand(roundplayer, player);
         }
     }
 }

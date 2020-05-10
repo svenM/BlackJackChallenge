@@ -148,7 +148,7 @@ namespace BlackJackApi.Domain.DTO
 
         public virtual void EndRound()
         {
-            Dealer.CloseRound();
+            Dealer.CloseRound(Players);
         }
 
         internal void PlaceWager(BlackjackGamePlayer player, double amount)
