@@ -9,12 +9,17 @@
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300"
              Name="MyToolWindow">
-    <Grid>
+    <Grid x:Name="grd" LayoutUpdated="grd_LayoutUpdated">
         <StackPanel Orientation="Vertical">
-            <Menu Height="23" VerticalAlignment="Top">
-                <MenuItem x:Name="mnuNewDebugging" Header="N" Height="23" Width="23" Click="mnuNewDebugging_Click" VerticalAlignment="Top" HorizontalAlignment="Left" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"/>
+            <Menu Height="23" VerticalAlignment="Top" x:Name="menuBar">
                 <MenuItem x:Name="mnuList" Header="L" Height="23" Width="23" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}" Click="mnuList_Click">
                 </MenuItem>
+                <MenuItem x:Name="mnuCreateJoin" Header="CJ" Height="23" Width="23" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}" Click="mnuCreateJoin_Click"/>
+                <MenuItem x:Name="mnuBet" Header="B" Height="23" Width="23" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}" Click="mnuBet_Click" IsEnabled="False" />
+                <MenuItem x:Name="mnuHit" Header="H" Height="23" Width="23" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}" Click="mnuHit_Click" IsEnabled="False"/>
+                <MenuItem x:Name="mnuStand" Header="S" Height="23" Width="23" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}" Click="mnuStand_Click" IsEnabled="False"/>
+                <MenuItem x:Name="mnuDoubleDown" Header="D" Height="23" Width="23" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}" Click="mnuDoubleDown_Click" IsEnabled="False"/>
+                <MenuItem x:Name="mnuQuit" Header="Q" Height="23" Width="23" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}" Click="mnuDoubleDown_Click" IsEnabled="False"/>
             </Menu>
             <ListBox x:Name="lstOutput" Height="278"/>
         </StackPanel>

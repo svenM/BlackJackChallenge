@@ -193,7 +193,7 @@ namespace IO.Swagger.Api
         /// <param name="playerId"></param>
         /// <param name="request"></param>
         /// <returns></returns>
-        void GameIdRequestPlayerIdRequestDelete (string gameId, string playerId, string request);
+        void GameIdRequestPlayerIdRequestPost (string gameId, string playerId, string request);
 
         /// <summary>
         /// 
@@ -206,7 +206,7 @@ namespace IO.Swagger.Api
         /// <param name="playerId"></param>
         /// <param name="request"></param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> GameIdRequestPlayerIdRequestDeleteWithHttpInfo (string gameId, string playerId, string request);
+        ApiResponse<Object> GameIdRequestPlayerIdRequestPostWithHttpInfo (string gameId, string playerId, string request);
         #endregion Synchronous Operations
         #region Asynchronous Operations
         /// <summary>
@@ -1477,9 +1477,9 @@ namespace IO.Swagger.Api
         /// <param name="playerId"></param>
         /// <param name="request"></param>
         /// <returns></returns>
-        public void GameIdRequestPlayerIdRequestDelete (string gameId, string playerId, string request)
+        public void GameIdRequestPlayerIdRequestPost (string gameId, string playerId, string request)
         {
-             GameIdRequestPlayerIdRequestDeleteWithHttpInfo(gameId, playerId, request);
+             GameIdRequestPlayerIdRequestPostWithHttpInfo(gameId, playerId, request);
         }
 
         /// <summary>
@@ -1490,7 +1490,7 @@ namespace IO.Swagger.Api
         /// <param name="playerId"></param>
         /// <param name="request"></param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<Object> GameIdRequestPlayerIdRequestDeleteWithHttpInfo (string gameId, string playerId, string request)
+        public ApiResponse<Object> GameIdRequestPlayerIdRequestPostWithHttpInfo (string gameId, string playerId, string request)
         {
             // verify the required parameter 'gameId' is set
             if (gameId == null)
@@ -1528,7 +1528,7 @@ namespace IO.Swagger.Api
 
             // make the HTTP request
             IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
-                Method.DELETE, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
             int localVarStatusCode = (int) localVarResponse.StatusCode;

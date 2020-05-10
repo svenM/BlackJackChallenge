@@ -51,12 +51,12 @@ namespace IO.Swagger.Model
         /// Gets or Sets PlayerPosition
         /// </summary>
         [DataMember(Name="playerPosition", EmitDefaultValue=false)]
-        public int? PlayerPosition { get; private set; }
+        public int? PlayerPosition { get; set; }
         /// <summary>
         /// Gets or Sets PlayerId
         /// </summary>
         [DataMember(Name="playerId", EmitDefaultValue=false)]
-        public string PlayerId { get; private set; }
+        public string PlayerId { get; set; }
 
         /// <summary>
         /// Gets or Sets PlayerHand
@@ -75,7 +75,7 @@ namespace IO.Swagger.Model
         /// Gets or Sets WagerAmount
         /// </summary>
         [DataMember(Name="wagerAmount", EmitDefaultValue=false)]
-        public double? WagerAmount { get; private set; }
+        public double? WagerAmount { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

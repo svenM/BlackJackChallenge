@@ -56,7 +56,7 @@ namespace IO.Swagger.Model
         /// Gets or Sets NumericValue
         /// </summary>
         [DataMember(Name="numericValue", EmitDefaultValue=false)]
-        public int? NumericValue { get; private set; }
+        public int? NumericValue { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

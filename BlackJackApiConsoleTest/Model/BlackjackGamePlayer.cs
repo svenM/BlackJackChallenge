@@ -44,13 +44,13 @@ namespace IO.Swagger.Model
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name="id", EmitDefaultValue=false)]
-        public string Id { get; private set; }
+        public string Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Position
         /// </summary>
         [DataMember(Name="position", EmitDefaultValue=false)]
-        public int? Position { get; private set; }
+        public int? Position { get; set; }
 
         /// <summary>
         /// Gets or Sets Account
@@ -62,25 +62,25 @@ namespace IO.Swagger.Model
         /// Gets or Sets Alias
         /// </summary>
         [DataMember(Name="alias", EmitDefaultValue=false)]
-        public string Alias { get; private set; }
+        public string Alias { get; set; }
 
         /// <summary>
         /// Gets or Sets IsLive
         /// </summary>
         [DataMember(Name="isLive", EmitDefaultValue=false)]
-        public bool? IsLive { get; private set; }
+        public bool? IsLive { get; set; }
 
         /// <summary>
         /// Gets or Sets HasAction
         /// </summary>
         [DataMember(Name="hasAction", EmitDefaultValue=false)]
-        public bool? HasAction { get; private set; }
+        public bool? HasAction { get; set; }
 
         /// <summary>
         /// Gets or Sets Wager
         /// </summary>
         [DataMember(Name="wager", EmitDefaultValue=false)]
-        public double? Wager { get; private set; }
+        public double? Wager { get; set; }
 
         /// <summary>
         /// Gets or Sets Hand

@@ -5,7 +5,7 @@ namespace BlackJackApi.Domain.DTO
 {
     public class CardShoe : CardDeck
     {
-        public int NumberOfDecks { get; private set; }
+        public int NumberOfDecks { get; set; }
 
         public int PercentRemaining
         {

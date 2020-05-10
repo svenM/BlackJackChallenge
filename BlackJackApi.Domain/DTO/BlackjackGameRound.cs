@@ -14,7 +14,7 @@ namespace BlackJackApi.Domain.DTO
         public List<BlackjackGameRoundPlayer> RoundPlayers { get; set; }
 
         public List<Card> DealerCards { get; set; }
-        public BlackjackHand DealerHand { get; private set; }
+        public BlackjackHand DealerHand { get; set; }
 
         public List<BlackjackHandSettlement> Settlements { get; set;  }
 

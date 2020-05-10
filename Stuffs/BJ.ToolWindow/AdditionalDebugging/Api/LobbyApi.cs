@@ -20,7 +20,7 @@ namespace IO.Swagger.Api
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-        public interface ILobbyApi : IApiAccessor
+    public interface ILobbyApi : IApiAccessor
     {
         #region Synchronous Operations
         /// <summary>
@@ -32,7 +32,7 @@ namespace IO.Swagger.Api
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"></param>
         /// <returns></returns>
-        void ApiLobbyDeletegameIdDelete (string id);
+        void ApiLobbyDeletegameIdDelete(string id);
 
         /// <summary>
         /// 
@@ -43,7 +43,7 @@ namespace IO.Swagger.Api
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"></param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> ApiLobbyDeletegameIdDeleteWithHttpInfo (string id);
+        ApiResponse<Object> ApiLobbyDeletegameIdDeleteWithHttpInfo(string id);
         /// <summary>
         /// 
         /// </summary>
@@ -53,7 +53,7 @@ namespace IO.Swagger.Api
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"></param>
         /// <returns>LiveBlackjackGame</returns>
-        LiveBlackjackGame ApiLobbyDetailIdGet (string id);
+        LiveBlackjackGame ApiLobbyDetailIdGet(string id);
 
         /// <summary>
         /// 
@@ -64,7 +64,7 @@ namespace IO.Swagger.Api
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"></param>
         /// <returns>ApiResponse of LiveBlackjackGame</returns>
-        ApiResponse<LiveBlackjackGame> ApiLobbyDetailIdGetWithHttpInfo (string id);
+        ApiResponse<LiveBlackjackGame> ApiLobbyDetailIdGetWithHttpInfo(string id);
         /// <summary>
         /// 
         /// </summary>
@@ -73,7 +73,7 @@ namespace IO.Swagger.Api
         /// </remarks>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>List&lt;LiveBlackjackGame&gt;</returns>
-        List<LiveBlackjackGame> ApiLobbyListGet ();
+        List<LiveBlackjackGame> ApiLobbyListGet();
 
         /// <summary>
         /// 
@@ -83,7 +83,7 @@ namespace IO.Swagger.Api
         /// </remarks>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>ApiResponse of List&lt;LiveBlackjackGame&gt;</returns>
-        ApiResponse<List<LiveBlackjackGame>> ApiLobbyListGetWithHttpInfo ();
+        ApiResponse<List<LiveBlackjackGame>> ApiLobbyListGetWithHttpInfo();
         /// <summary>
         /// 
         /// </summary>
@@ -95,7 +95,7 @@ namespace IO.Swagger.Api
         /// <param name="minbet"></param>
         /// <param name="maxbet"></param>
         /// <returns>string</returns>
-        string ApiLobbyNewgameNameMinbetMaxbetPost (string name, int? minbet, int? maxbet);
+        string ApiLobbyNewgameNameMinbetMaxbetPost(string name, int? minbet, int? maxbet);
 
         /// <summary>
         /// 
@@ -108,7 +108,7 @@ namespace IO.Swagger.Api
         /// <param name="minbet"></param>
         /// <param name="maxbet"></param>
         /// <returns>ApiResponse of string</returns>
-        ApiResponse<string> ApiLobbyNewgameNameMinbetMaxbetPostWithHttpInfo (string name, int? minbet, int? maxbet);
+        ApiResponse<string> ApiLobbyNewgameNameMinbetMaxbetPostWithHttpInfo(string name, int? minbet, int? maxbet);
         #endregion Synchronous Operations
         #region Asynchronous Operations
         /// <summary>
@@ -120,7 +120,7 @@ namespace IO.Swagger.Api
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"></param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task ApiLobbyDeletegameIdDeleteAsync (string id);
+        System.Threading.Tasks.Task ApiLobbyDeletegameIdDeleteAsync(string id);
 
         /// <summary>
         /// 
@@ -131,7 +131,7 @@ namespace IO.Swagger.Api
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"></param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> ApiLobbyDeletegameIdDeleteAsyncWithHttpInfo (string id);
+        System.Threading.Tasks.Task<ApiResponse<Object>> ApiLobbyDeletegameIdDeleteAsyncWithHttpInfo(string id);
         /// <summary>
         /// 
         /// </summary>
@@ -141,7 +141,7 @@ namespace IO.Swagger.Api
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"></param>
         /// <returns>Task of LiveBlackjackGame</returns>
-        System.Threading.Tasks.Task<LiveBlackjackGame> ApiLobbyDetailIdGetAsync (string id);
+        System.Threading.Tasks.Task<LiveBlackjackGame> ApiLobbyDetailIdGetAsync(string id);
 
         /// <summary>
         /// 
@@ -152,7 +152,7 @@ namespace IO.Swagger.Api
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"></param>
         /// <returns>Task of ApiResponse (LiveBlackjackGame)</returns>
-        System.Threading.Tasks.Task<ApiResponse<LiveBlackjackGame>> ApiLobbyDetailIdGetAsyncWithHttpInfo (string id);
+        System.Threading.Tasks.Task<ApiResponse<LiveBlackjackGame>> ApiLobbyDetailIdGetAsyncWithHttpInfo(string id);
         /// <summary>
         /// 
         /// </summary>
@@ -161,7 +161,7 @@ namespace IO.Swagger.Api
         /// </remarks>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>Task of List&lt;LiveBlackjackGame&gt;</returns>
-        System.Threading.Tasks.Task<List<LiveBlackjackGame>> ApiLobbyListGetAsync ();
+        System.Threading.Tasks.Task<List<LiveBlackjackGame>> ApiLobbyListGetAsync();
 
         /// <summary>
         /// 
@@ -171,7 +171,7 @@ namespace IO.Swagger.Api
         /// </remarks>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>Task of ApiResponse (List&lt;LiveBlackjackGame&gt;)</returns>
-        System.Threading.Tasks.Task<ApiResponse<List<LiveBlackjackGame>>> ApiLobbyListGetAsyncWithHttpInfo ();
+        System.Threading.Tasks.Task<ApiResponse<List<LiveBlackjackGame>>> ApiLobbyListGetAsyncWithHttpInfo();
         /// <summary>
         /// 
         /// </summary>
@@ -183,7 +183,7 @@ namespace IO.Swagger.Api
         /// <param name="minbet"></param>
         /// <param name="maxbet"></param>
         /// <returns>Task of string</returns>
-        System.Threading.Tasks.Task<string> ApiLobbyNewgameNameMinbetMaxbetPostAsync (string name, int? minbet, int? maxbet);
+        System.Threading.Tasks.Task<string> ApiLobbyNewgameNameMinbetMaxbetPostAsync(string name, int? minbet, int? maxbet);
 
         /// <summary>
         /// 
@@ -196,14 +196,14 @@ namespace IO.Swagger.Api
         /// <param name="minbet"></param>
         /// <param name="maxbet"></param>
         /// <returns>Task of ApiResponse (string)</returns>
-        System.Threading.Tasks.Task<ApiResponse<string>> ApiLobbyNewgameNameMinbetMaxbetPostAsyncWithHttpInfo (string name, int? minbet, int? maxbet);
+        System.Threading.Tasks.Task<ApiResponse<string>> ApiLobbyNewgameNameMinbetMaxbetPostAsyncWithHttpInfo(string name, int? minbet, int? maxbet);
         #endregion Asynchronous Operations
     }
 
     /// <summary>
     /// Represents a collection of functions to interact with the API endpoints
     /// </summary>
-        public partial class LobbyApi : ILobbyApi
+    public partial class LobbyApi : ILobbyApi
     {
         private IO.Swagger.Client.ExceptionFactory _exceptionFactory = (name, response) => null;
 
@@ -268,12 +268,12 @@ namespace IO.Swagger.Api
         /// Gets or sets the configuration object
         /// </summary>
         /// <value>An instance of the Configuration</value>
-        public IO.Swagger.Client.Configuration Configuration {get; set;}
+        public Configuration Configuration { get; set; }
 
         /// <summary>
         /// Provides a factory method hook for the creation of exceptions.
         /// </summary>
-        public IO.Swagger.Client.ExceptionFactory ExceptionFactory
+        public ExceptionFactory ExceptionFactory
         {
             get
             {
@@ -314,9 +314,9 @@ namespace IO.Swagger.Api
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"></param>
         /// <returns></returns>
-        public void ApiLobbyDeletegameIdDelete (string id)
+        public void ApiLobbyDeletegameIdDelete(string id)
         {
-             ApiLobbyDeletegameIdDeleteWithHttpInfo(id);
+            ApiLobbyDeletegameIdDeleteWithHttpInfo(id);
         }
 
         /// <summary>
@@ -325,7 +325,7 @@ namespace IO.Swagger.Api
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"></param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<Object> ApiLobbyDeletegameIdDeleteWithHttpInfo (string id)
+        public ApiResponse<Object> ApiLobbyDeletegameIdDeleteWithHttpInfo(string id)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -354,11 +354,11 @@ namespace IO.Swagger.Api
             if (id != null) localVarPathParams.Add("id", this.Configuration.ApiClient.ParameterToString(id)); // path parameter
 
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
+            IRestResponse localVarResponse = (IRestResponse)this.Configuration.ApiClient.CallApi(localVarPath,
                 Method.DELETE, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
+            int localVarStatusCode = (int)localVarResponse.StatusCode;
 
             if (ExceptionFactory != null)
             {
@@ -377,9 +377,9 @@ namespace IO.Swagger.Api
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"></param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task ApiLobbyDeletegameIdDeleteAsync (string id)
+        public async System.Threading.Tasks.Task ApiLobbyDeletegameIdDeleteAsync(string id)
         {
-             await ApiLobbyDeletegameIdDeleteAsyncWithHttpInfo(id);
+            await ApiLobbyDeletegameIdDeleteAsyncWithHttpInfo(id);
 
         }
 
@@ -389,7 +389,7 @@ namespace IO.Swagger.Api
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"></param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<Object>> ApiLobbyDeletegameIdDeleteAsyncWithHttpInfo (string id)
+        public async System.Threading.Tasks.Task<ApiResponse<Object>> ApiLobbyDeletegameIdDeleteAsyncWithHttpInfo(string id)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -418,11 +418,11 @@ namespace IO.Swagger.Api
             if (id != null) localVarPathParams.Add("id", this.Configuration.ApiClient.ParameterToString(id)); // path parameter
 
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
+            IRestResponse localVarResponse = (IRestResponse)await this.Configuration.ApiClient.CallApiAsync(localVarPath,
                 Method.DELETE, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
+            int localVarStatusCode = (int)localVarResponse.StatusCode;
 
             if (ExceptionFactory != null)
             {
@@ -441,10 +441,10 @@ namespace IO.Swagger.Api
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"></param>
         /// <returns>LiveBlackjackGame</returns>
-        public LiveBlackjackGame ApiLobbyDetailIdGet (string id)
+        public LiveBlackjackGame ApiLobbyDetailIdGet(string id)
         {
-             ApiResponse<LiveBlackjackGame> localVarResponse = ApiLobbyDetailIdGetWithHttpInfo(id);
-             return localVarResponse.Data;
+            ApiResponse<LiveBlackjackGame> localVarResponse = ApiLobbyDetailIdGetWithHttpInfo(id);
+            return localVarResponse.Data;
         }
 
         /// <summary>
@@ -453,7 +453,7 @@ namespace IO.Swagger.Api
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"></param>
         /// <returns>ApiResponse of LiveBlackjackGame</returns>
-        public ApiResponse< LiveBlackjackGame > ApiLobbyDetailIdGetWithHttpInfo (string id)
+        public ApiResponse<LiveBlackjackGame> ApiLobbyDetailIdGetWithHttpInfo(string id)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -485,11 +485,11 @@ namespace IO.Swagger.Api
             if (id != null) localVarPathParams.Add("id", this.Configuration.ApiClient.ParameterToString(id)); // path parameter
 
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
+            IRestResponse localVarResponse = (IRestResponse)this.Configuration.ApiClient.CallApi(localVarPath,
                 Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
+            int localVarStatusCode = (int)localVarResponse.StatusCode;
 
             if (ExceptionFactory != null)
             {
@@ -499,7 +499,7 @@ namespace IO.Swagger.Api
 
             return new ApiResponse<LiveBlackjackGame>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (LiveBlackjackGame) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(LiveBlackjackGame)));
+                (LiveBlackjackGame)this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(LiveBlackjackGame)));
         }
 
         /// <summary>
@@ -508,10 +508,10 @@ namespace IO.Swagger.Api
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"></param>
         /// <returns>Task of LiveBlackjackGame</returns>
-        public async System.Threading.Tasks.Task<LiveBlackjackGame> ApiLobbyDetailIdGetAsync (string id)
+        public async System.Threading.Tasks.Task<LiveBlackjackGame> ApiLobbyDetailIdGetAsync(string id)
         {
-             ApiResponse<LiveBlackjackGame> localVarResponse = await ApiLobbyDetailIdGetAsyncWithHttpInfo(id);
-             return localVarResponse.Data;
+            ApiResponse<LiveBlackjackGame> localVarResponse = await ApiLobbyDetailIdGetAsyncWithHttpInfo(id);
+            return localVarResponse.Data;
 
         }
 
@@ -521,7 +521,7 @@ namespace IO.Swagger.Api
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="id"></param>
         /// <returns>Task of ApiResponse (LiveBlackjackGame)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<LiveBlackjackGame>> ApiLobbyDetailIdGetAsyncWithHttpInfo (string id)
+        public async System.Threading.Tasks.Task<ApiResponse<LiveBlackjackGame>> ApiLobbyDetailIdGetAsyncWithHttpInfo(string id)
         {
             // verify the required parameter 'id' is set
             if (id == null)
@@ -553,11 +553,11 @@ namespace IO.Swagger.Api
             if (id != null) localVarPathParams.Add("id", this.Configuration.ApiClient.ParameterToString(id)); // path parameter
 
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
+            IRestResponse localVarResponse = (IRestResponse)await this.Configuration.ApiClient.CallApiAsync(localVarPath,
                 Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
+            int localVarStatusCode = (int)localVarResponse.StatusCode;
 
             if (ExceptionFactory != null)
             {
@@ -567,7 +567,7 @@ namespace IO.Swagger.Api
 
             return new ApiResponse<LiveBlackjackGame>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (LiveBlackjackGame) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(LiveBlackjackGame)));
+                (LiveBlackjackGame)this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(LiveBlackjackGame)));
         }
 
         /// <summary>
@@ -575,10 +575,10 @@ namespace IO.Swagger.Api
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>List&lt;LiveBlackjackGame&gt;</returns>
-        public List<LiveBlackjackGame> ApiLobbyListGet ()
+        public List<LiveBlackjackGame> ApiLobbyListGet()
         {
-             ApiResponse<List<LiveBlackjackGame>> localVarResponse = ApiLobbyListGetWithHttpInfo();
-             return localVarResponse.Data;
+            ApiResponse<List<LiveBlackjackGame>> localVarResponse = ApiLobbyListGetWithHttpInfo();
+            return localVarResponse.Data;
         }
 
         /// <summary>
@@ -586,7 +586,7 @@ namespace IO.Swagger.Api
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>ApiResponse of List&lt;LiveBlackjackGame&gt;</returns>
-        public ApiResponse< List<LiveBlackjackGame> > ApiLobbyListGetWithHttpInfo ()
+        public ApiResponse<List<LiveBlackjackGame>> ApiLobbyListGetWithHttpInfo()
         {
 
             var localVarPath = "/api/Lobby/list";
@@ -614,11 +614,11 @@ namespace IO.Swagger.Api
 
 
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
+            IRestResponse localVarResponse = (IRestResponse)this.Configuration.ApiClient.CallApi(localVarPath,
                 Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
+            int localVarStatusCode = (int)localVarResponse.StatusCode;
 
             if (ExceptionFactory != null)
             {
@@ -628,7 +628,7 @@ namespace IO.Swagger.Api
 
             return new ApiResponse<List<LiveBlackjackGame>>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (List<LiveBlackjackGame>) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(List<LiveBlackjackGame>)));
+                (List<LiveBlackjackGame>)this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(List<LiveBlackjackGame>)));
         }
 
         /// <summary>
@@ -636,10 +636,10 @@ namespace IO.Swagger.Api
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>Task of List&lt;LiveBlackjackGame&gt;</returns>
-        public async System.Threading.Tasks.Task<List<LiveBlackjackGame>> ApiLobbyListGetAsync ()
+        public async System.Threading.Tasks.Task<List<LiveBlackjackGame>> ApiLobbyListGetAsync()
         {
-             ApiResponse<List<LiveBlackjackGame>> localVarResponse = await ApiLobbyListGetAsyncWithHttpInfo();
-             return localVarResponse.Data;
+            ApiResponse<List<LiveBlackjackGame>> localVarResponse = await ApiLobbyListGetAsyncWithHttpInfo();
+            return localVarResponse.Data;
 
         }
 
@@ -648,7 +648,7 @@ namespace IO.Swagger.Api
         /// </summary>
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <returns>Task of ApiResponse (List&lt;LiveBlackjackGame&gt;)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<List<LiveBlackjackGame>>> ApiLobbyListGetAsyncWithHttpInfo ()
+        public async System.Threading.Tasks.Task<ApiResponse<List<LiveBlackjackGame>>> ApiLobbyListGetAsyncWithHttpInfo()
         {
 
             var localVarPath = "/api/Lobby/list";
@@ -676,11 +676,11 @@ namespace IO.Swagger.Api
 
 
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
+            IRestResponse localVarResponse = (IRestResponse)await this.Configuration.ApiClient.CallApiAsync(localVarPath,
                 Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
+            int localVarStatusCode = (int)localVarResponse.StatusCode;
 
             if (ExceptionFactory != null)
             {
@@ -690,7 +690,7 @@ namespace IO.Swagger.Api
 
             return new ApiResponse<List<LiveBlackjackGame>>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (List<LiveBlackjackGame>) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(List<LiveBlackjackGame>)));
+                (List<LiveBlackjackGame>)this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(List<LiveBlackjackGame>)));
         }
 
         /// <summary>
@@ -701,10 +701,10 @@ namespace IO.Swagger.Api
         /// <param name="minbet"></param>
         /// <param name="maxbet"></param>
         /// <returns>string</returns>
-        public string ApiLobbyNewgameNameMinbetMaxbetPost (string name, int? minbet, int? maxbet)
+        public string ApiLobbyNewgameNameMinbetMaxbetPost(string name, int? minbet, int? maxbet)
         {
-             ApiResponse<string> localVarResponse = ApiLobbyNewgameNameMinbetMaxbetPostWithHttpInfo(name, minbet, maxbet);
-             return localVarResponse.Data;
+            ApiResponse<string> localVarResponse = ApiLobbyNewgameNameMinbetMaxbetPostWithHttpInfo(name, minbet, maxbet);
+            return localVarResponse.Data;
         }
 
         /// <summary>
@@ -715,7 +715,7 @@ namespace IO.Swagger.Api
         /// <param name="minbet"></param>
         /// <param name="maxbet"></param>
         /// <returns>ApiResponse of string</returns>
-        public ApiResponse< string > ApiLobbyNewgameNameMinbetMaxbetPostWithHttpInfo (string name, int? minbet, int? maxbet)
+        public ApiResponse<string> ApiLobbyNewgameNameMinbetMaxbetPostWithHttpInfo(string name, int? minbet, int? maxbet)
         {
             // verify the required parameter 'name' is set
             if (name == null)
@@ -755,11 +755,11 @@ namespace IO.Swagger.Api
             if (maxbet != null) localVarPathParams.Add("maxbet", this.Configuration.ApiClient.ParameterToString(maxbet)); // path parameter
 
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
+            IRestResponse localVarResponse = (IRestResponse)this.Configuration.ApiClient.CallApi(localVarPath,
                 Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
+            int localVarStatusCode = (int)localVarResponse.StatusCode;
 
             if (ExceptionFactory != null)
             {
@@ -769,8 +769,13 @@ namespace IO.Swagger.Api
 
             return new ApiResponse<string>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (string) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(string)));
+                (string)this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(string)));
         }
+
+
+
+
+
 
         /// <summary>
         ///  
@@ -780,10 +785,10 @@ namespace IO.Swagger.Api
         /// <param name="minbet"></param>
         /// <param name="maxbet"></param>
         /// <returns>Task of string</returns>
-        public async System.Threading.Tasks.Task<string> ApiLobbyNewgameNameMinbetMaxbetPostAsync (string name, int? minbet, int? maxbet)
+        public async System.Threading.Tasks.Task<string> ApiLobbyNewgameNameMinbetMaxbetPostAsync(string name, int? minbet, int? maxbet)
         {
-             ApiResponse<string> localVarResponse = await ApiLobbyNewgameNameMinbetMaxbetPostAsyncWithHttpInfo(name, minbet, maxbet);
-             return localVarResponse.Data;
+            ApiResponse<string> localVarResponse = await ApiLobbyNewgameNameMinbetMaxbetPostAsyncWithHttpInfo(name, minbet, maxbet);
+            return localVarResponse.Data;
 
         }
 
@@ -795,7 +800,7 @@ namespace IO.Swagger.Api
         /// <param name="minbet"></param>
         /// <param name="maxbet"></param>
         /// <returns>Task of ApiResponse (string)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<string>> ApiLobbyNewgameNameMinbetMaxbetPostAsyncWithHttpInfo (string name, int? minbet, int? maxbet)
+        public async System.Threading.Tasks.Task<ApiResponse<string>> ApiLobbyNewgameNameMinbetMaxbetPostAsyncWithHttpInfo(string name, int? minbet, int? maxbet)
         {
             // verify the required parameter 'name' is set
             if (name == null)
@@ -835,11 +840,11 @@ namespace IO.Swagger.Api
             if (maxbet != null) localVarPathParams.Add("maxbet", this.Configuration.ApiClient.ParameterToString(maxbet)); // path parameter
 
             // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
+            IRestResponse localVarResponse = (IRestResponse)await this.Configuration.ApiClient.CallApiAsync(localVarPath,
                 Method.POST, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
                 localVarPathParams, localVarHttpContentType);
 
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
+            int localVarStatusCode = (int)localVarResponse.StatusCode;
 
             if (ExceptionFactory != null)
             {
@@ -849,7 +854,7 @@ namespace IO.Swagger.Api
 
             return new ApiResponse<string>(localVarStatusCode,
                 localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (string) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(string)));
+                (string)this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(string)));
         }
 
     }
