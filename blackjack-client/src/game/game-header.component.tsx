@@ -10,16 +10,17 @@ export interface GameHeaderProps {
   wagerInputIsVisible: boolean;
   minWager: number;
   maxWager: number;
+  onQuit: () => void;
 }
 
-export const GameHeader: React.FunctionComponent<GameHeaderProps> = ({title, currentPlayerName, currentPlayerBalance, wagerInputIsVisible, minWager, maxWager}) => {
+export const GameHeader: React.FunctionComponent<GameHeaderProps> = ({title, currentPlayerName, currentPlayerBalance, wagerInputIsVisible, minWager, maxWager, onQuit}) => {
 
   const returnToLobbyButton = <Button variant="contained" color="secondary" onClick={useHistory().goBack} >&larr; Lobby</Button>;
   const playerInfo = <div>
-    <Typography variant="h4" gutterBottom><b>{currentPlayerName}</b> ${currentPlayerBalance}</Typography>
-    <Button variant="contained" color="secondary" disabled={!wagerInputIsVisible}>Quit game</Button>
+    <Typography variant="h4" gutterBottom><b>{currentPlayerName}</b> - Balance: € {currentPlayerBalance}</Typography>
+    <Button variant="contained" color="secondary" onClick={onQuit} disabled={!wagerInputIsVisible}>Quit game</Button>
   </div>;
-  const gameTitle = <Typography variant="h4" gutterBottom>{title} Blackjack ${minWager} - ${maxWager}</Typography>;
+  const gameTitle = <Typography variant="h4" gutterBottom>Blackjack - {title} -  [ €{minWager} - €{maxWager} ]</Typography>;
 
   return <React.Fragment>
     <Grid container className="game-header">

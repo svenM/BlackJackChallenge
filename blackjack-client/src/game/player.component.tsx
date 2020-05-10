@@ -1,7 +1,7 @@
 import { HandProps, Hand } from "./hand.component";
 import React from "react";
 import { Grid, Typography } from "@material-ui/core";
-import { PlayingCard } from "./playingcard.component";
+import './player.css';
 
 export interface PlayerProps {
   id: string;
@@ -16,7 +16,6 @@ export interface PlayerProps {
   secondsAwaitingAction: number;
 }
 
-
 export const Player: React.FunctionComponent<PlayerProps> = ({
   id, name, balance, wager, isLive, hasAction, hand, position, recentWagerOutcome, secondsAwaitingAction
 }) => {
@@ -28,28 +27,24 @@ export const Player: React.FunctionComponent<PlayerProps> = ({
   const outcome = recentWagerOutcome ?
     <div className={`tablespot-outcome tablespot-outcome-${recentWagerOutcome.toLowerCase()}`}>{recentWagerOutcome}</div> : '';
 
-  const singleFlippedCard = <div className="tablespot-hand">
-    <PlayingCard {...{rank: '', suit: '', suitCode: '', showCard: false, isRotated: false }}></PlayingCard>
-  </div>;
-
-  const playerHand = <div className="tablespot-hand-card-container">
-    <Hand {...hand}></Hand>
+  const emptyHand = <div className="tablespot-hand">
+    <div className='emptySeat'></div>
   </div>;
 
   return <React.Fragment>
-    <Grid item xs={6} sm={2} className={tablespotCssClass}>
-      {timerBar}
-      {outcome}
+    <Grid item xs={12} className={tablespotCssClass}>
       <Grid item xs={12} className="tablespot-hand">
-        { !hand || hand.cards.length === 0 ? singleFlippedCard : playerHand}
-      </Grid>
-      <Grid item xs={12} className="tablespot-wager">
-        <Typography variant="h4" gutterBottom>{ hand ? hand.score : '' }</Typography>
-        <Typography variant="h4" gutterBottom>{ wager ? `$ ${wager}` : '' }</Typography>
+        <Typography variant="h6" gutterBottom>{ `Seat ${position}`  }</Typography>
+        { !hand || hand.cards.length === 0 ? emptyHand : <Hand {...hand}></Hand>}
+        {timerBar}
+        {outcome}
       </Grid>
       <Grid item xs={12} className="tablespot-player">
-        <Typography variant="h4" gutterBottom>{ `$ ${balance}` }</Typography>
-        <Typography variant="h4" gutterBottom>{ name }</Typography>
+        <Typography variant="h6" gutterBottom>{ name }</Typography>
+      </Grid>
+      <Grid item xs={12} className="tablespot-wager">
+        <Typography variant="h6" gutterBottom>Total: { hand.score }</Typography>
+        <Typography variant="h6" gutterBottom>Bet { wager ? `€ ${wager}` : '' }</Typography>
       </Grid>
     </Grid>
   </React.Fragment>;

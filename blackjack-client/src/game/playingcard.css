@@ -1,0 +1,8 @@
+.tablespot-hand-card-container {
+  float: left;
+  margin-left: -40px;
+}
+
+.rotate5degrees {
+  transform: rotate(5deg);
+}

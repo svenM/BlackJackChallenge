@@ -9,11 +9,35 @@ namespace BlackJackApi.Domain.DTO
 {
     public class BlackjackHand
     {
+        private IEnumerable<Card> _cards;
+
         public BlackjackHand()
         {
-
         }
-        public IEnumerable<Card> Cards { get; set; }
+        public IEnumerable<Card> Cards 
+        {
+            get
+            {
+                return _cards;
+            }
+            set
+            {
+                _cards = value;
+
+                CalculateScore();
+            }
+        }
+
+        private void CalculateScore()
+        {
+            ScoreHighLow = CalculateScoreHighLow();
+
+            Score = ScoreHighLow.High > 21 ? ScoreHighLow.Low : ScoreHighLow.High;
+
+            IsBlackjack = Cards.Count() == 2 && Score == 21;
+            IsBusted = Score > 21;
+            IsSoft = Cards.Any(a => a.Rank == CardRank.Ace);
+        }
 
         [BsonIgnore]
         public (int Low, int High) ScoreHighLow { get; private set; }
@@ -26,17 +50,9 @@ namespace BlackJackApi.Domain.DTO
         [BsonIgnore]
         public bool IsSoft { get; private set; }
 
-        public BlackjackHand(IEnumerable<Card> cards)
+        public BlackjackHand(IEnumerable<Card> cards) : this()
         {
             Cards = cards.ToList();
-
-            ScoreHighLow = CalculateScoreHighLow();
-
-            Score = ScoreHighLow.High > 21 ? ScoreHighLow.Low : ScoreHighLow.High;
-
-            IsBlackjack = Cards.Count() == 2 && Score == 21;
-            IsBusted = Score > 21;
-            IsSoft = Cards.Any(a => a.Rank == CardRank.Ace);
         }
 
         private (int Low, int High) CalculateScoreHighLow()
