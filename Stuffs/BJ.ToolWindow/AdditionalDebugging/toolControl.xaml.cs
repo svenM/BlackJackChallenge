@@ -2,6 +2,7 @@
 {
     using IO.Swagger.Api;
     using IO.Swagger.Model;
+    using Microsoft.Win32;
     using System;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
@@ -68,14 +69,6 @@
             // get the cards
             game = _gameClient.GameIdDetailsGet(_gameId);
             DrawGame(game);
-
-            mnuBet.IsEnabled = false;
-            mnuCreateJoin.IsEnabled = false;
-            mnuHit.IsEnabled = true;
-            mnuDoubleDown.IsEnabled = true;
-            mnuStand.IsEnabled = true;
-            mnuQuit.IsEnabled = true;
-            mnuList.IsEnabled = false;
         }
 
         private void mnuHit_Click(object sender, RoutedEventArgs e)
@@ -83,6 +76,7 @@
             _gameClient.GameIdRequestPlayerIdRequestPost(_gameId, _playerId, "hit");
             var game = _gameClient.GameIdDetailsGet(_gameId);
             DrawGame(game);
+           
         }
 
         private void mnuStand_Click(object sender, RoutedEventArgs e)
@@ -95,21 +89,22 @@
             lstOutput.Items.Clear();
             lstOutput.Items.Add("Debug result = " + (outCome1.WagerOutcome == WagerOutcome.Win ? "++" : (outCome1.WagerOutcome == WagerOutcome.Lose ? "--" : "0")));
 
-            mnuBet.IsEnabled = true;
-            mnuCreateJoin.IsEnabled = false;
-            mnuHit.IsEnabled = false;
-            mnuDoubleDown.IsEnabled = false;
-            mnuStand.IsEnabled = false;
-            mnuQuit.IsEnabled = true;
-            mnuList.IsEnabled = false;
-
+            _gameClient.GameIdEndPost(_gameId);
+            SetRoundEndedButtons();
         }
 
         private void mnuDoubleDown_Click(object sender, RoutedEventArgs e)
         {
             _gameClient.GameIdRequestPlayerIdRequestPost(_gameId, _playerId, "doubledown");
             var game = _gameClient.GameIdDetailsGet(_gameId);
-            DrawGame(game);
+
+            var outCome1 = game.RoundInProgressSettlements.First(p => p.PlayerId == _playerId);
+
+            lstOutput.Items.Clear();
+            lstOutput.Items.Add("Debug result = " + (outCome1.WagerOutcome == WagerOutcome.Win ? "++" : (outCome1.WagerOutcome == WagerOutcome.Lose ? "--" : "0")));
+
+            _gameClient.GameIdEndPost(_gameId);
+            SetRoundEndedButtons();
         }
 
         private void mnuCreateJoin_Click(object sender, RoutedEventArgs e)
@@ -125,7 +120,11 @@
             // get the cards
             var game = _gameClient.GameIdDetailsGet(_gameId);
             DrawGame(game);
+            SetRoundBusyButtons();
+        }
 
+        private void SetRoundBusyButtons()
+        {
             mnuBet.IsEnabled = false;
             mnuCreateJoin.IsEnabled = false;
             mnuHit.IsEnabled = true;
@@ -140,17 +139,11 @@
             lstOutput.Items.Clear();
             string alias;
             string rank;
-
+            mnuBalance.Header = game.Players.First().Account.Balance;
             if (game.DealerHas21.HasValue && game.DealerHas21.Value)
             {
                 lstOutput.Items.Add("Server has won condition. Please retry with button B");
-                mnuBet.IsEnabled = true;
-                mnuCreateJoin.IsEnabled = false;
-                mnuHit.IsEnabled = false;
-                mnuDoubleDown.IsEnabled = false;
-                mnuStand.IsEnabled = false;
-                mnuQuit.IsEnabled = true;
-                mnuList.IsEnabled = false;
+                SetRoundEndedButtons();
                 return;
             }
             var playerHand = game.Players.First().Hand;
@@ -163,14 +156,53 @@
                     rank = TranslateRank(card.Rank);
                     lstOutput.Items.Add($"Possible error : {alias} at {rank}");
                 }
+                lstOutput.Items.Add($"Possible {(playerHand.IsSoft.HasValue && playerHand.IsSoft.Value ? "soft" : "hard")} errors around line {(playerHand.Score.HasValue ? playerHand.Score.Value : 0)}");
+                var dealerCard = game.DealerHand.Cards.First();
+                alias = TranslateSuit(dealerCard);
+                rank = TranslateRank(dealerCard.Rank);
+                lstOutput.Items.Add($"Warning : {alias} at {rank}");
+                SetRoundBusyButtons();
             }
 
-            var dealerCard = game.DealerHand.Cards.First();
-            alias = TranslateSuit(dealerCard);
-            rank = TranslateRank(dealerCard.Rank);
-            lstOutput.Items.Add($"Warning : {alias} at {rank}");
+            if (game.RoundInProgressSettlements != null && game.RoundInProgressSettlements.Any())
+            {
+                try
+                {
+                    _gameClient.GameIdEndPost(_gameId);
+                }
+                catch (Exception)
+                {
+                }
+                lstOutput.Items.Add("Debugging ended");
+                foreach (var card in game.RoundInProgressSettlements.First().PlayerHand.Cards)
+                {
+                    alias = TranslateSuit(card);
+                    rank = TranslateRank(card.Rank);
+                    lstOutput.Items.Add($"Possible error : {alias} at {rank}");
+                }
+                lstOutput.Items.Add("Total errors : " + game.RoundInProgressSettlements.First().PlayerHand.Score);
+                foreach(var c in game.RoundInProgressSettlements.First().DealerHand.Cards)
+                {
+                    alias = TranslateSuit(c);
+                    rank = TranslateRank(c.Rank);
+                    lstOutput.Items.Add($"Warning : {alias} at {rank}");
+                }
+                lstOutput.Items.Add("Total Warnings : " + game.RoundInProgressSettlements.First().DealerHand.Score);
+                SetRoundEndedButtons();
+            }
 
-            lstOutput.Items.Add($"Possible {(playerHand.IsSoft.HasValue && playerHand.IsSoft.Value ? "soft" : "hard")} errors around line {(playerHand.Score.HasValue ? playerHand.Score.Value : 0)}");
+
+        }
+
+        private void SetRoundEndedButtons()
+        {
+            mnuBet.IsEnabled = true;
+            mnuCreateJoin.IsEnabled = false;
+            mnuHit.IsEnabled = false;
+            mnuDoubleDown.IsEnabled = false;
+            mnuStand.IsEnabled = false;
+            mnuQuit.IsEnabled = true;
+            mnuList.IsEnabled = false;
         }
 
         private static string TranslateSuit(Card card)
@@ -178,7 +210,7 @@
             switch (card.Suit)
             {
                 case CardSuit.NUMBER_0:
-                    return  "DevideByZeroException";
+                    return "DevideByZeroException";
                 case CardSuit.NUMBER_1:
                     return "ObjectNotSetException";
                 case CardSuit.NUMBER_2:
@@ -192,9 +224,9 @@
 
         private string TranslateRank(CardRank? rank)
         {
-            if((int)rank <= 10)
+            if ((int)rank <= 10)
             {
-                return  "line " + ((int)rank).ToString();
+                return "line " + ((int)rank).ToString();
             }
             else // for J,Q,K return next Letter
             {
