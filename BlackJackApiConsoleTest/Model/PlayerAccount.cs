@@ -40,13 +40,13 @@ namespace IO.Swagger.Model
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name="id", EmitDefaultValue=false)]
-        public string Id { get; private set; }
+        public string Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Balance
         /// </summary>
         [DataMember(Name="balance", EmitDefaultValue=false)]
-        public double? Balance { get; private set; }
+        public double? Balance { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

@@ -40,15 +40,15 @@ namespace BlackJackApi.Domain.DTO
         }
 
         [BsonIgnore]
-        public (int Low, int High) ScoreHighLow { get; private set; }
+        public (int Low, int High) ScoreHighLow { get; set; }
         [BsonIgnore]
-        public int Score { get; private set; }
+        public int Score { get; set; }
         [BsonIgnore]
-        public bool IsBlackjack { get; private set; }
+        public bool IsBlackjack { get; set; }
         [BsonIgnore]
-        public bool IsBusted { get; private set; }
+        public bool IsBusted { get; set; }
         [BsonIgnore]
-        public bool IsSoft { get; private set; }
+        public bool IsSoft { get; set; }
 
         public BlackjackHand(IEnumerable<Card> cards) : this()
         {

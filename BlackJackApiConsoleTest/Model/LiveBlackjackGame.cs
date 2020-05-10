@@ -52,13 +52,13 @@ namespace IO.Swagger.Model
         /// Gets or Sets Id
         /// </summary>
         [DataMember(Name="id", EmitDefaultValue=false)]
-        public string Id { get; private set; }
+        public string Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
         [DataMember(Name="name", EmitDefaultValue=false)]
-        public String Name { get; private set; }
+        public String Name { get; set; }
 
         /// <summary>
         /// Gets or Sets Title
@@ -70,13 +70,13 @@ namespace IO.Swagger.Model
         /// Gets or Sets TurnLengthInSeconds
         /// </summary>
         [DataMember(Name="turnLengthInSeconds", EmitDefaultValue=false)]
-        public int? TurnLengthInSeconds { get; private set; }
+        public int? TurnLengthInSeconds { get; set; }
 
         /// <summary>
         /// Gets or Sets BettingPeriodInSeconds
         /// </summary>
         [DataMember(Name="bettingPeriodInSeconds", EmitDefaultValue=false)]
-        public int? BettingPeriodInSeconds { get; private set; }
+        public int? BettingPeriodInSeconds { get; set; }
 
         /// <summary>
         /// Gets or Sets AwaitingPlayerActionSince
@@ -94,7 +94,7 @@ namespace IO.Swagger.Model
         /// Gets or Sets PlayerActionIsExpired
         /// </summary>
         [DataMember(Name="playerActionIsExpired", EmitDefaultValue=false)]
-        public bool? PlayerActionIsExpired { get; private set; }
+        public bool? PlayerActionIsExpired { get; set; }
 
         /// <summary>
         /// Gets or Sets DealerHand
@@ -106,49 +106,49 @@ namespace IO.Swagger.Model
         /// Gets or Sets DealerHas21
         /// </summary>
         [DataMember(Name="dealerHas21", EmitDefaultValue=false)]
-        public bool? DealerHas21 { get; private set; }
+        public bool? DealerHas21 { get; set; }
 
         /// <summary>
         /// Gets or Sets Players
         /// </summary>
         [DataMember(Name="players", EmitDefaultValue=false)]
-        public List<BlackjackGamePlayer> Players { get; private set; }
+        public List<BlackjackGamePlayer> Players { get; set; }
 
         /// <summary>
         /// Gets or Sets MaxPlayers
         /// </summary>
         [DataMember(Name="maxPlayers", EmitDefaultValue=false)]
-        public int? MaxPlayers { get; private set; }
+        public int? MaxPlayers { get; set; }
 
         /// <summary>
         /// Gets or Sets MinWager
         /// </summary>
         [DataMember(Name="minWager", EmitDefaultValue=false)]
-        public double? MinWager { get; private set; }
+        public double? MinWager { get; set; }
 
         /// <summary>
         /// Gets or Sets MaxWager
         /// </summary>
         [DataMember(Name="maxWager", EmitDefaultValue=false)]
-        public double? MaxWager { get; private set; }
+        public double? MaxWager { get; set; }
 
         /// <summary>
         /// Gets or Sets IsRoundInProgress
         /// </summary>
         [DataMember(Name="isRoundInProgress", EmitDefaultValue=false)]
-        public bool? IsRoundInProgress { get; private set; }
+        public bool? IsRoundInProgress { get; set; }
 
         /// <summary>
         /// Gets or Sets PercentRemainingInDealerShoe
         /// </summary>
         [DataMember(Name="percentRemainingInDealerShoe", EmitDefaultValue=false)]
-        public int? PercentRemainingInDealerShoe { get; private set; }
+        public int? PercentRemainingInDealerShoe { get; set; }
 
         /// <summary>
         /// Gets or Sets RoundInProgressSettlements
         /// </summary>
         [DataMember(Name="roundInProgressSettlements", EmitDefaultValue=false)]
-        public List<BlackjackHandSettlement> RoundInProgressSettlements { get; private set; }
+        public List<BlackjackHandSettlement> RoundInProgressSettlements { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

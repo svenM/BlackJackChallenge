@@ -42,7 +42,7 @@ namespace IO.Swagger.Model
         /// Gets or Sets Cards
         /// </summary>
         [DataMember(Name="cards", EmitDefaultValue=false)]
-        public List<Card> Cards { get; private set; }
+        public List<Card> Cards { get; set; }
 
         /// <summary>
         /// Gets or Sets ScoreHighLow
@@ -54,25 +54,25 @@ namespace IO.Swagger.Model
         /// Gets or Sets Score
         /// </summary>
         [DataMember(Name="score", EmitDefaultValue=false)]
-        public int? Score { get; private set; }
+        public int? Score { get; set; }
 
         /// <summary>
         /// Gets or Sets IsBlackjack
         /// </summary>
         [DataMember(Name="isBlackjack", EmitDefaultValue=false)]
-        public bool? IsBlackjack { get; private set; }
+        public bool? IsBlackjack { get; set; }
 
         /// <summary>
         /// Gets or Sets IsBusted
         /// </summary>
         [DataMember(Name="isBusted", EmitDefaultValue=false)]
-        public bool? IsBusted { get; private set; }
+        public bool? IsBusted { get; set; }
 
         /// <summary>
         /// Gets or Sets IsSoft
         /// </summary>
         [DataMember(Name="isSoft", EmitDefaultValue=false)]
-        public bool? IsSoft { get; private set; }
+        public bool? IsSoft { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

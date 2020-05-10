@@ -11,15 +11,15 @@ namespace BlackJackApi.Domain.DTO
         {
 
         }
-        public string Id { get; private set; }
+        public string Id { get; set; }
 
         [BsonIgnore]
         public BlackjackGame Game { get; set; }
 
-        public int Position { get; private set; }
-        public PlayerAccount Account { get; private set; }
+        public int Position { get; set; }
+        public PlayerAccount Account { get; set; }
 
-        public string Alias { get; private set; }
+        public string Alias { get; set; }
 
         public bool IsLive { get { return Game?.GetPlayerIsLive(this) ?? false; } }
         public bool HasAction { get { return Game?.GetPlayerHasAction(this) ?? false; } }

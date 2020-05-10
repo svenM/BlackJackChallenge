@@ -59,9 +59,14 @@
         private void mnuBet_Click(object sender, RoutedEventArgs e)
         {
             _gameClient.GameIdPlayerPlayerIdBetAmountPost(_gameId, _playerId, 10);
-            _gameClient.GameIdDealGet(_gameId);
-            // get the cards
+
             var game = _gameClient.GameIdDetailsGet(_gameId);
+            if (!game.IsRoundInProgress.HasValue || !game.IsRoundInProgress.Value)
+            {
+                _gameClient.GameIdDealGet(_gameId);
+            }
+            // get the cards
+            game = _gameClient.GameIdDetailsGet(_gameId);
             DrawGame(game);
 
             mnuBet.IsEnabled = false;

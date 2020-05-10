@@ -14,8 +14,8 @@ namespace BlackJackApi.Domain.DTO
         }
         public List<Card> Cards { get; set; }
 
-        public BlackjackGamePlayer Player { get; private set; }
-        public BlackjackHand Hand { get; private set; }
+        public BlackjackGamePlayer Player { get; set; }
+        public BlackjackHand Hand { get; set; }
         public double Wager { get; set; }
         public bool HasAction { get; set; }        
 
