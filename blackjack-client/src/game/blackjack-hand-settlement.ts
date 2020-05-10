@@ -4,7 +4,7 @@ import { WagerOutcome } from "./wager-outcome";
 export interface BlackjackHandSettlement {
   playerPosition: number;
   playerHand: BlackjackHand;
-  dalerHand: BlackjackHand;
+  dealerHand: BlackjackHand;
   wagerOutcome: WagerOutcome;
   wagerAmount: number;
 }
