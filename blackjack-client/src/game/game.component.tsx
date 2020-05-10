@@ -11,7 +11,6 @@ import { PlayingCardProps } from './playingcard.component';
 import { Card } from './card';
 import { BlackjackGamePlayer } from './blackjack-game-player';
 import { BlackjackHandSettlement } from "./blackjack-hand-settlement";
-import { CardSuit } from './cardsuit';
 import { GameHeader } from './game-header.component';
 import './game.css';
 import { GameControlButtons } from './game-control-buttons.component';
@@ -42,6 +41,7 @@ export interface GameState {
   playerIdsFromMissedRounds: string[];
   playerActionIsExpired: boolean;
   percentRemainingInDealerShoe: number;
+  maxPlayers: number;
 
   playerId?: string;
 
@@ -110,6 +110,7 @@ class Game extends React.Component<RouteComponentProps, GameState> {
       awaitingNextRoundSince: game.awaitingNextRoundSince,
       playerIdsFromMissedRounds: [],
       playerActionIsExpired: game.playerActionIsExpired,
+      maxPlayers: game.maxPlayers,
 
       playerId: currentPlayer?.id,
       currentPlayerName: currentPlayerName,
@@ -125,7 +126,6 @@ class Game extends React.Component<RouteComponentProps, GameState> {
       // reconstructRoundPlayerPlayerFields
       // reconstructPlayerGameFields
     }
-    console.log(state);
     return state;
   }
 
@@ -184,40 +184,16 @@ class Game extends React.Component<RouteComponentProps, GameState> {
   getCardProps(card: Card, cardNumber: number, canShowHand: boolean): PlayingCardProps {
     if (!card){
       return {
-        rank: '-',
-        suit: '-',
-        suitCode: '-',
         showCard: false,
         isRotated: false
       };
     }
-    let rank: string = card.rank.toString();
-    let suit: string = '';
-    let suitCode: string = '';
-    switch (card.suit) {
-      case CardSuit.Club:
-        suit = 'clubs';
-        suitCode = String.fromCharCode(5);
-        break;
-      case CardSuit.Diamond:
-        suit = 'diams';
-        suitCode = String.fromCharCode(4);
-        break;
-      case CardSuit.Heart:
-        suit = 'hearts';
-        suitCode = String.fromCharCode(3);
-        break;
-      case CardSuit.Spade:
-        suit = 'spades';
-        suitCode = String.fromCharCode(6);
-        break;
-    }
+
     return {
-      rank: rank,
-      suit: suit,
-      suitCode: suitCode,
+      rank: card.rank,
+      suit: card.suit,
       showCard:  cardNumber > 1 || (canShowHand ?? false),
-      isRotated: cardNumber % 2 === 0
+      isRotated: !(cardNumber % 2 === 0)
     };
   }
   determineHandScore(hand?: BlackjackHand): string {
@@ -233,6 +209,8 @@ class Game extends React.Component<RouteComponentProps, GameState> {
         score += ' or ' + score2.toString();
       }
       return score;
+    } else if(hand) {
+      return hand.score.toString();
     }
     return '';
   }
@@ -251,25 +229,25 @@ class Game extends React.Component<RouteComponentProps, GameState> {
     }
   }
 
-  onHitClick() {
+  handleHitClick() {
     if (this.state.playerId) {
       this.service.playerActionRequest(this.state.id, this.state.playerId, 'hit')
         .subscribe(() => this.refreshGame(this.state.id, this.state.playerId));
     }
   }
-  onStandClick() {
+  handleStandClick() {
     if (this.state.playerId) {
       this.service.playerActionRequest(this.state.id, this.state.playerId, 'stand')
         .subscribe(() => this.refreshGame(this.state.id, this.state.playerId));
     }
   }
-  onDoubleDownClick() {
+  handleDoubleDownClick() {
     if (this.state.playerId) {
       this.service.playerActionRequest(this.state.id, this.state.playerId, 'doubledown')
         .subscribe(() => this.refreshGame(this.state.id, this.state.playerId));
     }
   }
-  onPlacebetClick(betAmount: number) {
+  handlePlacebetClick(betAmount: number) {
     if (this.state && this.state.playerId) {
       this.service.placeBet(this.state.id, this.state.playerId, betAmount)
         .subscribe(() => this.refreshGame(this.state.id, this.state.playerId));
@@ -283,16 +261,26 @@ class Game extends React.Component<RouteComponentProps, GameState> {
     }
   }
 
+  onPlayerLeave() {
+    if (this.state.playerId) {
+      this.service.leaveGame(this.state.id, this.state.playerId)
+        .subscribe(() => this.refreshGame(this.state.id, undefined));
+    }
+  }
+
+  handleNewRoundClick() {
+
+  }
+
   getSeats() {
     const seats: any[] = [];
-    for (let seatNo = 6; seatNo > 0; seatNo--) {
+    const canJoin: boolean = this.state.playerId === undefined;
+    for (let seatNo = this.state.maxPlayers; seatNo > 0; seatNo--) {
       const player: PlayerProps | undefined = _.find(this.state.players, x => x.position === seatNo);
-      const canJoin: boolean = _.every(this.state.players, x => x.id !== this.state.playerId);
-      console.log(seatNo, player, canJoin);
       if (player) {
-        return <Player {...player}></Player>;
+        seats.push(<Grid key={seatNo} item xs={2}><Player {...player}></Player></Grid>);
       } else {
-        return <EmptySeat seatNo={seatNo} canJoin={canJoin} onJoin={this.onPlayerJoin.bind(this)}></EmptySeat>
+        seats.push(<Grid key={seatNo} item xs={2}><EmptySeat seatNo={seatNo} canJoin={canJoin} onJoin={this.onPlayerJoin.bind(this)}></EmptySeat></Grid>);
       }
     }
     return seats;
@@ -315,7 +303,7 @@ class Game extends React.Component<RouteComponentProps, GameState> {
     const seats = this.getSeats();
 
     return <React.Fragment>
-      <Box className="game-container playingCards faceImages">
+      <Box className="game-container playingCards faceImages rotateHand">
         <Grid container className="game">
 
           <GameHeader
@@ -324,10 +312,11 @@ class Game extends React.Component<RouteComponentProps, GameState> {
             currentPlayerBalance={this.state.currentPlayerBalance}
             wagerInputIsVisible={this.state.wagerInputIsVisible}
             minWager={this.state.minWager}
-            maxWager={this.state.maxWager}>
+            maxWager={this.state.maxWager}
+            onQuit={this.onPlayerLeave.bind(this)}>
           </GameHeader>
 
-          <Grid container>
+          <Grid container className="game__controls">
             <Grid item xs={12} sm={6}>
               <GameControlButtons
                 wagerPeriodTimerIsVisible={this.state.wagerInputIsVisible}
@@ -340,10 +329,11 @@ class Game extends React.Component<RouteComponentProps, GameState> {
                 wagerInputIsVisible={this.state.wagerInputIsVisible}
                 minWager={this.state.minWager}
                 maxWager={this.state.maxWager}
-                onHitClick={this.onHitClick.bind(this)}
-                onStandClick={this.onStandClick.bind(this)}
-                onDoubleDownClick={this.onDoubleDownClick.bind(this)}
-                onPlacebetClick={this.onPlacebetClick.bind(this)}>
+                onHitClick={this.handleHitClick.bind(this)}
+                onStandClick={this.handleStandClick.bind(this)}
+                onDoubleDownClick={this.handleDoubleDownClick.bind(this)}
+                onPlacebetClick={this.handlePlacebetClick.bind(this)}
+                onNewRoundClick={this.handleNewRoundClick.bind(this)}>
               </GameControlButtons>
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -356,10 +346,15 @@ class Game extends React.Component<RouteComponentProps, GameState> {
           <br />
 
           <Grid item xs={12}>
-            {seats}
+            <Grid container>
+              {seats}
+            </Grid>
           </Grid>
 
         </Grid>
+      </Box>
+      <Box className="debug">
+        <pre>{JSON.stringify(this.state, null, 2)}</pre>
       </Box>
     </React.Fragment>
   }

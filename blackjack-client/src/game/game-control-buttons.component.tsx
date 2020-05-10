@@ -18,6 +18,7 @@ export interface GameControlButtons {
   onStandClick: () => void;
   onDoubleDownClick: () => void;
   onPlacebetClick: (betValue: number) => void;
+  onNewRoundClick: () => void;
 }
 
 export const GameControlButtons: React.FunctionComponent<GameControlButtons> = ({
@@ -34,7 +35,8 @@ export const GameControlButtons: React.FunctionComponent<GameControlButtons> = (
   onHitClick,
   onStandClick,
   onDoubleDownClick,
-  onPlacebetClick
+  onPlacebetClick,
+  onNewRoundClick
 }) => {
 
   const [betValue, setBetValue] = React.useState(0);
@@ -51,11 +53,11 @@ export const GameControlButtons: React.FunctionComponent<GameControlButtons> = (
   }
 
   let wagerPeriodTimer: any;
-  if (wagerPeriodTimerIsVisible) {
-    wagerPeriodTimer = <div>
-      The next hand will start in { wagerPeriodInSeconds - secondsAwaitingWagers} seconds
-    </div>;
-  }
+  // if (wagerPeriodTimerIsVisible) {
+  //   wagerPeriodTimer = <div>
+  //     The next hand will start in { wagerPeriodInSeconds - secondsAwaitingWagers} seconds
+  //   </div>;
+  // }
   let recentOutcome: any = '';
   if (player && player.recentWagerOutcome) {
     switch (player.recentWagerOutcome){

@@ -1,0 +1,7 @@
+.hand {
+  height: 86px;
+  padding-left: 40px;
+}
+.hand:after {
+  clear: both;
+}

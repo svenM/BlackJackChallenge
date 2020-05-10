@@ -1,4 +1,4 @@
-using BlackJackApi.DTO;
+using BlackJackApi.Domain.DTO;
 using System;
 using Xunit;
 
