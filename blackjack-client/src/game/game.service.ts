@@ -36,7 +36,7 @@ export class GameService {
   }
 
   public endRound(gameId: string): Observable<any> {
-    return Axios.put(`https://localhost/blackjackapi/${gameId}/end`);
+    return Axios.put(`https://localhost/blackjackapi/${gameId}/endround`);
   }
 
   public leaveGame(gameId: string, playerId: string): Observable<any> {

@@ -43,7 +43,7 @@ export const Player: React.FunctionComponent<PlayerProps> = ({
         <Typography variant="h6" gutterBottom>{ name }</Typography>
       </Grid>
       <Grid item xs={12} className="tablespot-wager">
-        <Typography variant="h6" gutterBottom>Total: { hand.score }</Typography>
+        <Typography variant="h6" gutterBottom>{ hand.score }</Typography>
         <Typography variant="h6" gutterBottom>Bet { wager ? `€ ${wager}` : '' }</Typography>
       </Grid>
     </Grid>

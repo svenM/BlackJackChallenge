@@ -77,7 +77,6 @@ export const PlayingCard: React.FunctionComponent<PlayingCardProps> = ({rank, su
   const getCardClass = (rank: CardRank, suit: CardSuit) => {
     const rankCode = getRankContent(rank).toLowerCase();
     const suitCode = getSuitCode(suit);
-    console.log(suit, suitCode);
     return `card rank-${rankCode} ${suitCode}`
   }
 
@@ -85,7 +84,7 @@ export const PlayingCard: React.FunctionComponent<PlayingCardProps> = ({rank, su
     containerCssClass = `${containerCssClass} rotate5degrees`;
   }
 
-  if (showCard && rank && suit) {
+  if (showCard && (rank !== undefined) && (suit !== undefined)) {
     cardCssClass = getCardClass(rank, suit);
     rankContent = getRankContent(rank);
     suitContent = getSuitContent(suit);

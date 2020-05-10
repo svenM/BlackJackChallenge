@@ -12,6 +12,7 @@ export interface GameControlButtons {
   standButtonIsVisible: boolean;
   doubleDownButtonisVisible: boolean;
   wagerInputIsVisible: boolean;
+  nextRoundButtonIsVisible: boolean;
   minWager: number;
   maxWager: number;
   onHitClick: () => void;
@@ -30,13 +31,14 @@ export const GameControlButtons: React.FunctionComponent<GameControlButtons> = (
   standButtonIsVisible,
   doubleDownButtonisVisible,
   wagerInputIsVisible,
+  nextRoundButtonIsVisible,
   minWager,
   maxWager,
   onHitClick,
   onStandClick,
   onDoubleDownClick,
   onPlacebetClick,
-  onNewRoundClick
+  onNewRoundClick,
 }) => {
 
   const [betValue, setBetValue] = React.useState(0);
@@ -81,7 +83,9 @@ export const GameControlButtons: React.FunctionComponent<GameControlButtons> = (
       <Input startAdornment={<InputAdornment position="start"><b>$</b></InputAdornment>} inputProps={{min: {minWager}, max: {maxWager}}} value={betValue} onChange={onBetValueChanged} />
       <Button color="primary" variant="contained" onClick={onBetClick}>Place Bet</Button>
   </React.Fragment> : undefined;
-
+  let nextRoundButton: any = nextRoundButtonIsVisible ? <Button color="primary" variant="contained" onClick={onNewRoundClick}>Next round</Button> : undefined;
+  let easterEgg = (player && player.hand && player.hand.isBlackjack && player.recentWagerOutcome === WagerOutcome.Win.toString()) ?
+      'Winner winner chicken dinner!' : '';
   return <React.Fragment>
     <Grid item xs={12}>
       {wagerPeriodTimer}
@@ -100,7 +104,13 @@ export const GameControlButtons: React.FunctionComponent<GameControlButtons> = (
       </ButtonGroup>
     </Grid>
     <Grid item xs={12}>
+      {nextRoundButton}
+    </Grid>
+    <Grid item xs={12}>
       {wagerInput}
+    </Grid>
+    <Grid item xs={12}>
+      {easterEgg}
     </Grid>
   </React.Fragment>;
 }

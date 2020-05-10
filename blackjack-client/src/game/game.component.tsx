@@ -15,7 +15,8 @@ import { GameHeader } from './game-header.component';
 import './game.css';
 import { GameControlButtons } from './game-control-buttons.component';
 import { EmptySeat } from './empty-seat.component';
-import { Box, Grid } from '@material-ui/core';
+import { Box, Grid, LinearProgress } from '@material-ui/core';
+import { timer } from 'rxjs';
 
 export interface GameState {
   id: string;
@@ -46,6 +47,8 @@ export interface GameState {
   playerId?: string;
 
   player?: PlayerProps;
+  gameTimer: number;
+  roundEnded: boolean;
 }
 
 class Game extends React.Component<RouteComponentProps, GameState> {
@@ -71,9 +74,16 @@ class Game extends React.Component<RouteComponentProps, GameState> {
     return Math.abs(Math.ceil(timeRemaining / 1000));
   }
   mapGameToState(gameId: string, playerId: string | undefined, game: BlackjackGame): GameState {
+    const roundEnded: boolean = game.roundInProgressSettlements && game.roundInProgressSettlements.length > 0;
     let endOfRoundTimerIsVisible: boolean = game.isRoundInProgress &&_.every( game.players, a => a.hasAction);
     let secondsAwaitingPlayerAction = this.getTimeSpanToNowInSeconds(game.awaitingPlayerActionSince);
-    const currentPlayer: BlackjackGamePlayer | undefined = _.find(game.players, a => a.id === playerId);
+    let rememberedPlayerId: string;
+    if (!playerId && game.players.length === 1) {
+      rememberedPlayerId = game.players[0].id;
+    } else if (!!playerId) {
+      rememberedPlayerId = playerId;
+    }
+    const currentPlayer: BlackjackGamePlayer | undefined = _.find(game.players, a => a.id === rememberedPlayerId);
     let currentPlayerName: string = '';
     let currentPlayerHasAction: boolean = false;
     let currentPlayerHasBlackjack: boolean = false;
@@ -86,12 +96,13 @@ class Game extends React.Component<RouteComponentProps, GameState> {
       currentPlayerHasAction = currentPlayer.hasAction;
       currentPlayerBalance = currentPlayer.account.balance;
       currentPlayerIsLive = currentPlayer.isLive;
-      wagerInputIsVisible = !endOfRoundTimerIsVisible && !currentPlayerIsLive && (currentPlayer?.wager ?? 0) === 0;
+      wagerInputIsVisible = !roundEnded && !endOfRoundTimerIsVisible && !currentPlayerIsLive && (currentPlayer?.wager ?? 0) === 0;
       if (currentPlayer.hand){
         currentPlayerHasBlackjack = currentPlayer.hand.isBlackjack;
         currentPlayerHasTwoCards = currentPlayer.hand.cards.length === 2;
       }
     }
+
     let state: GameState = {
       id: gameId,
       title: game.name || 'BLACKJACK',
@@ -110,7 +121,7 @@ class Game extends React.Component<RouteComponentProps, GameState> {
       awaitingNextRoundSince: game.awaitingNextRoundSince,
       playerIdsFromMissedRounds: [],
       playerActionIsExpired: game.playerActionIsExpired,
-      maxPlayers: game.maxPlayers,
+      maxPlayers: 1, //game.maxPlayers,
 
       playerId: currentPlayer?.id,
       currentPlayerName: currentPlayerName,
@@ -120,7 +131,9 @@ class Game extends React.Component<RouteComponentProps, GameState> {
       doubleDownButtonisVisible: currentPlayerHasAction && currentPlayerHasTwoCards,
       wagerInputIsVisible: wagerInputIsVisible,
 
-      player: !currentPlayer ? undefined : this.getPlayerProps(game, currentPlayer, secondsAwaitingPlayerAction)
+      player: !currentPlayer ? undefined : this.getPlayerProps(game, currentPlayer, secondsAwaitingPlayerAction),
+      gameTimer: 0,
+      roundEnded: roundEnded
     };
     if (game.isRoundInProgress) {
       // reconstructRoundPlayerPlayerFields
@@ -192,7 +205,7 @@ class Game extends React.Component<RouteComponentProps, GameState> {
     return {
       rank: card.rank,
       suit: card.suit,
-      showCard:  cardNumber > 1 || (canShowHand ?? false),
+      showCard:  ((cardNumber === 1 && !(canShowHand ?? false)) ? false : true),
       isRotated: !(cardNumber % 2 === 0)
     };
   }
@@ -215,7 +228,7 @@ class Game extends React.Component<RouteComponentProps, GameState> {
     return '';
   }
 
-  startRound() {
+  deal() {
     this.service.deal(this.state.id).subscribe(() => this.refreshGame(this.state.id, this.state.playerId));
   }
 
@@ -250,7 +263,10 @@ class Game extends React.Component<RouteComponentProps, GameState> {
   handlePlacebetClick(betAmount: number) {
     if (this.state && this.state.playerId) {
       this.service.placeBet(this.state.id, this.state.playerId, betAmount)
-        .subscribe(() => this.refreshGame(this.state.id, this.state.playerId));
+        .subscribe(() => {
+          this.refreshGame(this.state.id, this.state.playerId);
+
+      });
     }
   }
 
@@ -264,12 +280,15 @@ class Game extends React.Component<RouteComponentProps, GameState> {
   onPlayerLeave() {
     if (this.state.playerId) {
       this.service.leaveGame(this.state.id, this.state.playerId)
-        .subscribe(() => this.refreshGame(this.state.id, undefined));
+        .subscribe(() => {
+          this.refreshGame(this.state.id, undefined);
+
+      });
     }
   }
 
   handleNewRoundClick() {
-
+    this.endRound();
   }
 
   getSeats() {
@@ -291,7 +310,24 @@ class Game extends React.Component<RouteComponentProps, GameState> {
       // determine current player
       const state: GameState = this.mapGameToState(gameId, playerId, game);
       this.setState(state);
+      //this.startRoundTimer();
     });
+  }
+
+  // startRoundTimer() {
+  //   const secondsToRoundEnd = 30;
+  //   const endOfRoundTimer$ = timer(1000);
+  //   endOfRoundTimer$.subscribe(time => {
+  //     if (time >= secondsToRoundEnd) {
+  //       this.endRound();
+  //     }
+  //     this.updateGameTimer(time);
+  //   });
+  // }
+
+  updateGameTimer(time: number) {
+    const progress = time * 100 / 30;
+    this.setState({...this.state, gameTimer: progress});
   }
 
   public render() {
@@ -316,6 +352,10 @@ class Game extends React.Component<RouteComponentProps, GameState> {
             onQuit={this.onPlayerLeave.bind(this)}>
           </GameHeader>
 
+          {/* <Grid item xs={12}>
+            <LinearProgress variant="determinate" value={this.state.gameTimer} />
+          </Grid> */}
+
           <Grid container className="game__controls">
             <Grid item xs={12} sm={6}>
               <GameControlButtons
@@ -327,6 +367,7 @@ class Game extends React.Component<RouteComponentProps, GameState> {
                 standButtonIsVisible={this.state.standButtonIsVisible}
                 doubleDownButtonisVisible={this.state.doubleDownButtonisVisible}
                 wagerInputIsVisible={this.state.wagerInputIsVisible}
+                nextRoundButtonIsVisible={this.state.roundEnded}
                 minWager={this.state.minWager}
                 maxWager={this.state.maxWager}
                 onHitClick={this.handleHitClick.bind(this)}
@@ -353,9 +394,9 @@ class Game extends React.Component<RouteComponentProps, GameState> {
 
         </Grid>
       </Box>
-      <Box className="debug">
+      {/* <Box className="debug">
         <pre>{JSON.stringify(this.state, null, 2)}</pre>
-      </Box>
+      </Box> */}
     </React.Fragment>
   }
 }
