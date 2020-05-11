@@ -21,7 +21,7 @@ export const PlayingCard: React.FunctionComponent<PlayingCardProps> = ({rank, su
   const getRankContent = (rank: CardRank) => {
     switch (rank) {
       case CardRank.Ace:
-        return 'a';
+        return 'A';
       case CardRank.Two:
         return '2';
       case CardRank.Three:
@@ -48,17 +48,20 @@ export const PlayingCard: React.FunctionComponent<PlayingCardProps> = ({rank, su
         return 'K';
     }
   }
-  const getSuitContent = (suit: CardSuit) => {
-    switch (suit) {
-      case CardSuit.Club:
-        return '♣';
-      case CardSuit.Diamond:
-        return '♦';
-      case CardSuit.Heart:
-        return '♥';
-      case CardSuit.Spade:
-        return '♠';
+  const getSuitContent = (rank: CardRank, suit: CardSuit) => {
+    if (rank === CardRank.Jack || rank === CardRank.Queen || rank === CardRank.King) {
+      switch (suit) {
+        case CardSuit.Club:
+          return '♣';
+        case CardSuit.Diamond:
+          return '♦';
+        case CardSuit.Heart:
+          return '♥';
+        case CardSuit.Spade:
+          return '♠';
+      }
     }
+    return ' ';
   };
 
   const getSuitCode = (suit: CardSuit) => {
@@ -87,7 +90,7 @@ export const PlayingCard: React.FunctionComponent<PlayingCardProps> = ({rank, su
   if (showCard && (rank !== undefined) && (suit !== undefined)) {
     cardCssClass = getCardClass(rank, suit);
     rankContent = getRankContent(rank);
-    suitContent = getSuitContent(suit);
+    suitContent = getSuitContent(rank, suit);
   }
 
   return <React.Fragment>
