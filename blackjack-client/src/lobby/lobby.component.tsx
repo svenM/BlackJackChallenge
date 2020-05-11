@@ -4,6 +4,7 @@ import Modal from '@material-ui/core/Modal';
 import { CreateGameRequest } from './create-game-request';
 import { LobbyService } from './lobby.service';
 import { Game } from './game';
+import BlackjackLogo from './logo.png';
 
 interface LobbyProps {}
 interface LobbyState {
@@ -92,7 +93,7 @@ export default class Lobby extends React.Component<LobbyProps, LobbyState> {
     return <React.Fragment>
       <Grid className="lobby" container direction="row" spacing={5}>
         <Grid item className="lobby__title" xs={12}>
-        <Typography variant="h1" gutterBottom>Games List</Typography>
+          <img src={BlackjackLogo} />
         </Grid>
         <Grid item xs={12} className="lobby__buttons">
           {/* <ButtonGroup color="primary" variant="contained"> */}
