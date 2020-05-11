@@ -11,6 +11,7 @@
 
     /// <summary>
     /// Interaction logic for toolControl.
+    /// clean C:\Users\svma\AppData\Local\Microsoft\VisualStudio experimental dir if not refreshing
     /// </summary>
     public partial class toolControl : UserControl
     {
