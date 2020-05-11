@@ -120,7 +120,7 @@ export default class Lobby extends React.Component<LobbyProps, LobbyState> {
                 height: 400,
                 backgroundColor: '#fff',
                 boxShadow: '5px 10px #888',
-                padding: '2, 4, 3'}}>
+                padding: '20px'}}>
           <Grid item xs={12}>
             <h2>Create new game</h2>
           </Grid>
@@ -166,7 +166,7 @@ export default class Lobby extends React.Component<LobbyProps, LobbyState> {
                 height: 400,
                 backgroundColor: '#fff',
                 boxShadow: '5px 10px #888',
-                padding: '2, 4, 3'}}>
+                padding: '20px'}}>
           <Grid item xs={12}>
             <h2>Join game</h2>
           </Grid>

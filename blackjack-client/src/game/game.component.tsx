@@ -457,7 +457,7 @@ class Game extends React.Component<RouteComponentProps, GameState> {
                 height: 300,
                 backgroundColor: '#fff',
                 boxShadow: '5px 10px #888',
-                padding: '20'}}>
+                padding: '20px'}}>
           <Grid item xs={12}>
             <h2>Hint:</h2>
             <p>You should <b>{this.state.hint}</b>!</p>

@@ -52,7 +52,7 @@ export const EmptySeat: React.FunctionComponent<EmptySeatProps> = ({seatNo, canJ
                 height: 300,
                 backgroundColor: '#fff',
                 boxShadow: '5px 10px #888',
-                padding: '10'}}>
+                padding: '20px'}}>
           <Grid item xs={12}>
             <h2>Join game</h2>
             <p>Please enter your name</p>
