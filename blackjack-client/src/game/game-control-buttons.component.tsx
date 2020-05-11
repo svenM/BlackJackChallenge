@@ -84,8 +84,6 @@ export const GameControlButtons: React.FunctionComponent<GameControlButtons> = (
       <Button color="primary" variant="contained" onClick={onBetClick}>Place Bet</Button>
   </React.Fragment> : undefined;
   let nextRoundButton: any = nextRoundButtonIsVisible ? <Button color="primary" variant="contained" onClick={onNewRoundClick}>Next round</Button> : undefined;
-  let easterEgg = (player && player.hand && player.hand.isBlackjack && player.recentWagerOutcome === WagerOutcome.Win.toString()) ?
-      'Winner winner chicken dinner!' : '';
   return <React.Fragment>
     <Grid item xs={12}>
       {wagerPeriodTimer}
@@ -108,9 +106,6 @@ export const GameControlButtons: React.FunctionComponent<GameControlButtons> = (
     </Grid>
     <Grid item xs={12}>
       {wagerInput}
-    </Grid>
-    <Grid item xs={12}>
-      {easterEgg}
     </Grid>
   </React.Fragment>;
 }

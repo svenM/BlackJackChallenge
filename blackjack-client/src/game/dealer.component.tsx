@@ -19,6 +19,8 @@ export const Dealer: React.FunctionComponent<DealerProps> = ({name, hand, canSho
   const deckSize = (percentOfCardsRemainingInSchoe * 32) / 100;
   const deck = Array.from(Array(deckSize).keys()).map(key => <li key={key}><div className="card back">*</div></li>);
 
+  const score = !!hand?.score ? (isNaN(parseInt(hand.score, 10))) ? hand.score : `Total: ${hand.score}` : '';
+
   return <React.Fragment>
     <Grid container className="tablespot">
       <Grid item xs={6}>
@@ -29,7 +31,7 @@ export const Dealer: React.FunctionComponent<DealerProps> = ({name, hand, canSho
           { !hand || hand.cards.length === 0 ? emptyHand : <Hand {...hand}></Hand>}
         </Grid>
         <Grid item xs={12} className="tablespot-wager">
-        <Typography variant="h6" gutterBottom>Total: { canShowHand && hand ? hand.score : '' }</Typography>
+        <Typography variant="h6" gutterBottom>{ canShowHand ? score : '' }</Typography>
         </Grid>
       </Grid>
       <Grid item xs={6}>

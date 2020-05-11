@@ -15,8 +15,9 @@ import { GameHeader } from './game-header.component';
 import './game.css';
 import { GameControlButtons } from './game-control-buttons.component';
 import { EmptySeat } from './empty-seat.component';
-import { Box, Grid, LinearProgress } from '@material-ui/core';
+import { Box, Grid, LinearProgress, Typography } from '@material-ui/core';
 import { timer } from 'rxjs';
+import { WagerOutcome } from './wager-outcome';
 
 export interface GameState {
   id: string;
@@ -49,6 +50,7 @@ export interface GameState {
   player?: PlayerProps;
   gameTimer: number;
   roundEnded: boolean;
+  showEgg: boolean;
 }
 
 class Game extends React.Component<RouteComponentProps, GameState> {
@@ -74,7 +76,8 @@ class Game extends React.Component<RouteComponentProps, GameState> {
     return Math.abs(Math.ceil(timeRemaining / 1000));
   }
   mapGameToState(gameId: string, playerId: string | undefined, game: BlackjackGame): GameState {
-    const roundEnded: boolean = game.roundInProgressSettlements && game.roundInProgressSettlements.length > 0;
+    const dealerHasBlackjack: boolean = game.dealer.roundInProgress ? game.dealer.roundInProgress.dealerHas21 : false;
+    const roundEnded: boolean = (game.roundInProgressSettlements && game.roundInProgressSettlements.length > 0) || dealerHasBlackjack;
     let endOfRoundTimerIsVisible: boolean = game.isRoundInProgress &&_.every( game.players, a => a.hasAction);
     let secondsAwaitingPlayerAction = this.getTimeSpanToNowInSeconds(game.awaitingPlayerActionSince);
     let rememberedPlayerId: string;
@@ -84,6 +87,7 @@ class Game extends React.Component<RouteComponentProps, GameState> {
       rememberedPlayerId = playerId;
     }
     const currentPlayer: BlackjackGamePlayer | undefined = _.find(game.players, a => a.id === rememberedPlayerId);
+
     let currentPlayerName: string = '';
     let currentPlayerHasAction: boolean = false;
     let currentPlayerHasBlackjack: boolean = false;
@@ -103,6 +107,10 @@ class Game extends React.Component<RouteComponentProps, GameState> {
       }
     }
 
+    // This fixes stuff but breaks other stuff
+    const dealerHand = undefined; //game.roundInProgressSettlements && game.roundInProgressSettlements.length > 0 ? game.roundInProgressSettlements[0].dealerHand : undefined;
+    const playerHand = undefined; //game.roundInProgressSettlements && game.roundInProgressSettlements.length > 0 ? game.roundInProgressSettlements[0].playerHand : undefined;
+
     let state: GameState = {
       id: gameId,
       title: game.name || 'BLACKJACK',
@@ -110,10 +118,10 @@ class Game extends React.Component<RouteComponentProps, GameState> {
       wagerPeriodInSeconds: game.bettingPeriodInSeconds,
       minWager: game.minWager,
       maxWager: game.maxWager,
-      dealer: this.getDealerProps(game),
+      dealer: this.getDealerProps(game, dealerHand),
       secondsAwaitingPlayerAction: secondsAwaitingPlayerAction,
       secondsAwaitingWagers: this.getTimeSpanToNowInSeconds(game.awaitingNextRoundSince),
-      players: this.getPlayers(game, secondsAwaitingPlayerAction),
+      players: this.getPlayers(game, secondsAwaitingPlayerAction, playerHand, dealerHasBlackjack),
       wagerPeriodTimerIsVisible: !game.isRoundInProgress && _.some(game.players, a => a.wager > 0),
       endOfRoundTimerIsVisible: endOfRoundTimerIsVisible,
       percentRemainingInDealerShoe: game.percentRemainingInDealerShoe,
@@ -131,9 +139,10 @@ class Game extends React.Component<RouteComponentProps, GameState> {
       doubleDownButtonisVisible: currentPlayerHasAction && currentPlayerHasTwoCards,
       wagerInputIsVisible: wagerInputIsVisible,
 
-      player: !currentPlayer ? undefined : this.getPlayerProps(game, currentPlayer, secondsAwaitingPlayerAction),
+      player: !currentPlayer ? undefined : this.getPlayerProps(game, currentPlayer, secondsAwaitingPlayerAction, playerHand, dealerHasBlackjack),
       gameTimer: 0,
-      roundEnded: roundEnded
+      roundEnded: roundEnded,
+      showEgg: game.roundInProgressSettlements.length > 0 && game.roundInProgressSettlements[0].playerHand.isBlackjack
     };
     if (game.isRoundInProgress) {
       // reconstructRoundPlayerPlayerFields
@@ -142,11 +151,11 @@ class Game extends React.Component<RouteComponentProps, GameState> {
     return state;
   }
 
-  getPlayers(game: BlackjackGame, secondsAwaitingPlayerAction: number): PlayerProps[] {
+  getPlayers(game: BlackjackGame, secondsAwaitingPlayerAction: number, playerHand: BlackjackHand | undefined, dealerHasBlackjack: boolean): PlayerProps[] {
     return _.orderBy(game.players, x => x.position)
-            .map(p => this.getPlayerProps(game, p, secondsAwaitingPlayerAction));
+            .map(p => this.getPlayerProps(game, p, secondsAwaitingPlayerAction, playerHand, dealerHasBlackjack));
   }
-  getPlayerProps(game: BlackjackGame, player: BlackjackGamePlayer, secondsAwaitingPlayerAction: number): PlayerProps {
+  getPlayerProps(game: BlackjackGame, player: BlackjackGamePlayer, secondsAwaitingPlayerAction: number, playerHand: BlackjackHand | undefined, dealerHasBlackjack: boolean): PlayerProps {
 
     const settlement: BlackjackHandSettlement | undefined = _.find(game.roundInProgressSettlements, a => a.playerPosition === player.position);
     const secondsAwaitingAction: number = player.hasAction ? secondsAwaitingPlayerAction : -1;
@@ -158,14 +167,26 @@ class Game extends React.Component<RouteComponentProps, GameState> {
       hasAction: player.hasAction,
       position: player.position,
       secondsAwaitingAction: secondsAwaitingAction,
-      hand: !settlement ? this.getHandProps(player.hand) : this.getHandProps(settlement.playerHand),
+      hand: !settlement ? this.getHandProps(playerHand || player.hand) : this.getHandProps(settlement.playerHand),
       wager: !settlement ? player.wager : settlement.wagerAmount,
-      recentWagerOutcome: !settlement ? '' : settlement.wagerOutcome.toString()
+      recentWagerOutcome: !settlement ? (dealerHasBlackjack ? 'LOSE' : '') : this.GetWagerOutcome(settlement.wagerOutcome)
     };
 
     return result
   }
-  getDealerProps(game: BlackjackGame): DealerProps {
+
+  GetWagerOutcome(wagerOutcome: WagerOutcome) {
+    switch (wagerOutcome) {
+      case WagerOutcome.Win:
+        return 'WIN';
+      case WagerOutcome.Lose:
+        return 'LOSE';
+      case WagerOutcome.Draw:
+        return 'DRAW';
+    }
+  }
+
+  getDealerProps(game: BlackjackGame, hand: BlackjackHand | undefined): DealerProps {
     if (!game) {
       throw new Error('Game not defined');
     }
@@ -174,7 +195,7 @@ class Game extends React.Component<RouteComponentProps, GameState> {
 
     return {
       name: 'Dealer',
-      hand: this.getHandProps(game.dealerHand, canShowHand),
+      hand: this.getHandProps(hand ?? game.dealerHand, canShowHand),
       canShowHand: canShowHand,
       percentOfCardsRemainingInSchoe: game.percentRemainingInDealerShoe
     }
@@ -335,6 +356,8 @@ class Game extends React.Component<RouteComponentProps, GameState> {
       return <React.Fragment>One moment</React.Fragment>;
     }
 
+    let easterEgg = this.state.showEgg ? <Typography variant="h1" gutterBottom>Winner winner chicken dinner!</Typography> : '';
+
     // TODO: number of players hardcoded?
     const seats = this.getSeats();
 
@@ -390,6 +413,10 @@ class Game extends React.Component<RouteComponentProps, GameState> {
             <Grid container>
               {seats}
             </Grid>
+          </Grid>
+
+          <Grid item xs={12}>
+            {easterEgg}
           </Grid>
 
         </Grid>
