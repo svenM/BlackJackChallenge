@@ -139,6 +139,11 @@ namespace BlackJackApi.Domain.DTO
             RoundPlayersQueuedForNextRound.Clear();
 
             Dealer.Deal(roundInProgress);
+
+            if(DealerHas21)
+            {
+                EndRound();
+            }
         }
 
         public BlackjackHandSettlement SettlePlayerHand(BlackjackGamePlayer player)
