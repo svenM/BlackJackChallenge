@@ -15,9 +15,10 @@ import { GameHeader } from './game-header.component';
 import './game.css';
 import { GameControlButtons } from './game-control-buttons.component';
 import { EmptySeat } from './empty-seat.component';
-import { Box, Grid, LinearProgress, Typography } from '@material-ui/core';
+import { Box, Grid, LinearProgress, Typography, ButtonGroup, Button, Modal } from '@material-ui/core';
 import { timer } from 'rxjs';
 import { WagerOutcome } from './wager-outcome';
+import { PlayerAction } from './player-action';
 
 export interface GameState {
   id: string;
@@ -51,6 +52,8 @@ export interface GameState {
   gameTimer: number;
   roundEnded: boolean;
   showEgg: boolean;
+  showHint: boolean;
+  hint: string;
 }
 
 class Game extends React.Component<RouteComponentProps, GameState> {
@@ -142,7 +145,9 @@ class Game extends React.Component<RouteComponentProps, GameState> {
       player: !currentPlayer ? undefined : this.getPlayerProps(game, currentPlayer, secondsAwaitingPlayerAction, playerHand, dealerHasBlackjack),
       gameTimer: 0,
       roundEnded: roundEnded,
-      showEgg: game.roundInProgressSettlements.length > 0 && game.roundInProgressSettlements[0].playerHand.isBlackjack
+      showEgg: game.roundInProgressSettlements.length > 0 && game.roundInProgressSettlements[0].playerHand.isBlackjack,
+      showHint: false,
+      hint: ''
     };
     if (game.isRoundInProgress) {
       // reconstructRoundPlayerPlayerFields
@@ -335,6 +340,17 @@ class Game extends React.Component<RouteComponentProps, GameState> {
     });
   }
 
+  handleHintClick() {
+    if (this.state.playerId){
+        this.service.getHint(this.state.id, this.state.playerId).subscribe(hint => {
+          this.setState({...this.state, showHint: true, hint: PlayerAction[hint]});
+        });
+    }
+  }
+
+  hideHint() {
+    this.setState({...this.state, showHint: false, hint: ''});
+  }
   // startRoundTimer() {
   //   const secondsToRoundEnd = 30;
   //   const endOfRoundTimer$ = timer(1000);
@@ -397,7 +413,8 @@ class Game extends React.Component<RouteComponentProps, GameState> {
                 onStandClick={this.handleStandClick.bind(this)}
                 onDoubleDownClick={this.handleDoubleDownClick.bind(this)}
                 onPlacebetClick={this.handlePlacebetClick.bind(this)}
-                onNewRoundClick={this.handleNewRoundClick.bind(this)}>
+                onNewRoundClick={this.handleNewRoundClick.bind(this)}
+                onHintClick={this.handleHintClick.bind(this)}>
               </GameControlButtons>
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -424,6 +441,35 @@ class Game extends React.Component<RouteComponentProps, GameState> {
       {/* <Box className="debug">
         <pre>{JSON.stringify(this.state, null, 2)}</pre>
       </Box> */}
+
+      <Modal open={this.state.showHint}>
+        <Grid container
+              direction="row"
+              justify="space-around"
+              alignItems="center"
+              spacing={1}
+              style={{
+                top: `50%`,
+                left: `50%`,
+                transform: `translate(-50%, -50%)`,
+                position: 'absolute',
+                width: 400,
+                height: 300,
+                backgroundColor: '#fff',
+                boxShadow: '5px 10px #888',
+                padding: '20'}}>
+          <Grid item xs={12}>
+            <h2>Hint:</h2>
+            <p>You should <b>{this.state.hint}</b>!</p>
+          </Grid>
+          <Grid item xs={12}>
+            <ButtonGroup variant="contained">
+              <Button color="primary" onClick={this.hideHint.bind(this)}>ok</Button>
+            </ButtonGroup>
+          </Grid>
+        </Grid>
+      </Modal>
+
     </React.Fragment>
   }
 }

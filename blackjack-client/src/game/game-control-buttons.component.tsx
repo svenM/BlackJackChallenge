@@ -20,6 +20,7 @@ export interface GameControlButtons {
   onDoubleDownClick: () => void;
   onPlacebetClick: (betValue: number) => void;
   onNewRoundClick: () => void;
+  onHintClick: () => void;
 }
 
 export const GameControlButtons: React.FunctionComponent<GameControlButtons> = ({
@@ -39,6 +40,7 @@ export const GameControlButtons: React.FunctionComponent<GameControlButtons> = (
   onDoubleDownClick,
   onPlacebetClick,
   onNewRoundClick,
+  onHintClick
 }) => {
 
   const [betValue, setBetValue] = React.useState(0);
@@ -52,6 +54,10 @@ export const GameControlButtons: React.FunctionComponent<GameControlButtons> = (
 
   const onBetClick = () => {
     onPlacebetClick(betValue);
+  }
+
+  const handleHintClick= () => {
+    onHintClick();
   }
 
   let wagerPeriodTimer: any;
@@ -74,7 +80,7 @@ export const GameControlButtons: React.FunctionComponent<GameControlButtons> = (
         break;
     }
   }
-  let turnNotification: any = hitButtonisVisible || standButtonIsVisible || doubleDownButtonisVisible ? <h3>It's your turn</h3> : undefined;
+  let turnNotification: any = hitButtonisVisible || standButtonIsVisible || doubleDownButtonisVisible ? <h3>It's your turn <Button onClick={handleHintClick}>�</Button></h3> : undefined;
   let hitButton: any = hitButtonisVisible ? <Button color="primary" onClick={onHitClick}>Hit</Button> : undefined;
   let standButton: any = standButtonIsVisible ? <Button color="primary" onClick={onStandClick}>Stand</Button> : undefined;
   let doubleDownButton: any = doubleDownButtonisVisible ? <Button color="primary" onClick={onDoubleDownClick}>Double Down</Button> : undefined;
