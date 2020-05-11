@@ -92,7 +92,7 @@ export default class Lobby extends React.Component<LobbyProps, LobbyState> {
     return <React.Fragment>
       <Grid className="lobby" container direction="row" spacing={5}>
         <Grid item className="lobby__title" xs={12}>
-          <h1 style={{fontFamily: 'monofett', fontSize: 90, fontStyle: 'italic'}}>BLACKJACK</h1>
+        <Typography variant="h1" gutterBottom>Games List</Typography>
         </Grid>
         <Grid item xs={12} className="lobby__buttons">
           {/* <ButtonGroup color="primary" variant="contained"> */}

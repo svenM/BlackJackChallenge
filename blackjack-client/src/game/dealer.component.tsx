@@ -17,7 +17,7 @@ export const Dealer: React.FunctionComponent<DealerProps> = ({name, hand, canSho
   </div>;
 
   const deckSize = (percentOfCardsRemainingInSchoe * 32) / 100;
-  const deck = Array.from(Array(deckSize).keys()).map(key => <li key={key}><div className="card back">*</div></li>);
+  const deck = Array.from(Array(deckSize).keys()).map(key => <li key={key}><div className="card back">&nbsp;</div></li>);
 
   const score = !!hand?.score ? (isNaN(parseInt(hand.score, 10))) ? hand.score : `Total: ${hand.score}` : '';
 
