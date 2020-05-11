@@ -19,6 +19,7 @@
                 <MenuItem x:Name="mnuHit" Header="H" Height="23" Width="23" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}" Click="mnuHit_Click" IsEnabled="False"/>
                 <MenuItem x:Name="mnuStand" Header="S" Height="23" Width="23" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}" Click="mnuStand_Click" IsEnabled="False"/>
                 <MenuItem x:Name="mnuDoubleDown" Header="D" Height="23" Width="23" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}" Click="mnuDoubleDown_Click" IsEnabled="False"/>
+                <MenuItem x:Name="mnuHint" Header="?" Height="23" Width="23" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}" Click="mnuHint_Click" IsEnabled="False"/>
                 <MenuItem x:Name="mnuQuit" Header="Q" Height="23" Width="23" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}" Click="mnuDoubleDown_Click" IsEnabled="False"/>
                 <MenuItem x:Name="mnuBalance" Header="" Height="23" Width="60" Background="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}" IsEnabled="False" HorizontalAlignment="Right"/>
             </Menu>

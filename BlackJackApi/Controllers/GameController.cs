@@ -48,13 +48,35 @@ namespace BlackJackApi.Controllers
         {
             try
             {
-                var decider = new PlayerActionDecider();
+                var decider = new PlayerActionDecider(); 
+                decider.Initialize();
                 var game = _blackJackDAL.GetGame(gameId);
                 if (game == null) return NotFound("Game not found");
                 var player = game.Players.FirstOrDefault(p => p.Id == playerId);
                 if (player == null || player.Hand == null || !player.Hand.Cards.Any()) return NotFound("Player not found or no cards");
 
-                return decider.DecideAction(player.Hand, game.DealerHand.Cards.First());
+                return Ok(decider.DecideAction(player.Hand, game.DealerHand.Cards.First()));
+            }
+            catch (Exception exception)
+            {
+                return BadRequest(exception.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("{gameId}/hintstring/{playerId}")]
+        public ActionResult<string> GetHintString(string gameId, string playerId)
+        {
+            try
+            {
+                var decider = new PlayerActionDecider();
+                decider.Initialize();
+                var game = _blackJackDAL.GetGame(gameId);
+                if (game == null) return NotFound("Game not found");
+                var player = game.Players.FirstOrDefault(p => p.Id == playerId);
+                if (player == null || player.Hand == null || !player.Hand.Cards.Any()) return NotFound("Player not found or no cards");
+
+                return Ok(Enum.GetName(typeof(PlayerAction), decider.DecideAction(player.Hand, game.DealerHand.Cards.First())));
             }
             catch (Exception exception)
             {

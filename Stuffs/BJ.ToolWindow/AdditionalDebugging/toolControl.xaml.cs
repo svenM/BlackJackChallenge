@@ -47,81 +47,197 @@
 
         private void mnuList_Click(object sender, RoutedEventArgs e)
         {
-
-            var games = _lobbyClient.ApiLobbyListGet();
-            lstOutput.Items.Clear();
-
-            foreach (var game in games)
+            try
             {
-                lstOutput.Items.Add(game.Name);
+                var games = _lobbyClient.ApiLobbyListGet();
+                lstOutput.Items.Clear();
+
+                foreach (var game in games)
+                {
+                    lstOutput.Items.Add(game.Name);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show(ex.Message);
             }
 
         }
 
         private void mnuBet_Click(object sender, RoutedEventArgs e)
         {
-            _gameClient.GameIdPlayerPlayerIdBetAmountPost(_gameId, _playerId, 10);
-
-            var game = _gameClient.GameIdDetailsGet(_gameId);
-            if (!game.IsRoundInProgress.HasValue || !game.IsRoundInProgress.Value)
+            try
             {
-                _gameClient.GameIdDealGet(_gameId);
+
+                _gameClient.GameIdPlayerPlayerIdBetAmountPost(_gameId, _playerId, 10);
+
+                var game = _gameClient.GameIdDetailsGet(_gameId);
+                if (!game.IsRoundInProgress.HasValue || !game.IsRoundInProgress.Value)
+                {
+                    _gameClient.GameIdDealGet(_gameId);
+                }
+                // get the cards
+                game = _gameClient.GameIdDetailsGet(_gameId);
+                DrawGame(game);
+
             }
-            // get the cards
-            game = _gameClient.GameIdDetailsGet(_gameId);
-            DrawGame(game);
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show(ex.Message);
+            }
         }
 
         private void mnuHit_Click(object sender, RoutedEventArgs e)
         {
-            _gameClient.GameIdRequestPlayerIdRequestPost(_gameId, _playerId, "hit");
-            var game = _gameClient.GameIdDetailsGet(_gameId);
-            DrawGame(game);
-           
+            try
+            {
+                _gameClient.GameIdRequestPlayerIdRequestPost(_gameId, _playerId, "hit");
+                var game = _gameClient.GameIdDetailsGet(_gameId);
+                DrawGame(game);
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show(ex.Message);
+            }
+
         }
 
         private void mnuStand_Click(object sender, RoutedEventArgs e)
         {
-            _gameClient.GameIdRequestPlayerIdRequestPost(_gameId, _playerId, "stand");
-            var game = _gameClient.GameIdDetailsGet(_gameId);
+            try
+            {
+                _gameClient.GameIdRequestPlayerIdRequestPost(_gameId, _playerId, "stand");
+                var game = _gameClient.GameIdDetailsGet(_gameId);
 
-            var outCome1 = game.RoundInProgressSettlements.First(p => p.PlayerId == _playerId);
+                var outCome1 = game.RoundInProgressSettlements.First(p => p.PlayerId == _playerId);
 
-            lstOutput.Items.Clear();
-            lstOutput.Items.Add("Debug result = " + (outCome1.WagerOutcome == WagerOutcome.Win ? "++" : (outCome1.WagerOutcome == WagerOutcome.Lose ? "--" : "0")));
+                lstOutput.Items.Clear();
+                lstOutput.Items.Add("Debug result = " + (outCome1.WagerOutcome == WagerOutcome.Win ? "++" : (outCome1.WagerOutcome == WagerOutcome.Lose ? "--" : "0")));
+                string alias;
+                string rank;
+                foreach (var card in game.RoundInProgressSettlements.First().PlayerHand.Cards)
+                {
+                    alias = TranslateSuit(card);
+                    rank = TranslateRank(card.Rank);
+                    lstOutput.Items.Add($"Fixed possible error : {alias} at {rank}");
+                }
+                lstOutput.Items.Add("Total errors fixed : " + game.RoundInProgressSettlements.First().PlayerHand.Score);
+                foreach (var c in game.RoundInProgressSettlements.First().DealerHand.Cards)
+                {
+                    alias = TranslateSuit(c);
+                    rank = TranslateRank(c.Rank);
+                    lstOutput.Items.Add($"Removed warning : {alias} at {rank}");
+                }
+                lstOutput.Items.Add("Total warnings removed : " + game.RoundInProgressSettlements.First().DealerHand.Score);
 
-            _gameClient.GameIdEndPost(_gameId);
-            SetRoundEndedButtons();
+
+                _gameClient.GameIdEndPost(_gameId);
+                SetRoundEndedButtons();
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show(ex.Message);
+            }
         }
 
         private void mnuDoubleDown_Click(object sender, RoutedEventArgs e)
         {
-            _gameClient.GameIdRequestPlayerIdRequestPost(_gameId, _playerId, "doubledown");
-            var game = _gameClient.GameIdDetailsGet(_gameId);
+            try
+            {
+                _gameClient.GameIdRequestPlayerIdRequestPost(_gameId, _playerId, "doubledown");
+                var game = _gameClient.GameIdDetailsGet(_gameId);
 
-            var outCome1 = game.RoundInProgressSettlements.First(p => p.PlayerId == _playerId);
+                var outCome1 = game.RoundInProgressSettlements.First(p => p.PlayerId == _playerId);
 
-            lstOutput.Items.Clear();
-            lstOutput.Items.Add("Debug result = " + (outCome1.WagerOutcome == WagerOutcome.Win ? "++" : (outCome1.WagerOutcome == WagerOutcome.Lose ? "--" : "0")));
+                lstOutput.Items.Clear();
+                lstOutput.Items.Add("Debug result = " + (outCome1.WagerOutcome == WagerOutcome.Win ? "++" : (outCome1.WagerOutcome == WagerOutcome.Lose ? "--" : "0")));
+                string alias;
+                string rank;
+                foreach (var card in game.RoundInProgressSettlements.First().PlayerHand.Cards)
+                {
+                    alias = TranslateSuit(card);
+                    rank = TranslateRank(card.Rank);
+                    lstOutput.Items.Add($"Fixed possible error : {alias} at {rank}");
+                }
+                lstOutput.Items.Add("Total errors fixed: " + game.RoundInProgressSettlements.First().PlayerHand.Score);
+                foreach (var c in game.RoundInProgressSettlements.First().DealerHand.Cards)
+                {
+                    alias = TranslateSuit(c);
+                    rank = TranslateRank(c.Rank);
+                    lstOutput.Items.Add($"Removed warning : {alias} at {rank}");
+                }
+                lstOutput.Items.Add("Total warnings removes : " + game.RoundInProgressSettlements.First().DealerHand.Score);
 
-            _gameClient.GameIdEndPost(_gameId);
-            SetRoundEndedButtons();
+                _gameClient.GameIdEndPost(_gameId);
+                SetRoundEndedButtons();
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void mnuHint_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                // create a game and join it 
+                var hint = _gameClient.GetHint(_gameId, _playerId).Data.Replace("\"","");
+                if (string.IsNullOrWhiteSpace(hint)) return;
+                switch (hint.ToLower().Trim())
+                {
+                    case "stand":
+                        hint = "Suggested you stop debugging";
+                        break;
+                    case "hit":
+                        hint = "Suggested you keep debugging";
+                        break;
+                    case "doublehit":
+                        hint = "Suggested you double your debugging efforts";
+                        break;
+                    case "doublestand":
+                        hint = "Suggested you double your debugging efforts";
+                        break;
+                    case "split":
+                        hint = "Debugging has no hint";
+                        break;
+                    case "splitifdas":
+                        hint = "Debugging has no hint";
+                        break;
+                    case "dontsplit":
+                        hint = "Don't split debugging";
+                        break;
+                }
+                lstOutput.Items.Add(hint);
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show(ex.Message);
+            }
         }
 
         private void mnuCreateJoin_Click(object sender, RoutedEventArgs e)
         {
-            // create a game and join it 
-            _gameId = _lobbyClient.ApiLobbyNewgameNameMinbetMaxbetPost($"ADDBG{DateTime.Now.ToString("yyyyMMddHHmm")}", 10, 100).Replace("\"", "");
-            var model = _gameClient.GameIdJoinPut(_gameId, "Debugger", 1);
-            _playerId = model.Id;
+            try
+            {
+                // create a game and join it 
+                _gameId = _lobbyClient.ApiLobbyNewgameNameMinbetMaxbetPost($"ADDBG{DateTime.Now.ToString("yyyyMMddHHmm")}", 10, 100).Replace("\"", "");
+                var model = _gameClient.GameIdJoinPut(_gameId, "Debugger", 1);
+                _playerId = model.Id;
 
-            // Bet on our first hand
-            _gameClient.GameIdPlayerPlayerIdBetAmountPost(_gameId, _playerId, 10);
+                // Bet on our first hand
+                _gameClient.GameIdPlayerPlayerIdBetAmountPost(_gameId, _playerId, 10);
 
-            // get the cards
-            var game = _gameClient.GameIdDetailsGet(_gameId);
-            DrawGame(game);
-            SetRoundBusyButtons();
+                // get the cards
+                var game = _gameClient.GameIdDetailsGet(_gameId);
+                DrawGame(game);
+                SetRoundBusyButtons();
+
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show(ex.Message);
+            }
         }
 
         private void SetRoundBusyButtons()
@@ -130,6 +246,7 @@
             mnuCreateJoin.IsEnabled = false;
             mnuHit.IsEnabled = true;
             mnuDoubleDown.IsEnabled = true;
+            mnuHint.IsEnabled = true;
             mnuStand.IsEnabled = true;
             mnuQuit.IsEnabled = true;
             mnuList.IsEnabled = false;
@@ -182,7 +299,7 @@
                     lstOutput.Items.Add($"Possible error : {alias} at {rank}");
                 }
                 lstOutput.Items.Add("Total errors : " + game.RoundInProgressSettlements.First().PlayerHand.Score);
-                foreach(var c in game.RoundInProgressSettlements.First().DealerHand.Cards)
+                foreach (var c in game.RoundInProgressSettlements.First().DealerHand.Cards)
                 {
                     alias = TranslateSuit(c);
                     rank = TranslateRank(c.Rank);
@@ -203,7 +320,8 @@
             mnuDoubleDown.IsEnabled = false;
             mnuStand.IsEnabled = false;
             mnuQuit.IsEnabled = true;
-            mnuList.IsEnabled = false;
+            mnuList.IsEnabled = false; 
+            mnuHint.IsEnabled = false;
         }
 
         private static string TranslateSuit(Card card)

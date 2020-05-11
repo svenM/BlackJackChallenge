@@ -44,6 +44,8 @@ namespace IO.Swagger.Api
         /// <param name="gameId"></param>
         /// <returns>ApiResponse of Object(void)</returns>
         ApiResponse<Object> GameIdDealGetWithHttpInfo (string gameId);
+
+
         /// <summary>
         /// 
         /// </summary>
@@ -521,6 +523,54 @@ namespace IO.Swagger.Api
         /// <exception cref="IO.Swagger.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="gameId"></param>
         /// <returns>ApiResponse of Object(void)</returns>
+        public ApiResponse<string> GetHint(string gameId, string playerId)
+        {
+            // verify the required parameter 'gameId' is set
+            if (gameId == null)
+                throw new ApiException(400, "Missing required parameter 'gameId' when calling GameApi->GameIdDealGet");
+            if (playerId == null)
+                throw new ApiException(400, "Missing required parameter 'playerId' when calling GameApi->GameIdDealGet");
+
+            var localVarPath = "/{gameId}/hintstring/{playerId}";
+            var localVarPathParams = new Dictionary<String, String>();
+            var localVarQueryParams = new List<KeyValuePair<String, String>>();
+            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
+            var localVarFormParams = new Dictionary<String, String>();
+            var localVarFileParams = new Dictionary<String, FileParameter>();
+            Object localVarPostBody = null;
+
+            // to determine the Content-Type header
+            String[] localVarHttpContentTypes = new String[] {
+            };
+            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
+
+            // to determine the Accept header
+            String[] localVarHttpHeaderAccepts = new String[] {
+            };
+            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
+            if (localVarHttpHeaderAccept != null)
+                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
+
+            if (gameId != null) localVarPathParams.Add("gameId", this.Configuration.ApiClient.ParameterToString(gameId)); // path parameter
+            if (gameId != null) localVarPathParams.Add("playerId", this.Configuration.ApiClient.ParameterToString(playerId)); // path parameter
+
+            // make the HTTP request
+            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
+                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
+                localVarPathParams, localVarHttpContentType);
+
+            int localVarStatusCode = (int) localVarResponse.StatusCode;
+
+            if (ExceptionFactory != null)
+            {
+                Exception exception = ExceptionFactory("GameIdDealGet", localVarResponse);
+                if (exception != null) throw exception;
+            }
+
+            return new ApiResponse<string>(localVarStatusCode,
+                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
+                localVarResponse.Content);
+        }
         public ApiResponse<Object> GameIdDealGetWithHttpInfo (string gameId)
         {
             // verify the required parameter 'gameId' is set
