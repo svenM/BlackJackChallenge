@@ -8,7 +8,7 @@ namespace BlackJackApiConsoleTest
 {
     class ProgramOld
     {
-        static void zMain(string[] args)
+        static void Main(string[] args)
         {
             var decider = new PlayerActionDecider();
             var wager = 20;

@@ -17,7 +17,7 @@ namespace BlackJackApiConsoleTest
         private static int Position1 = 1;
         private static int Position2 = 2;
 
-        static void Main(string[] args)
+        static void nMain(string[] args)
         {
             var url = "http://localhost/BlackJackApi/";
             lobbyClient = new LobbyApi(url);
