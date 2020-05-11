@@ -85,6 +85,7 @@ class Game extends React.Component<RouteComponentProps, GameState> {
       rememberedPlayerId = playerId;
     }
     const currentPlayer: BlackjackGamePlayer | undefined = _.find(game.players, a => a.id === rememberedPlayerId);
+
     let currentPlayerName: string = '';
     let currentPlayerHasAction: boolean = false;
     let currentPlayerHasBlackjack: boolean = false;
@@ -104,8 +105,9 @@ class Game extends React.Component<RouteComponentProps, GameState> {
       }
     }
 
-    const dealerHand = game.roundInProgressSettlements && game.roundInProgressSettlements.length > 0 ? game.roundInProgressSettlements[0].dealerHand : undefined;
-    const playerHand = game.roundInProgressSettlements && game.roundInProgressSettlements.length > 0 ? game.roundInProgressSettlements[0].playerHand : undefined;
+    // This fixes stuff but breaks other stuff
+    const dealerHand = undefined; //game.roundInProgressSettlements && game.roundInProgressSettlements.length > 0 ? game.roundInProgressSettlements[0].dealerHand : undefined;
+    const playerHand = undefined; //game.roundInProgressSettlements && game.roundInProgressSettlements.length > 0 ? game.roundInProgressSettlements[0].playerHand : undefined;
 
     let state: GameState = {
       id: gameId,
