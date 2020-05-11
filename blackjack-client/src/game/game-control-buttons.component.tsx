@@ -86,7 +86,7 @@ export const GameControlButtons: React.FunctionComponent<GameControlButtons> = (
   let doubleDownButton: any = doubleDownButtonisVisible ? <Button color="primary" onClick={onDoubleDownClick}>Double Down</Button> : undefined;
   let wagerInput: any = wagerInputIsVisible ? <React.Fragment>
     <h3>Place your bet</h3>
-      <Input startAdornment={<InputAdornment position="start"><b>$</b></InputAdornment>} inputProps={{min: {minWager}, max: {maxWager}}} value={betValue} onChange={onBetValueChanged} />
+      <Input startAdornment={<InputAdornment position="start"><b>€</b></InputAdornment>} inputProps={{min: {minWager}, max: {maxWager}}} value={betValue} onChange={onBetValueChanged} />
       <Button color="primary" variant="contained" onClick={onBetClick}>Place Bet</Button>
   </React.Fragment> : undefined;
   let nextRoundButton: any = nextRoundButtonIsVisible ? <Button color="primary" variant="contained" onClick={onNewRoundClick}>Next round</Button> : undefined;
