@@ -125,7 +125,7 @@ export default class Lobby extends React.Component<LobbyProps, LobbyState> {
           <Grid item xs={12}>
             <h2>Create new game</h2>
           </Grid>
-          <Grid item xs={12}>Set up a new game. When the game is created, you will receive a link that you can share to invite other people.</Grid>
+          <Grid item xs={12}>Set up a new game.</Grid>
           <Grid item xs={12}>
             <TextField label="Game Name"
                       defaultValue={this.state.createGameRequest.gameName}
