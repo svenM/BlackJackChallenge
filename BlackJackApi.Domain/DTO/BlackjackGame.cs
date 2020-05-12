@@ -14,6 +14,8 @@ namespace BlackJackApi.Domain.DTO
         }
         public List<BlackjackGameRoundPlayer> RoundPlayersQueuedForNextRound { get; set;  }
 
+        public bool RoundClosedBecauseOfDealer21 { get; set; } = false;
+
         private BlackjackGameRound _roundInProgress { get { return Dealer.RoundInProgress; } }
 
         public BlackjackHand DealerHand { get { return _roundInProgress?.DealerHand; } }
@@ -129,6 +131,7 @@ namespace BlackJackApi.Domain.DTO
         }
         public virtual void StartRound()
         {
+            RoundClosedBecauseOfDealer21 = false;
             if (IsRoundInProgress)
                 throw new InvalidOperationException("Live round in progress");
 
@@ -143,6 +146,7 @@ namespace BlackJackApi.Domain.DTO
             if(DealerHas21)
             {
                 EndRound();
+                RoundClosedBecauseOfDealer21 = true;
             }
         }
 

@@ -3,6 +3,7 @@ using BlackJackApi.Domain;
 using BlackJackApi.Domain.DTO;
 using System;
 using System.Linq;
+using System.Text;
 
 namespace BlackJackApiConsoleTest
 {
@@ -23,21 +24,25 @@ namespace BlackJackApiConsoleTest
             var alias = "P1";
             game.AddPlayer(account, alias);
             var player = game.Players.First(p => p.Alias == alias);
+            StringBuilder round = new StringBuilder();
 
-            while (balance > 0 && balance < start * 2)
+            while (balance > 0 && balance < start * 10)
             {
+                round.AppendLine("-----------------NEW ROUND-----------------");
                 rounds++;
-               // Console.WriteLine("-----NEW ROUND-----");
+                // Console.WriteLine("-----NEW ROUND-----");
 
+                round.AppendLine("Wagering");
                 player.SetWager(wager);
+                round.AppendLine("refreshshoeifneeded");
                 game.RefreshShoeIfNeeded();
-               // Console.WriteLine("Start Round");
+                // Console.WriteLine("Start Round");
                 game.StartRound();
-                if (game.DealerHas21)
+                if (game.RoundClosedBecauseOfDealer21)
                 {
+                    round.AppendLine("dealer has 21");
                     //Console.WriteLine("Dealer has 21");
-
-                    game.SettlePlayerHand(player);
+                    round.AppendLine("endround");
                     game.EndRound();
                     balance = player.Account.Balance;
                     Console.WriteLine(player.Account.Balance);
@@ -51,13 +56,16 @@ namespace BlackJackApiConsoleTest
                 {
                     if (player.Hand.IsBusted)
                     {
-                      //  Console.WriteLine("Busted");
+                        //  Console.WriteLine("Busted");
+                        round.AppendLine("Busted!");
                         done = true;
                     }
                     else if (player.Hand.IsBlackjack || player.Hand.ScoreHighLow.High == 21)
                     {
-                      //  Console.WriteLine($"standing with score {player.Hand.ScoreHighLow.High}");
+                        //  Console.WriteLine($"standing with score {player.Hand.ScoreHighLow.High}");
+                        round.AppendLine("player has blackjack");
                         done = true;
+                        round.AppendLine("standing with bj");
                         player.Stand();
                     }
                     else
@@ -66,15 +74,18 @@ namespace BlackJackApiConsoleTest
                         switch (action)
                         {
                             case PlayerAction.Stand:
+                                round.AppendLine("standing");
                                 player.Stand();
                                 done = true;
                                 break;
                             case PlayerAction.Hit:
+                                round.AppendLine("hit");
                                 player.Hit();
                                 break;
                             case PlayerAction.DoubleHit:
                                 if (player.Hand.Cards.Count() == 2)
                                 {
+                                    round.AppendLine("doubledown");
                                     DoubleDown(wager, player);
                                     done = true;
                                 }
@@ -86,6 +97,7 @@ namespace BlackJackApiConsoleTest
                             case PlayerAction.DoubleStand:
                                 if (player.Hand.Cards.Count() == 2)
                                 {
+                                    round.AppendLine("doubledown2");
                                     DoubleDown(wager, player);
                                 }
                                 else
@@ -95,12 +107,15 @@ namespace BlackJackApiConsoleTest
                                 done = true;
                                 break;
                             case PlayerAction.Split:
+                                round.AppendLine("splithit");
                                 player.Hit();
                                 break;
                             case PlayerAction.SplitIfDAS:
+                                round.AppendLine("splitdas");
                                 player.Hit();
                                 break;
                             case PlayerAction.DontSplit:
+                                round.AppendLine("don'tsplit");
                                 player.Hit();
                                 break;
                             default:
@@ -108,7 +123,10 @@ namespace BlackJackApiConsoleTest
                         }
                     }
                 }
+                round.AppendLine("settling hand");
                 game.SettlePlayerHand(player);
+
+                round.AppendLine("endround");
                 game.EndRound();
                 balance = player.Account.Balance;
                 if (balance > start)
